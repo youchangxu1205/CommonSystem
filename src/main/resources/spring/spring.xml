@@ -8,7 +8,7 @@
     <context:property-placeholder location="classpath:config.properties"/>
 
     <!-- Service包(自动注入) -->
-    <context:component-scan base-package="top.youchangxu.common.service"/>
+    <context:component-scan base-package="top.youchangxu.service"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
 </beans>

@@ -7,7 +7,7 @@
     <mvc:default-servlet-handler/>
 
     <!-- Controller包(自动注入) -->
-    <context:component-scan base-package="top.youchangxu.common.controller"/>
+    <context:component-scan base-package="top.youchangxu.controller"/>
 
     <!-- FastJson注入 -->
     <mvc:annotation-driven conversion-service="conversionService">
@@ -50,7 +50,7 @@
         </property>
     </bean>
     <!-- 第一步:  创建自定义日期转换规则 -->
-    <bean id="dateConvert" class="top.youchangxu.common.common.DateConvert"/>
+    <bean id="dateConvert" class="top.youchangxu.common.DateConvert"/>
     <!-- 静态资源配置 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
