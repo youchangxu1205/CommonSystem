@@ -2,6 +2,7 @@ package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class StaffingPermission implements Serializable{
     private String permissionIcon;
     private int permissionStatus;
     private int permissionType;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private long pPermissionId;
 

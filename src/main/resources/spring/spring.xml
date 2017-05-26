@@ -11,4 +11,5 @@
     <context:component-scan base-package="top.youchangxu.service"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
+
 </beans>

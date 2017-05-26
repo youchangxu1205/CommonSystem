@@ -34,21 +34,14 @@ function login() {
 			rememberMe: $('#rememberMe').is(':checked'),
 			backurl: BACK_URL
 		},
+        dataType: 'json',
 		beforeSend: function() {
 
 		},
 		success: function(json){
-			if (json.code == 1) {
-                alert(json.object);
-				location.href = json.object;
-			} else {
-				alert(json.data);
-				if (10101 == json.code) {
-					$('#username').focus();
-				}
-				if (10102 == json.code) {
-					$('#password').focus();
-				}
+			alert(json.msg);
+			if(json.success){
+				window.location.href = BASE_PATH + json.msg;
 			}
 		},
 		error: function(error){

@@ -2,6 +2,7 @@ package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -18,11 +19,16 @@ public class StaffingEmp {
     private String empAvatarUrl;//员工头像
     private int empStatus;//员工状态
     private String otherInfo;//其他信息
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;//创建时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date entryTime;//入职时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;//更新时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beFormalTime;//转正时间
     private String password;//密码
+    private String salt;
 
     public long getEmpId() {
         return empId;
@@ -120,6 +126,15 @@ public class StaffingEmp {
         this.password = password;
     }
 
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public String toString() {
         return "StaffingEmp{" +
@@ -130,5 +145,9 @@ public class StaffingEmp {
                 ", empStatus='" + empStatus + '\'' +
                 ", otherInfo='" + otherInfo + '\'' +
                 '}';
+    }
+
+    public String getCredentialsSalt() {
+        return username + salt;
     }
 }

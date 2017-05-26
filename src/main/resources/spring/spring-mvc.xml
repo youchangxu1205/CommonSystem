@@ -10,7 +10,7 @@
     <context:component-scan base-package="top.youchangxu.controller"/>
 
     <!-- FastJson注入 -->
-    <mvc:annotation-driven conversion-service="conversionService">
+    <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
             <!-- FastJson -->
@@ -42,15 +42,15 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="converters">
-            <set>
-                <ref bean="dateConvert"/>
-            </set>
-        </property>
-    </bean>
-    <!-- 第一步:  创建自定义日期转换规则 -->
-    <bean id="dateConvert" class="top.youchangxu.common.DateConvert"/>
+    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+        <!--<property name="converters">-->
+            <!--<set>-->
+                <!--<ref bean="dateConvert"/>-->
+            <!--</set>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 第一步:  创建自定义日期转换规则 &ndash;&gt;-->
+    <!--<bean id="dateConvert" class="top.youchangxu.common.DateConvert"/>-->
     <!-- 静态资源配置 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
@@ -66,4 +66,5 @@
         <property name="maxUploadSize" value="32505856"/>
     </bean>
 
+    <import resource="spring-mvc-shiro.xml"/>
 </beans>

@@ -2,6 +2,7 @@ package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,6 +19,7 @@ public class StaffingOrg implements Serializable {
     private long orgId;
     private String orgName;
     private long pOrgId;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private int orgType;
     private long enterpriseId;
