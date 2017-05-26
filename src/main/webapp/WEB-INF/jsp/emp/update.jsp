@@ -11,8 +11,8 @@
         <label class="label label-danger" id="error"></label>
         <input id="empId" type="hidden" name="empId" value="${staffingEmp.empId}">
         <div class="form-group">
-            <label for="userName">账户名</label>
-            <input id="userName" type="text" class="form-control" name="userName" value="${staffingEmp.userName}"
+            <label for="username">账户名</label>
+            <input id="username" type="text" class="form-control" name="username" value="${staffingEmp.username}"
                    maxlength="20">
         </div>
         <div class="form-group">
@@ -71,8 +71,8 @@
             data: $('#updateForm').serialize(),
             dataType: 'json',
             beforeSend: function () {
-                if ($('#userName').val() == '') {
-                    $('#userName').focus();
+                if ($('#username').val() == '') {
+                    $('#username').focus();
                     $('#error').val("用户名不能为空");
                     return false;
                 }

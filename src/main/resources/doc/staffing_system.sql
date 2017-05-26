@@ -30,7 +30,7 @@ CREATE TABLE `staffing_emp` (
   `entryTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '入职时间',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `beFormalTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '转正时间',
-  `userName` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '员工登录名',
+  `username` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '员工登录名',
   PRIMARY KEY (`empId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

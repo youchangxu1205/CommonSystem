@@ -14,7 +14,7 @@ public class StaffingEmp {
     private long empId;//员工ID
     private String empName;//员工姓名
     private String empPhone;//员工手机号
-    private String userName;//员工登录名
+    private String username;//员工登录名
     private String empAvatarUrl;//员工头像
     private int empStatus;//员工状态
     private String otherInfo;//其他信息
@@ -22,6 +22,7 @@ public class StaffingEmp {
     private Date entryTime;//入职时间
     private Date updateTime;//更新时间
     private Date beFormalTime;//转正时间
+    private String password;//密码
 
     public long getEmpId() {
         return empId;
@@ -47,12 +48,12 @@ public class StaffingEmp {
         this.empPhone = empPhone;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmpAvatarUrl() {
@@ -109,6 +110,14 @@ public class StaffingEmp {
 
     public void setBeFormalTime(Date beFormalTime) {
         this.beFormalTime = beFormalTime;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
