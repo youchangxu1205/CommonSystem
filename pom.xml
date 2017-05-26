@@ -220,9 +220,9 @@
                     <!-- 数据源配置，( **必配** ) -->
                     <dataSource>
                         <driverName>com.mysql.jdbc.Driver</driverName>
-                        <url>jdbc:mysql://127.0.0.1:3306/mybatis-plus?characterEncoding=utf8</url>
+                        <url>jdbc:mysql://127.0.0.1:3306/staffing_system?characterEncoding=utf8</url>
                         <username>root</username>
-                        <password>521</password>
+                        <password>123456</password>
                     </dataSource>
                     <strategy>
                         <!-- 字段生成策略，四种类型，从名称就能看出来含义 nochange(默认), underline_to_camel,(下划线转驼峰)
