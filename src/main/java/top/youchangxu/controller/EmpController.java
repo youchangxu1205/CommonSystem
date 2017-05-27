@@ -95,4 +95,21 @@ public class EmpController extends BaseController {
         return staffingEmpService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
     }
 
+    @RequestMapping(value = "/changePwd/{empId}")
+    public String changePwd(@PathVariable("empId") Long empId,Model model){
+        model.addAttribute("empId",empId);
+        return "/emp/changPwd";
+    }
+
+    @RequestMapping(value = "/changePwd")
+    public Object changePwd(String password,String confirmPwd,Long empId){
+
+        StaffingEmp staffingEmp = new StaffingEmp();
+        staffingEmp.setEmpId(empId);
+        staffingEmp.setPassword(password);
+        passwordHelper.encryptPassword(staffingEmp);
+        return staffingEmpService.updateById(staffingEmp)? renderSuccess("修改成功"):renderError("修改失败");
+
+    }
+
 }

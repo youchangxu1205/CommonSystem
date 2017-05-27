@@ -179,10 +179,42 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-            '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+            '<a class="update" href="javascript:;" onclick="changePwdAction()" data-toggle="tooltip" title="ChangePwd">修改密码</i></a>　',
+            '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit">编辑</i></a>　',
+            '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove">删除</i></a>'
         ].join('');
     }
+
+    var changePwdDialog;
+    function changePwdAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            changePwdDialog = $.dialog({
+                animationSpeed: 300,
+                title: '修改密码',
+                content: 'url:${basePath}/emp/changePwd' + rows[0].empId,
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+
+    }
+
+
     // 新增
     var createDialog;
     function createAction() {
@@ -195,6 +227,7 @@
             }
         });
     }
+
     // 编辑
     var updateDialog;
     function updateAction() {

@@ -1,6 +1,7 @@
 package top.youchangxu.controller;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -31,7 +32,11 @@ public class SSOController extends BaseController {
 
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
-
+//        Subject subject = SecurityUtils.getSubject();
+//        String username = (String) subject.getPrincipal();
+//        if(username!=null){
+//            return "/index";
+//        }
         return "/sso/login";
     }
 
@@ -46,6 +51,10 @@ public class SSOController extends BaseController {
             return renderError("账号不存在");
         } catch (IncorrectCredentialsException e) {
             return renderError("密码错误");
+        } catch (ExcessiveAttemptsException e){
+            return renderError("重试次数过多,请10分钟再试");
+        } catch (Exception e){
+            return renderError("服务器错误");
         }
         return renderSuccess("/index");
     }

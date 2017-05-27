@@ -126,10 +126,10 @@
         <div class="s-profile">
             <a class="waves-effect waves-light" href="javascript:;">
                 <div class="sp-pic">
-                    <img src="${basePath}${upmsUser.avatar}"/>
+                    <img src="${basePath}${staffingEmp.empAvatarUrl}"/>
                 </div>
                 <div class="sp-info">
-                    ${upmsUser.realname}，您好！
+                    ${staffingEmp.empName}，您好！
                     <i class="zmdi zmdi-caret-down"></i>
                 </div>
             </a>

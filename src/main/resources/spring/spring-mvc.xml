@@ -46,6 +46,19 @@
     <!-- 静态资源配置 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
+    <!-- 根目录'/'对应页面 -->
+    <mvc:view-controller path="/" view-name="/index"/>
+
+    <!-- 拦截器 -->
+    <mvc:interceptors>
+        <!-- 获取登录信息 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="top.youchangxu.core.interceptor.StaffingInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
     <!-- 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>

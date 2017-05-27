@@ -117,6 +117,7 @@
                 /sso/login = authc
                 /sso/logout = logout
                 /authenticated = authc
+                /resources/** = anon
                 /** = user,sysUser
             </value>
         </property>
