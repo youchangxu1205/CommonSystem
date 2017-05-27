@@ -42,15 +42,7 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
-        <!--<property name="converters">-->
-            <!--<set>-->
-                <!--<ref bean="dateConvert"/>-->
-            <!--</set>-->
-        <!--</property>-->
-    <!--</bean>-->
-    <!--&lt;!&ndash; 第一步:  创建自定义日期转换规则 &ndash;&gt;-->
-    <!--<bean id="dateConvert" class="top.youchangxu.common.DateConvert"/>-->
+
     <!-- 静态资源配置 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 

@@ -137,8 +137,8 @@
         } else {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑组织',
-                content: 'url:${basePath}/org/update/' + rows[0].orgId,
+                title: '编辑权限',
+                content: 'url:${basePath}/permission/update/' + rows[0].permissionId,
                 onContentReady: function () {
                     initMaterialInput();
                 }
@@ -176,47 +176,30 @@
                         action: function () {
                             var ids = new Array();
                             for (var i in rows) {
-                                ids.push(rows[i].organizationId);
+                                ids.push(rows[i].permissionId);
                             }
                             $.ajax({
                                 type: 'get',
-                                url: '${basePath}/manage/organization/delete/' + ids.join("-"),
-                                success: function (result) {
-                                    if (result.code != 1) {
-                                        if (result.data instanceof Array) {
-                                            $.each(result.data, function (index, value) {
-                                                $.confirm({
-                                                    theme: 'dark',
-                                                    animation: 'rotateX',
-                                                    closeAnimation: 'rotateX',
-                                                    title: false,
-                                                    content: value.errorMsg,
-                                                    buttons: {
-                                                        confirm: {
-                                                            text: '确认',
-                                                            btnClass: 'waves-effect waves-button waves-light'
-                                                        }
-                                                    }
-                                                });
-                                            });
-                                        } else {
-                                            $.confirm({
-                                                theme: 'dark',
-                                                animation: 'rotateX',
-                                                closeAnimation: 'rotateX',
-                                                title: false,
-                                                content: result.data.errorMsg,
-                                                buttons: {
-                                                    confirm: {
-                                                        text: '确认',
-                                                        btnClass: 'waves-effect waves-button waves-light'
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    } else {
+                                url: '${basePath}/manage/permission/delete/' + ids.join("-"),
+                                success: function (data) {
+                                    if (data.success) {
                                         deleteDialog.close();
                                         $table.bootstrapTable('refresh');
+                                    } else {
+
+                                        $.confirm({
+                                            theme: 'dark',
+                                            animation: 'rotateX',
+                                            closeAnimation: 'rotateX',
+                                            title: false,
+                                            content: data.msg,
+                                            buttons: {
+                                                confirm: {
+                                                    text: '确认',
+                                                    btnClass: 'waves-effect waves-button waves-light'
+                                                }
+                                            }
+                                        });
                                     }
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) {

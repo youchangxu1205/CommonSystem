@@ -25,11 +25,6 @@ public class StaffingOrgServiceImpl extends ServiceImpl<StaffingOrgMapper, Staff
         topOrg.put("id", staffingOrg.getOrgId());
         topOrg.put("name", staffingOrg.getOrgName());
         topOrg.put("open", true);
-        if(staffingOrg.getOrgType()==1){
-            topOrg.put("icon","/resources/zheng-admin/images/enterprise.png");
-        }else if(staffingOrg.getOrgType()==2){
-            topOrg.put("icon","/resources/zheng-admin/images/org.png");
-        }
         JSONArray childArray = getChildOrgTree(orgId);
         topOrg.put("children", childArray);
         orgs.add(topOrg);
@@ -47,11 +42,6 @@ public class StaffingOrgServiceImpl extends ServiceImpl<StaffingOrgMapper, Staff
                 JSONObject node = new JSONObject();
                 node.put("id", childOrg.getOrgId());
                 node.put("name", childOrg.getOrgName());
-                if(childOrg.getOrgType()==1){
-                    node.put("icon","/resources/zheng-admin/images/enterprise.png");
-                }else if(childOrg.getOrgType()==2){
-                    node.put("icon","/resources/zheng-admin/images/org.png");
-                }
                 node.put("open", true);
                 JSONArray childArray1 = getChildOrgTree(childOrg.getOrgId());
                 node.put("children", childArray1);

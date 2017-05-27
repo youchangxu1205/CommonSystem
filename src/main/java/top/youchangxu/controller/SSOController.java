@@ -47,6 +47,6 @@ public class SSOController extends BaseController {
         } catch (IncorrectCredentialsException e) {
             return renderError("密码错误");
         }
-        return renderSuccess("/");
+        return renderSuccess("/index");
     }
 }

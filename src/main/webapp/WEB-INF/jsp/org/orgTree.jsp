@@ -11,8 +11,10 @@
         async: {
             enable: true,
             type: "get",
-            url: ${basePath}"/org/orgTree/1",
-            autoParam: ["id=orgId", "name"]
+            url: "${basePath}/org/orgTree/1"
+        },
+        view:{
+            showIcon:false
         }
     };
 
