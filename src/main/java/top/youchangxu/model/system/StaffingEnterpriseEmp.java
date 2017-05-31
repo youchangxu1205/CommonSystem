@@ -1,8 +1,11 @@
 package top.youchangxu.model.system;
 
+import com.baomidou.mybatisplus.annotations.TableName;
+
 /**
  * Created by dtkj_android on 2017/5/31.
  */
+@TableName("staffing_enterprise_emp")
 public class StaffingEnterpriseEmp {
     private Long enterpriseId;
     private Long empId;

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.model.system.StaffingEmp;
+import top.youchangxu.model.system.StaffingEnterpriseEmp;
 import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.PasswordHelper;
 import top.youchangxu.service.system.IStaffingEmpService;
+import top.youchangxu.service.system.IStaffingEnterpriseEmpService;
 import top.youchangxu.service.system.IStaffingRoleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,14 +34,18 @@ public class EmpController extends BaseController {
     private IStaffingEmpService staffingEmpService;
     private PasswordHelper passwordHelper;
     private IStaffingRoleService staffingRoleService;
+    private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
 
     @Autowired
-    public EmpController(IStaffingEmpService staffingEmpService, PasswordHelper passwordHelper, IStaffingRoleService staffingRoleService) {
+    public EmpController(IStaffingEmpService staffingEmpService,
+                         PasswordHelper passwordHelper,
+                         IStaffingRoleService staffingRoleService,
+                         IStaffingEnterpriseEmpService staffingEnterpriseEmpService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
+        this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
     }
-
 
     @RequestMapping(value = "/index")
     public String index() {
@@ -50,11 +56,18 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp) {
 
+
+        List<Object> enterpriseEmps = staffingEnterpriseEmpService.selectObjs(
+                new EntityWrapper<StaffingEnterpriseEmp>()
+                        .eq("enterpriseId", getEnterpriseId())
+                        .setSqlSelect("empId"));
+
         EntityWrapper<StaffingEmp> empEntityWrapper = new EntityWrapper<>();
 
         if (staffingEmp.getEmpStatus() != 0) {
             empEntityWrapper.eq("empStatus", staffingEmp.getEmpStatus());
         }
+        empEntityWrapper.in("empId",enterpriseEmps);
         Page<StaffingEmp> staffingEmpPage = new Page<>(offset + 1, limit, sort);
         staffingEmpPage.setAsc(order.equals("asc"));
         staffingEmpPage = staffingEmpService.selectPage(
@@ -76,6 +89,7 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object create(StaffingEmp staffingEmp) {
 
+        //TODO 需要判断手机号是否存在,各种判断 以后再做
         staffingEmp.setPassword("123456");
         passwordHelper.encryptPassword(staffingEmp);
         return staffingEmpService.insert(staffingEmp) ? renderSuccess("添加成功") : renderError("添加失败");
@@ -119,8 +133,8 @@ public class EmpController extends BaseController {
     @RequestMapping(value = "/role/{empId}")
     public String role(@PathVariable("empId") Long empId, Model model) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
-String enterpriseId = getEnterpriseId();
-        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId",Long.parseLong(enterpriseId)));
+        String enterpriseId = getEnterpriseId();
+        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId", Long.parseLong(enterpriseId)));
         model.addAttribute("staffingRoles", staffingRoles);
 
         List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getUsername());
