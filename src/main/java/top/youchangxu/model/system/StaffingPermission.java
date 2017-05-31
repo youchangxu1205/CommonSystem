@@ -2,6 +2,8 @@ package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -97,5 +99,26 @@ public class StaffingPermission implements Serializable{
 
     public void setpPermissionId(long pPermissionId) {
         this.pPermissionId = pPermissionId;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StaffingPermission that = (StaffingPermission) o;
+
+        return new EqualsBuilder()
+                .append(permissionId, that.permissionId)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(permissionId)
+                .toHashCode();
     }
 }

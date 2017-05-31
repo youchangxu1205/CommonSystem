@@ -21,7 +21,9 @@
         <shiro:hasPermission name="staffing:enterprise:create">
             <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增企业</a>
         </shiro:hasPermission>
-
+        <shiro:hasPermission name="staffing:enterprise:update">
+            <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑企业</a>
+        </shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>

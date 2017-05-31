@@ -47,18 +47,17 @@
                     return false;
                 }
             },
-            success: function (data) {
-                if (data.success) {
+            success: function (result) {
+                if (result.success) {
                     updateDialog.close();
                     $table.bootstrapTable('refresh');
                 } else {
-
                     $.confirm({
                         theme: 'dark',
                         animation: 'rotateX',
                         closeAnimation: 'rotateX',
                         title: false,
-                        content: data.msg,
+                        content: result.msg,
                         buttons: {
                             confirm: {
                                 text: '确认',

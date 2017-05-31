@@ -55,11 +55,12 @@
             type: 'post',
             url: '${basePath}/permission/create',
             data: $('#createForm').serialize(),
+            dataType:'json',
             beforeSend: function () {
 
             },
-            success: function (data) {
-                if (data.success) {
+            success: function (result) {
+                if (result.success) {
                     createDialog.close();
                     $table.bootstrapTable('refresh');
                 } else {

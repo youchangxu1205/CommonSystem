@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.youchangxu.mapper.system.StaffingPermissionMapper">
+    <select id="selectPermissionByRoleId" resultType="top.youchangxu.model.system.StaffingPermission">
+        SELECT *
+        FROM staffing_permission sp LEFT JOIN staffing_role_permission srp ON srp.permissionId = sp.permissionId
+        WHERE srp.roleId = #{roleId};
+    </select>
+</mapper>

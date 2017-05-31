@@ -27,8 +27,8 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
     @Override
     public JSONArray getTreeByRoleId(Long roleId) {
         //根据角色查询权限列表
-//        List<StaffingPermission> staffingRolePermissions
-//                = baseMapper.selectPermissionByRoleId(roleId);
+        List<StaffingPermission> staffingRolePermissions
+                = baseMapper.selectPermissionByRoleId(roleId);
         //查询所有的权限
         //目录
         JSONArray folders = new JSONArray();
@@ -44,6 +44,9 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
             List<StaffingPermission> staffingPermissionMenus
                     = baseMapper.selectList(new EntityWrapper<StaffingPermission>()
                     .eq("pPermissionId", staffingPermissionFolder.getPermissionId()));
+            if(staffingRolePermissions.contains(staffingPermissionFolder)){
+                folder.put("checked",true);
+            }
             //菜单
             JSONArray menus = new JSONArray();
             for (StaffingPermission staffingPermissionMenu :
@@ -57,13 +60,18 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
                 List<StaffingPermission> staffingPermissionBtns
                         = baseMapper.selectList(new EntityWrapper<StaffingPermission>()
                         .eq("pPermissionId", staffingPermissionMenu.getPermissionId()));
-
+                if(staffingRolePermissions.contains(staffingPermissionMenu)){
+                    menu.put("checked",true);
+                }
                 for (StaffingPermission staffingPermissionBtn :
                         staffingPermissionBtns) {
                     JSONObject btn = new JSONObject();
                     btn.put("id", staffingPermissionBtn.getPermissionId());
                     btn.put("name", staffingPermissionBtn.getPermissionName());
                     btn.put("open", true);
+                    if(staffingRolePermissions.contains(staffingPermissionBtn)){
+                        btn.put("checked",true);
+                    }
                     btns.add(btn);
                 }
                 menu.put("children",btns);

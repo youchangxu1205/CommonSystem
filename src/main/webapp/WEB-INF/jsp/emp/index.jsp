@@ -30,7 +30,7 @@
                     <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:update">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-lock"></i> 编辑员工</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑员工</a>
                 </shiro:hasPermission>
 
 
