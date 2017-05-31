@@ -119,8 +119,8 @@ public class EmpController extends BaseController {
     @RequestMapping(value = "/role/{empId}")
     public String role(@PathVariable("empId") Long empId, Model model) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
-
-        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId",getEnterpriseId()));
+String enterpriseId = getEnterpriseId();
+        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId",Long.parseLong(enterpriseId)));
         model.addAttribute("staffingRoles", staffingRoles);
 
         List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getUsername());

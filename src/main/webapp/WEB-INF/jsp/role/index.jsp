@@ -23,7 +23,7 @@
         <div id="toolbar">
 
             <button type="button" class="btn btn-default" onclick="createAction()">添加角色</button>
-            <button type="button" class="btn btn-default" onclick="createAction()">角色权限</button>
+            <button type="button" class="btn btn-default" onclick="permissionAction()">角色权限</button>
         </div>
         <table id="table"></table>
 
@@ -212,6 +212,39 @@
                         text: '取消',
                         btnClass: 'waves-effect waves-button'
                     }
+                }
+            });
+        }
+    }
+
+
+    // 角色权限
+    var permissionDialog;
+    var roleId;
+    function permissionAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            roleId = rows[0].roleId;
+            permissionDialog = $.dialog({
+                animationSpeed: 300,
+                title: '角色权限',
+                content: 'url:${basePath}/role/permission/' + roleId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    initTree();
                 }
             });
         }

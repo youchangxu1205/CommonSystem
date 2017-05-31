@@ -2,6 +2,7 @@ package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,6 +90,13 @@ public class PermissionController extends BaseController {
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
         return staffingPermissionService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
+    }
+
+
+    @RequestMapping(value = "/role/{roleId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object role(@PathVariable("roleId") Long roleId) {
+        return staffingPermissionService.getTreeByRoleId(roleId);
     }
 
 }

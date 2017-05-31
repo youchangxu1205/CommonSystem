@@ -2,9 +2,11 @@ package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -88,4 +90,13 @@ public class RoleController extends BaseController {
     public Object delete(@PathVariable("ids") String ids) {
         return staffingRoleService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
     }
+
+
+    @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.GET)
+    public String permission(@PathVariable("roleId") int roleId, ModelMap modelMap) {
+        StaffingRole role = staffingRoleService.selectById(roleId);
+        modelMap.put("role", role);
+        return "/role/permission";
+    }
+
 }
