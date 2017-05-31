@@ -98,6 +98,7 @@
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
         <property name="loginUrl" value="/sso/login"/>
+        <property name="successUrl" value="/index"/>
     </bean>
 
     <bean id="sysUserFilter" class="top.youchangxu.core.shiro.StaffingEmpFilter"/>
@@ -106,6 +107,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/sso/login"/>
+        <property name="successUrl" value="/index"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
@@ -114,7 +116,7 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /sso/login = authc
+                <!--/sso/login = authc-->
                 /sso/logout = logout
                 /authenticated = authc
                 /resources/** = anon

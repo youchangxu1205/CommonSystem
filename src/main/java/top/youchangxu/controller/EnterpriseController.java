@@ -2,6 +2,7 @@ package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ public class EnterpriseController extends BaseController {
     }
 
     @RequestMapping(value = "/index")
+    @RequiresPermissions("staffing:enterprise:read")
     public String index() {
         return "/enterprise/index";
     }

@@ -32,10 +32,16 @@
         <%--</div>--%>
         <%--<div class="col-md-10">--%>
             <div id="toolbar">
+                <shiro:hasPermission name="staffing:emp:create">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增员工</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:emp:role">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-accounts"></i> 员工角色</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:emp:password">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
+                </shiro:hasPermission>
 
-                <button type="button" class="btn btn-default" onclick="createAction()">添加员工</button>
-
-                <button type="button" class="btn btn-default" onclick="createAction()">员工角色</button>
 
                 员工状态:
                 <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
@@ -58,17 +64,6 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
-
-//    function findDimensions() {
-//        var tree = document.getElementById('tree')
-//        tree.style.height = getHeight() + "px";
-//    }
-//    findDimensions();
-//    $(function () {
-//        $(window).resize(function () {
-//            findDimensions();
-//        });
-//    });
 
     var $table = $('#table');
     $(function () {
@@ -97,15 +92,16 @@
                 {field: 'empName', title: '员工姓名'},
                 {field: 'entryTime', title: '入职时间', sortable: true, formatter: 'dateFormatter'},
                 {field: 'beFormalTime', title: '转正时间', sortable: true, formatter: 'dateFormatter'},
-                {field: 'empStatus', title: '状态', sortable: true, formatter: 'statusFormatter'},
-                {
-                    field: 'action',
-                    title: '操作',
-                    align: 'center',
-                    formatter: 'actionFormatter',
-                    events: 'actionEvents',
-                    clickToSelect: false
-                }
+                {field: 'empStatus', title: '状态', sortable: true, formatter: 'statusFormatter'}
+//                ,
+//                {
+//                    field: 'action',
+//                    title: '操作',
+//                    align: 'center',
+//                    formatter: 'actionFormatter',
+//                    events: 'actionEvents',
+//                    clickToSelect: false
+//                }
             ]
         });
     });

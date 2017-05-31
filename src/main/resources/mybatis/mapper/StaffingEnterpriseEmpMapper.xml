@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.youchangxu.mapper.system.StaffingEnterpriseEmpMapper">
+    <select id="findEnterpriseByEmpId" parameterType="java.lang.Long" resultType="top.youchangxu.model.system.StaffingEnterprise">
+        SELECT se.*
+        FROM staffing_enterprise_emp see LEFT JOIN staffing_enterprise se ON se.enterpriseId = see.enterpriseId
+        WHERE see.empId = #{empId}
+    </select>
+</mapper>

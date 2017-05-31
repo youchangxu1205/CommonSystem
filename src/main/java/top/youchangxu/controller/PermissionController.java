@@ -68,7 +68,7 @@ public class PermissionController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Object create(StaffingPermission staffingPermission) {
-
+        staffingPermission.setPermissionStatus(1);
         return staffingPermissionService.insert(staffingPermission) ? renderSuccess("添加成功") : renderError("添加失败");
     }
 

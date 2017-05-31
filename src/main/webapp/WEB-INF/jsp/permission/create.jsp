@@ -10,15 +10,15 @@
     <form id="createForm" method="post">
         <div class="form-group">
             <label for="permissionName">权限名称</label>
-            <input id="permissionName" type="text" class="form-control" name="permissionName" maxlength="20">
+            <input id="permissionName" type="text" class="form-control" name="permissionName" maxlength="50">
         </div>
         <div class="form-group">
             <label for="permissionValue">权限值</label>
-            <input id="permissionValue" type="text" class="form-control" name="permissionValue" maxlength="20">
+            <input id="permissionValue" type="text" class="form-control" name="permissionValue" maxlength="50">
         </div>
         <div class="form-group">
             <label for="permissionIcon">权限图标</label>
-            <input id="permissionIcon" type="text" class="form-control" name="permissionIcon" maxlength="20">
+            <input id="permissionIcon" type="text" class="form-control" name="permissionIcon" maxlength="50">
         </div>
 
         <div class="form-group">

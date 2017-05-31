@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.youchangxu.mapper.system.StaffingEmpMapper">
+    <select id="findRoles" resultType="java.lang.String">
+        SELECT roleName
+        FROM staffing_role sr LEFT JOIN staffing_role_emp sre ON sre.roleId = sr.roleId
+        WHERE sre.empId = (SELECT se.empId
+                           FROM staffing_emp se
+                           WHERE se.username = #{username}) AND sr.enterpriseId = #{enterpriseId}
+    </select>
+
+    <select id="findPermissions" resultType="top.youchangxu.model.system.StaffingPermission">
+        SELECT sp.*
+        FROM staffing_permission sp LEFT JOIN staffing_role_permission srp ON srp.permissionId = sp.permissionId
+        WHERE srp.roleId IN (
+            SELECT sr.roleId
+            FROM staffing_role sr LEFT JOIN staffing_role_emp sre ON sre.roleId = sr.roleId
+            WHERE sre.empId = (SELECT se.empId
+                               FROM staffing_emp se
+                               WHERE se.username = #{username}) AND sr.enterpriseId = #{enterpriseId})
+    </select>
+</mapper>
