@@ -36,10 +36,10 @@
                     <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增员工</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:role">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-accounts"></i> 员工角色</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="empRoleAction()"><i class="zmdi zmdi-accounts"></i> 员工角色</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:password">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
                 </shiro:hasPermission>
 
 
@@ -201,7 +201,7 @@
             changePwdDialog = $.dialog({
                 animationSpeed: 300,
                 title: '修改密码',
-                content: 'url:${basePath}/emp/changePwd' + rows[0].empId,
+                content: 'url:${basePath}/emp/changePwd/' + rows[0].empId,
                 onContentReady: function () {
                     initMaterialInput();
                 }

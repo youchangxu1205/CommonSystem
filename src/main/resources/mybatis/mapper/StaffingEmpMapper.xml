@@ -12,7 +12,7 @@
     </select>
 
     <select id="findPermissions" resultType="top.youchangxu.model.system.StaffingPermission">
-        SELECT sp.*
+        SELECT DISTINCT sp.*
         FROM staffing_permission sp LEFT JOIN staffing_role_permission srp ON srp.permissionId = sp.permissionId
         WHERE srp.roleId IN (
             SELECT sr.roleId

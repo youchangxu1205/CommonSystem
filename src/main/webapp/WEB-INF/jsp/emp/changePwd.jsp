@@ -12,7 +12,7 @@
         <input id="empId" type="hidden" name="empId" value="${empId}">
         <div class="form-group">
             <label for="password">新密码</label>
-            <input id="password" type="password" class="form-control" name="password"
+            <input id="password" type="text" class="form-control" name="password"
                    maxlength="20">
         </div>
         <div class="form-group">
@@ -22,7 +22,7 @@
         </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
-            <a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdDialog.close();">取消</a>
         </div>
     </form>
 </div>
@@ -32,7 +32,7 @@
     function updateSubmit() {
         $.ajax({
             type: 'post',
-            url: '${basePath}/emp/changPwd',
+            url: '${basePath}/emp/changePwd',
             data: $('#updateForm').serialize(),
             dataType: 'json',
             beforeSend: function () {
@@ -40,7 +40,7 @@
             },
             success: function (data) {
                 if (data.success) {
-                    updateDialog.close();
+                    changePwdDialog.close();
                     $table.bootstrapTable('refresh');
                 } else {
 

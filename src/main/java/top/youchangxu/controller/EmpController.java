@@ -98,13 +98,14 @@ public class EmpController extends BaseController {
     @RequestMapping(value = "/changePwd/{empId}")
     public String changePwd(@PathVariable("empId") Long empId,Model model){
         model.addAttribute("empId",empId);
-        return "/emp/changPwd";
+        return "emp/changePwd";
     }
 
     @RequestMapping(value = "/changePwd")
+    @ResponseBody
     public Object changePwd(String password,String confirmPwd,Long empId){
 
-        StaffingEmp staffingEmp = new StaffingEmp();
+        StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         staffingEmp.setEmpId(empId);
         staffingEmp.setPassword(password);
         passwordHelper.encryptPassword(staffingEmp);
