@@ -6,6 +6,7 @@ import top.youchangxu.common.utils.StringUtil;
 import top.youchangxu.mapper.system.StaffingEmpMapper;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
+import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.system.IStaffingEmpService;
 
 import java.util.HashSet;
@@ -18,17 +19,9 @@ import java.util.Set;
 @Service
 public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, StaffingEmp> implements IStaffingEmpService {
     @Override
-    public Set<String> findRoles(String enterpriseId, String username) {
-        List<String> roles = baseMapper.findRoles(enterpriseId, username);
-        Set<String> set = new HashSet<>();
-
-        for (String role: roles
-             ) {
-            if(StringUtil.isNotEmpty(role)) {
-                set.add(role);
-            }
-        }
-        return set;
+    public List<StaffingRole> findRoles(String enterpriseId, String username) {
+        List<StaffingRole> roles = baseMapper.findRoles(enterpriseId, username);
+        return roles;
     }
 
     @Override

@@ -39,7 +39,7 @@ function login() {
 
 		},
 		success: function(json){
-			alert(json.msg);
+			// alert(json.msg);
 			if(json.success){
 				window.location.href = BASE_PATH + json.msg;
 			}

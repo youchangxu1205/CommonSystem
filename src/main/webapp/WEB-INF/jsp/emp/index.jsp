@@ -41,6 +41,9 @@
                 <shiro:hasPermission name="staffing:emp:password">
                     <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:emp:update">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-lock"></i> 编辑员工</a>
+                </shiro:hasPermission>
 
 
                 员工状态:
@@ -222,6 +225,41 @@
                 initMaterialInput();
             }
         });
+    }
+
+    // 员工角色
+    var roleDialog;
+    var roleEmpId;
+    function empRoleAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            roleEmpId = rows[0].empId;
+            roleDialog = $.dialog({
+                animationSpeed: 300,
+                title: '用户角色',
+                content: 'url:${basePath}/emp/role/' + roleEmpId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    $('select').select2({
+                        placeholder: '请选择用户角色',
+                        allowClear: true
+                    });
+                }
+            });
+        }
     }
 
     // 编辑

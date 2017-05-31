@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
+import top.youchangxu.model.system.StaffingRole;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface StaffingEmpMapper extends BaseMapper<StaffingEmp> {
      * @param username
      * @return
      */
-    List<String> findRoles(@Param("enterpriseId") String enterpriseId, @Param("username") String username);
+    List<StaffingRole> findRoles(@Param("enterpriseId") String enterpriseId, @Param("username") String username);
 
     /**
      * 获取员工的权限

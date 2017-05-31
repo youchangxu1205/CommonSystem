@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import top.youchangxu.core.shiro.EnterpriseToken;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
+import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.system.IStaffingEmpService;
 
 import java.util.HashSet;
@@ -33,8 +34,15 @@ public class UserRealm extends AuthorizingRealm {
         String enterpriseId = strings[0];
         String username = strings[1];
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-
-        authorizationInfo.setRoles(staffingEmpService.findRoles(enterpriseId,username));
+        List<StaffingRole> roles = staffingEmpService.findRoles(enterpriseId, username);
+        Set<String> roleStrs =new HashSet<>();
+        for (StaffingRole staffingRole :
+                roles) {
+            if(StringUtils.isNotBlank(staffingRole.getRoleName())) {
+                roleStrs.add(staffingRole.getRoleName());
+            }
+        }
+        authorizationInfo.setRoles(roleStrs);
         Set<String> permissionStrs =new HashSet<>();
         List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId, username);
         for (StaffingPermission staffingPermission :

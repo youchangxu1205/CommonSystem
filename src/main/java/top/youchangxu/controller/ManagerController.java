@@ -31,11 +31,8 @@ public class ManagerController extends BaseController {
 
     @RequestMapping(value = "/index")
     public String index(Model model) {
-        Subject subject = SecurityUtils.getSubject();
-        String principal = (String) subject.getPrincipal();
-        String[] strings = principal.split("#");
-        String enterpriseId =strings[0];
-        String username= strings[1];
+        String enterpriseId = getEnterpriseId();
+        String username= getUsername();
         StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username",username));
         model.addAttribute("staffingEmp",staffingEmp);
         List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId,username);

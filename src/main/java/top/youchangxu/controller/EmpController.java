@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.model.system.StaffingEmp;
+import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.PasswordHelper;
 import top.youchangxu.service.system.IStaffingEmpService;
+import top.youchangxu.service.system.IStaffingRoleService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +31,13 @@ public class EmpController extends BaseController {
 
     private IStaffingEmpService staffingEmpService;
     private PasswordHelper passwordHelper;
+    private IStaffingRoleService staffingRoleService;
 
     @Autowired
-    public EmpController(IStaffingEmpService staffingEmpService, PasswordHelper passwordHelper) {
+    public EmpController(IStaffingEmpService staffingEmpService, PasswordHelper passwordHelper, IStaffingRoleService staffingRoleService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
+        this.staffingRoleService = staffingRoleService;
     }
 
 
@@ -80,7 +85,7 @@ public class EmpController extends BaseController {
     public String update(@PathVariable("empId") Long empId, Model model) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         model.addAttribute("staffingEmp", staffingEmp);
-        return "/emp/update";
+        return "emp/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -96,21 +101,43 @@ public class EmpController extends BaseController {
     }
 
     @RequestMapping(value = "/changePwd/{empId}")
-    public String changePwd(@PathVariable("empId") Long empId,Model model){
-        model.addAttribute("empId",empId);
+    public String changePwd(@PathVariable("empId") Long empId, Model model) {
+        model.addAttribute("empId", empId);
         return "emp/changePwd";
     }
 
     @RequestMapping(value = "/changePwd")
     @ResponseBody
-    public Object changePwd(String password,String confirmPwd,Long empId){
-
+    public Object changePwd(String password, String confirmPwd, Long empId) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         staffingEmp.setEmpId(empId);
         staffingEmp.setPassword(password);
         passwordHelper.encryptPassword(staffingEmp);
-        return staffingEmpService.updateById(staffingEmp)? renderSuccess("修改成功"):renderError("修改失败");
-
+        return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError("修改失败");
     }
+
+    @RequestMapping(value = "/role/{empId}")
+    public String role(@PathVariable("empId") Long empId, Model model) {
+        StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
+
+        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId",getEnterpriseId()));
+        model.addAttribute("staffingRoles", staffingRoles);
+
+        List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getUsername());
+
+        model.addAttribute("staffingEmpRoles", staffingEmpRoles);
+        return "emp/role";
+    }
+
+    @RequestMapping(value = "/role/{empId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object role(@PathVariable("empId") Long empId, HttpServletRequest request) {
+
+//        String[] roleIds = request.getParameterValues("roleId");
+//        upmsUserRoleService.role(roleIds, id);
+//        return new UpmsResult(UpmsResultConstant.SUCCESS, "");
+        return null;
+    }
+
 
 }

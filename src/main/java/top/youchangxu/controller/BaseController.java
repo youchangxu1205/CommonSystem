@@ -1,5 +1,7 @@
 package top.youchangxu.controller;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import top.youchangxu.common.result.JsonResult;
 import top.youchangxu.common.result.JsonResult;
 
@@ -21,6 +23,30 @@ public class BaseController {
         result.setSuccess(false);
         result.setStatus("500");
         return result;
+    }
+
+    /**
+     * 获取企业编号
+     * @return
+     */
+    protected String getEnterpriseId(){
+        Subject subject = SecurityUtils.getSubject();
+        String principal = (String) subject.getPrincipal();
+        String[] strings = principal.split("#");
+        String enterpriseId =strings[0];
+        return enterpriseId;
+    }
+
+    /**
+     * 获取用户名
+     * @return
+     */
+    protected String getUsername(){
+        Subject subject = SecurityUtils.getSubject();
+        String principal = (String) subject.getPrincipal();
+        String[] strings = principal.split("#");
+        String username =strings[1];
+        return username;
     }
 
     /**
