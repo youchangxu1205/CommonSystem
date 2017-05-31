@@ -90,6 +90,8 @@ public class EmpController extends BaseController {
     public Object create(StaffingEmp staffingEmp) {
 
         //TODO 需要判断手机号是否存在,各种判断 以后再做
+
+        //TODO 查询员工是否存在
         staffingEmp.setPassword("123456");
         passwordHelper.encryptPassword(staffingEmp);
         return staffingEmpService.insert(staffingEmp) ? renderSuccess("添加成功") : renderError("添加失败");

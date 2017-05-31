@@ -18,8 +18,9 @@
 <body>
 <div id="main">
     <div id="toolbar">
-
-        <button type="button" class="btn btn-default" onclick="createAction()">添加企业</button>
+        <shiro:hasPermission name="staffing:enterprise:create">
+            <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增企业</a>
+        </shiro:hasPermission>
 
     </div>
     <table id="table"></table>

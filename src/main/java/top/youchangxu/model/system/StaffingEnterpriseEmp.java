@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 public class StaffingEnterpriseEmp {
     private Long enterpriseId;
     private Long empId;
+    private int status;
 
     public Long getEnterpriseId() {
         return enterpriseId;
@@ -24,5 +25,13 @@ public class StaffingEnterpriseEmp {
 
     public void setEmpId(Long empId) {
         this.empId = empId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

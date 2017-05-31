@@ -39,6 +39,7 @@ public class EnterpriseController extends BaseController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequiresPermissions("staffing:enterprise:read")
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEnterprise staffingEnterprise) {
 
@@ -58,16 +59,19 @@ public class EnterpriseController extends BaseController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequiresPermissions("staffing:enterprise:create")
     public String create() {
         return "/enterprise/create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequiresPermissions("staffing:enterprise:create")
     @ResponseBody
     public Object create(StaffingEnterprise staffingEnterprise) {
         return staffingEnterpriseService.insert(staffingEnterprise) ? renderSuccess("添加成功") : renderError("添加失败");
     }
 
+    @RequiresPermissions("staffing:enterprise:update")
     @RequestMapping(value = "/update/{enterpriseId}", method = RequestMethod.GET)
     public String update(@PathVariable("enterpriseId") Long enterpriseId, Model model) {
         StaffingEnterprise staffingEnterprise = staffingEnterpriseService.selectById(enterpriseId);
@@ -76,6 +80,7 @@ public class EnterpriseController extends BaseController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequiresPermissions("staffing:enterprise:update")
     @ResponseBody
     public Object update(StaffingEnterprise staffingEnterprise) {
         return staffingEnterpriseService.updateById(staffingEnterprise) ? renderSuccess("修改成功") : renderError("修改失败");

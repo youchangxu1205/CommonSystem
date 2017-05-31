@@ -19,18 +19,6 @@
 <div id="main">
 
     <div class="row">
-        <%--<div class="col-md-2">--%>
-            <%--<div id="tree" class="panel panel-default">--%>
-                <%--<div class="panel-heading">组织架构</div>--%>
-
-                <%--<div class="panel-body">--%>
-
-                    <%--<ul id="orgTree" class="ztree"></ul>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-
-        <%--</div>--%>
-        <%--<div class="col-md-10">--%>
             <div id="toolbar">
                 <shiro:hasPermission name="staffing:emp:create">
                     <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增员工</a>
@@ -59,9 +47,6 @@
 
             </div>
             <table id="table"></table>
-
-        <%--</div>--%>
-    </div>
 
 
 </div>
