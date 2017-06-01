@@ -17,31 +17,11 @@
 </head>
 <body>
 <div id="main">
-
-    <%--<div class="row">--%>
-        <%--<div class="col-md-2" >--%>
-            <%--<div id="tree"  class="panel panel-default" style="margin-bottom: 0px">--%>
-                <%--<div class="panel-heading">组织架构</div>--%>
-                <%--<div class="panel-body" style="margin-bottom: 0px">--%>
-
-                    <%--<ul id="orgTree" class="ztree"></ul>--%>
-                    <%--&lt;%&ndash;<div class="embed-responsive embed-responsive-16by9" >&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<iframe class="embed-responsive-item" src="${basePath}/org/orgTree" ></iframe>&ndash;%&gt;--%>
-
-                    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                <%--</div>--%>
-            <%--</div>--%>
-
-        <%--</div>--%>
-        <%--<div class="col-md-10">--%>
-            <div id="toolbar">
-                <button type="button" class="btn btn-default" onclick="createAction()">添加部门</button>
-                <button type="button" class="btn btn-default" onclick="orgTreeAction()">组织架构</button>
-            </div>
-            <table id="table" class="table"></table>
-
-        <%--</div>--%>
-    <%--</div>--%>
+    <div id="toolbar">
+        <button type="button" class="btn btn-default" onclick="createAction()">添加部门</button>
+        <button type="button" class="btn btn-default" onclick="orgTreeAction()">组织架构</button>
+    </div>
+    <table id="table" class="table"></table>
 </div>
 
 <div id="setting" class="btn-group-vertical" role="group" aria-label="btn" style="display: none">
@@ -51,16 +31,16 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
-//    function findDimensions() {
-//        var tree=document.getElementById('tree')
-//        tree.style.height = getHeight()+"px";
-//    }
-//    findDimensions();
-//    $(function () {
-//        $(window).resize(function () {
-//            findDimensions();
-//        });
-//    });
+    //    function findDimensions() {
+    //        var tree=document.getElementById('tree')
+    //        tree.style.height = getHeight()+"px";
+    //    }
+    //    findDimensions();
+    //    $(function () {
+    //        $(window).resize(function () {
+    //            findDimensions();
+    //        });
+    //    });
 
     var $table = $('#table');
     $(function () {

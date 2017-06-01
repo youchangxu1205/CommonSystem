@@ -10,20 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.StaffingEmp;
-import top.youchangxu.model.system.StaffingEnterpriseEmp;
-import top.youchangxu.model.system.StaffingRole;
+import top.youchangxu.model.system.*;
 import top.youchangxu.service.PasswordHelper;
-import top.youchangxu.service.system.IStaffingEmpService;
-import top.youchangxu.service.system.IStaffingEnterpriseEmpService;
-import top.youchangxu.service.system.IStaffingRoleEmpService;
-import top.youchangxu.service.system.IStaffingRoleService;
+import top.youchangxu.service.system.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dtkj_android on 2017/5/25.
@@ -38,18 +30,24 @@ public class EmpController extends BaseController {
     private IStaffingRoleService staffingRoleService;
     private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
     private IStaffingRoleEmpService staffingRoleEmpService;
+    private IStaffingOrgEmpService staffingOrgEmpService;
+    private IStaffingOrgService  staffingOrgService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
                          PasswordHelper passwordHelper,
                          IStaffingRoleService staffingRoleService,
                          IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
-                         IStaffingRoleEmpService staffingRoleEmpService) {
+                         IStaffingRoleEmpService staffingRoleEmpService,
+                         IStaffingOrgEmpService staffingOrgEmpService,
+                         IStaffingOrgService staffingOrgService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
         this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
         this.staffingRoleEmpService = staffingRoleEmpService;
+        this.staffingOrgEmpService = staffingOrgEmpService;
+        this.staffingOrgService = staffingOrgService;
     }
 
     @RequestMapping(value = "/index")
@@ -59,27 +57,32 @@ public class EmpController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp) {
+    public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp, Long orgId) {
+        Map<String, Object> result = new HashMap<>();
+        //获取部门以及下属部门的Id
+        List<Object> orgStrs = staffingOrgService.selectObjs(new EntityWrapper<StaffingOrg>().like("orgPath", "%/" + orgId + "/%").setSqlSelect("orgId"));
+        //查询部门下的所有员工
+        List<Object> orgEmps = staffingOrgEmpService.selectObjs(new EntityWrapper<StaffingOrgEmp>().in("orgId", orgStrs).setSqlSelect("empId").groupBy("empId"));
+        List<StaffingEmp> rows = new ArrayList<>();
+        if(orgEmps.size()==0){
+            result.put("rows", rows);
+            result.put("total", 0);
+            return result;
+        }
 
-
-        List<Object> enterpriseEmps = staffingEnterpriseEmpService.selectObjs(
-                new EntityWrapper<StaffingEnterpriseEmp>()
-                        .eq("enterpriseId", getEnterpriseId())
-                        .setSqlSelect("empId"));
 
         EntityWrapper<StaffingEmp> empEntityWrapper = new EntityWrapper<>();
 
         if (staffingEmp.getEmpStatus() != 0) {
             empEntityWrapper.eq("empStatus", staffingEmp.getEmpStatus());
         }
-        empEntityWrapper.in("empId", enterpriseEmps);
+        empEntityWrapper.in("empId", orgEmps);
         Page<StaffingEmp> staffingEmpPage = new Page<>(offset + 1, limit, sort);
         staffingEmpPage.setAsc(order.equals("asc"));
         staffingEmpPage = staffingEmpService.selectPage(
                 staffingEmpPage,
                 empEntityWrapper);
-        List<StaffingEmp> rows = staffingEmpPage.getRecords();
-        Map<String, Object> result = new HashMap<>();
+        rows = staffingEmpPage.getRecords();
         result.put("rows", rows);
         result.put("total", staffingEmpPage.getTotal());
         return result;

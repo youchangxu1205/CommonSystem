@@ -17,20 +17,32 @@
 </head>
 <body>
 <div id="main">
-
     <div class="row">
+        <div class="col-md-2">
+            <div id="tree" class="panel panel-default">
+                <div class="panel-heading">组织架构</div>
+                <div class="panel-body" style="overflow: inherit;">
+                    <ul id="orgTree" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
             <div id="toolbar">
                 <shiro:hasPermission name="staffing:emp:create">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增员工</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
+                            class="zmdi zmdi-plus"></i> 新增员工</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:role">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="empRoleAction()"><i class="zmdi zmdi-accounts"></i> 员工角色</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="empRoleAction()"><i
+                            class="zmdi zmdi-accounts"></i> 员工角色</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:password">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdAction()"><i class="zmdi zmdi-lock"></i> 修改密码</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="changePwdAction()"><i
+                            class="zmdi zmdi-lock"></i> 修改密码</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emp:update">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑员工</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
+                            class="zmdi zmdi-edit"></i> 编辑员工</a>
                 </shiro:hasPermission>
 
 
@@ -47,12 +59,25 @@
 
             </div>
             <table id="table"></table>
+        </div>
 
-
+    </div>
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+    //    function findDimensions() {
+    //        var tree = document.getElementById('tree')
+    //        var height = getHeight() - 50;
+    //        tree.style.height = height + "px";
+    //    }
+    //    findDimensions();
+    //    $(function () {
+    //        $(window).resize(function () {
+    //            findDimensions();
+    //        });
+    //    });
 
+    var orgId = 1;
     var $table = $('#table');
     $(function () {
         // bootstrap table初始化
@@ -97,8 +122,8 @@
     var zTreeObj;
     // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
     var setting = {
-        view:{
-            showIcon:false
+        view: {
+            showIcon: false
         },
         async: {
             enable: true,
@@ -112,9 +137,9 @@
     };
 
     function orgClick(treeId, treeNode, clickFlag) {
-        alert(treeNode.id);
-
-        $table.bootstrapTable()
+//        alert(treeNode.id);
+        orgId = treeNode.id;
+        $table.bootstrapTable('refresh');
     }
     // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
 
@@ -133,7 +158,7 @@
             sort: params.sort,
             order: params.order,
             empStatus: $("#empStatus").val(),
-            orgId: 1
+            orgId: orgId
         }
         return temp;
     }
