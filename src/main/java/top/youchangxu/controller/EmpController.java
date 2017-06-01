@@ -16,6 +16,7 @@ import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.PasswordHelper;
 import top.youchangxu.service.system.IStaffingEmpService;
 import top.youchangxu.service.system.IStaffingEnterpriseEmpService;
+import top.youchangxu.service.system.IStaffingRoleEmpService;
 import top.youchangxu.service.system.IStaffingRoleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,16 +37,19 @@ public class EmpController extends BaseController {
     private PasswordHelper passwordHelper;
     private IStaffingRoleService staffingRoleService;
     private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
+    private IStaffingRoleEmpService staffingRoleEmpService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
                          PasswordHelper passwordHelper,
                          IStaffingRoleService staffingRoleService,
-                         IStaffingEnterpriseEmpService staffingEnterpriseEmpService) {
+                         IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
+                         IStaffingRoleEmpService staffingRoleEmpService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
         this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
+        this.staffingRoleEmpService = staffingRoleEmpService;
     }
 
     @RequestMapping(value = "/index")
@@ -155,10 +159,9 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object role(@PathVariable("empId") Long empId, HttpServletRequest request) {
 
-//        String[] roleIds = request.getParameterValues("roleId");
-//        upmsUserRoleService.role(roleIds, id);
-//        return new UpmsResult(UpmsResultConstant.SUCCESS, "");
-        return null;
+        String[] roleIds = request.getParameterValues("roleId");
+        staffingRoleEmpService.updateRole(roleIds, empId);
+        return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 
 

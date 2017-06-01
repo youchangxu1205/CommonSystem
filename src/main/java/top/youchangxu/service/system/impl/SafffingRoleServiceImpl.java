@@ -1,5 +1,6 @@
 package top.youchangxu.service.system.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.system.StaffingRoleMapper;
@@ -17,4 +18,5 @@ public class SafffingRoleServiceImpl extends ServiceImpl<StaffingRoleMapper, Sta
     public List<StaffingRole> selectUserRoles(Long enterpriseId, Long empId) {
         return null;
     }
+
 }

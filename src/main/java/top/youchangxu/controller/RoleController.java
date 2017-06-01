@@ -1,8 +1,8 @@
 package top.youchangxu.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingRole;
-import top.youchangxu.service.PasswordHelper;
-import top.youchangxu.service.system.IStaffingEmpService;
+import top.youchangxu.service.system.IStaffingRolePermissionService;
 import top.youchangxu.service.system.IStaffingRoleService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,10 +29,13 @@ import java.util.Map;
 @RequestMapping("/role")
 public class RoleController extends BaseController {
     private IStaffingRoleService staffingRoleService;
+    private IStaffingRolePermissionService staffingRolePermissionService;
 
     @Autowired
-    public RoleController(IStaffingRoleService staffingRoleService) {
+    public RoleController(IStaffingRoleService staffingRoleService,
+                          IStaffingRolePermissionService staffingRolePermissionService) {
         this.staffingRoleService = staffingRoleService;
+        this.staffingRolePermissionService = staffingRolePermissionService;
     }
 
 
@@ -98,6 +100,14 @@ public class RoleController extends BaseController {
         StaffingRole role = staffingRoleService.selectById(roleId);
         modelMap.put("role", role);
         return "/role/permission";
+    }
+
+    @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updatePermission(@PathVariable("id") Long id, HttpServletRequest request) {
+        JSONArray datas = JSONArray.parseArray(request.getParameter("datas"));
+        int result = staffingRolePermissionService.updateRolePermission(datas, id);
+        return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 
 }

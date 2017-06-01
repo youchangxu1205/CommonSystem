@@ -1,5 +1,6 @@
 package top.youchangxu.service.system;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.service.IService;
 import top.youchangxu.model.system.StaffingRole;
 
@@ -17,4 +18,5 @@ public interface IStaffingRoleService extends IService<StaffingRole> {
      * @return
      */
     List<StaffingRole> selectUserRoles(Long enterpriseId, Long empId);
+
 }

@@ -31,6 +31,7 @@
             type: 'post',
             url: '${basePath}/emp/role/' + roleEmpId,
             data: $('#roleForm').serialize(),
+            dataType:'json',
             beforeSend: function () {
 
             },
