@@ -2,6 +2,7 @@ package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
 import top.youchangxu.service.PasswordHelper;
@@ -70,7 +72,7 @@ public class PermissionController extends BaseController {
     @ResponseBody
     public Object create(StaffingPermission staffingPermission) {
         staffingPermission.setPermissionStatus(1);
-        return staffingPermissionService.insert(staffingPermission) ? renderSuccess("添加成功") : renderError("添加失败");
+        return staffingPermissionService.insert(staffingPermission) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/update/{permissionId}", method = RequestMethod.GET)
@@ -83,13 +85,13 @@ public class PermissionController extends BaseController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Object update(StaffingPermission staffingPermission) {
-        return staffingPermissionService.updateById(staffingPermission) ? renderSuccess("修改成功") : renderError("修改失败");
+        return staffingPermissionService.updateById(staffingPermission) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        return staffingPermissionService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
+        return staffingPermissionService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 
 

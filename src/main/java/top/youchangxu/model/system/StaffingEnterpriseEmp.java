@@ -11,6 +11,11 @@ public class StaffingEnterpriseEmp {
     private Long empId;
     private int status;
 
+    public StaffingEnterpriseEmp(Long enterpriseId, Long empId) {
+        this.enterpriseId = enterpriseId;
+        this.empId = empId;
+    }
+
     public Long getEnterpriseId() {
         return enterpriseId;
     }

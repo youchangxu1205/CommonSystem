@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEnterprise;
 import top.youchangxu.service.system.IStaffingEnterpriseService;
 
@@ -66,7 +67,7 @@ public class EnterpriseController extends BaseController {
     @RequiresPermissions("staffing:enterprise:create")
     @ResponseBody
     public Object create(StaffingEnterprise staffingEnterprise) {
-        return staffingEnterpriseService.insert(staffingEnterprise) ? renderSuccess("添加成功") : renderError("添加失败");
+        return staffingEnterpriseService.insert(staffingEnterprise) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequiresPermissions("staffing:enterprise:update")
@@ -81,12 +82,12 @@ public class EnterpriseController extends BaseController {
     @RequiresPermissions("staffing:enterprise:update")
     @ResponseBody
     public Object update(StaffingEnterprise staffingEnterprise) {
-        return staffingEnterpriseService.updateById(staffingEnterprise) ? renderSuccess("修改成功") : renderError("修改失败");
+        return staffingEnterpriseService.updateById(staffingEnterprise) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        return staffingEnterpriseService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
+        return staffingEnterpriseService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 }

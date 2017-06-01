@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.PasswordHelper;
@@ -69,7 +70,7 @@ public class RoleController extends BaseController {
     @ResponseBody
     public Object create(StaffingRole staffingRole) {
 
-        return staffingRoleService.insert(staffingRole) ? renderSuccess("添加成功") : renderError("添加失败");
+        return staffingRoleService.insert(staffingRole) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/update/{roleId}", method = RequestMethod.GET)
@@ -82,13 +83,13 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Object update(StaffingRole staffingRole) {
-        return staffingRoleService.updateById(staffingRole) ? renderSuccess("修改成功") : renderError("修改失败");
+        return staffingRoleService.updateById(staffingRole) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        return staffingRoleService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
+        return staffingRoleService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 
 

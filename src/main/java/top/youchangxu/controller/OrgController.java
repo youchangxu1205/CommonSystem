@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingOrg;
 import top.youchangxu.service.system.IStaffingOrgService;
 
@@ -60,7 +61,7 @@ public class OrgController extends BaseController {
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     @ResponseBody
     public Object create(StaffingOrg staffingOrg){
-        return staffingOrgService.insert(staffingOrg)? renderSuccess("添加成功"):renderError("添加失败");
+        return staffingOrgService.insert(staffingOrg)? renderSuccess("添加成功"):renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/update/{orgId}",method = RequestMethod.GET)
@@ -72,13 +73,13 @@ public class OrgController extends BaseController {
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
     public Object update(StaffingOrg staffingOrg){
-        return staffingOrgService.updateById(staffingOrg)? renderSuccess("修改成功"):renderError("修改失败");
+        return staffingOrgService.updateById(staffingOrg)? renderSuccess("修改成功"):renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids){
-        return staffingOrgService.deleteBatchIds(Arrays.asList(ids.split("-")))? renderSuccess("删除成功"):renderError("删除失败");
+        return staffingOrgService.deleteBatchIds(Arrays.asList(ids.split("-")))? renderSuccess("删除成功"):renderError(ResultEnum.DELETE_ERROR);
     }
 
 

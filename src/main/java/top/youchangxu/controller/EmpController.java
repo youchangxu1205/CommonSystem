@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingEnterpriseEmp;
 import top.youchangxu.model.system.StaffingRole;
@@ -67,7 +68,7 @@ public class EmpController extends BaseController {
         if (staffingEmp.getEmpStatus() != 0) {
             empEntityWrapper.eq("empStatus", staffingEmp.getEmpStatus());
         }
-        empEntityWrapper.in("empId",enterpriseEmps);
+        empEntityWrapper.in("empId", enterpriseEmps);
         Page<StaffingEmp> staffingEmpPage = new Page<>(offset + 1, limit, sort);
         staffingEmpPage.setAsc(order.equals("asc"));
         staffingEmpPage = staffingEmpService.selectPage(
@@ -94,7 +95,12 @@ public class EmpController extends BaseController {
         //TODO 查询员工是否存在
         staffingEmp.setPassword("123456");
         passwordHelper.encryptPassword(staffingEmp);
-        return staffingEmpService.insert(staffingEmp) ? renderSuccess("添加成功") : renderError("添加失败");
+        boolean insert = staffingEmpService.insert(staffingEmp);
+        if (insert) {
+            boolean insertEmpToEnterprise = staffingEnterpriseEmpService.insert(new StaffingEnterpriseEmp(Long.parseLong(getEnterpriseId()), staffingEmp.getEmpId()));
+            return insertEmpToEnterprise ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        }
+        return renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/update/{empId}", method = RequestMethod.GET)
@@ -107,13 +113,13 @@ public class EmpController extends BaseController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Object update(StaffingEmp staffingEmp) {
-        return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError("修改失败");
+        return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        return staffingEmpService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError("删除失败");
+        return staffingEmpService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 
     @RequestMapping(value = "/changePwd/{empId}")
@@ -129,7 +135,7 @@ public class EmpController extends BaseController {
         staffingEmp.setEmpId(empId);
         staffingEmp.setPassword(password);
         passwordHelper.encryptPassword(staffingEmp);
-        return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError("修改失败");
+        return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
     @RequestMapping(value = "/role/{empId}")

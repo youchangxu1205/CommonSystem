@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.core.shiro.EnterpriseToken;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingEnterprise;
@@ -59,29 +60,27 @@ public class SSOController extends BaseController {
         //查看用户是否存在
         StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", username));
         if (staffingEmp == null) {
-            return renderError("账号不存在");
+            return renderError(ResultEnum.ACCOUNT_OR_PASSWORD_IS_WRONG);
         }
         //需要获取用户加入的企业
         List<StaffingEnterprise> enterprises = staffingEnterpriseEmpService.findEnterpriseByEmpId(staffingEmp.getEmpId());
         if(enterprises.size()>1){
             //跳转到企业选择界面
+            return renderSuccess("/chooseEnterprise");
         }else if(enterprises.size()==1){
             //直接进行登录操作
-
             Subject subject = SecurityUtils.getSubject();
-
             EnterpriseToken enterpriseToken = new EnterpriseToken(username,password,enterprises.get(0).getEnterpriseId());
-//            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
             try {
                 subject.login(enterpriseToken);
             } catch (UnknownAccountException e) {
-                return renderError("账号不存在");
+                return renderError(ResultEnum.ACCOUNT_OR_PASSWORD_IS_WRONG);
             } catch (IncorrectCredentialsException e) {
-                return renderError("密码错误");
+                return renderError(ResultEnum.ACCOUNT_OR_PASSWORD_IS_WRONG);
             } catch (ExcessiveAttemptsException e) {
-                return renderError("重试次数过多,请10分钟再试");
+                return renderError(ResultEnum.REPEAT_LOGIN_TO_MUCH);
             } catch (Exception e) {
-                return renderError("服务器错误");
+                return renderError(ResultEnum.SERVER_HAS_BUSY);
             }
             return renderSuccess("/index");
 

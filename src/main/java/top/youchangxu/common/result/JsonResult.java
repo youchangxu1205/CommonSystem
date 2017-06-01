@@ -8,10 +8,13 @@ package top.youchangxu.common.result;
  * Describe: 封装Json返回信息
  */
 public class JsonResult {
+
+
     private boolean success;
     private String status;
     private String msg;
     private Object obj;
+    private int code;
 
     public boolean isSuccess() {
         return success;
@@ -43,5 +46,13 @@ public class JsonResult {
 
     public void setObj(Object obj) {
         this.obj = obj;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

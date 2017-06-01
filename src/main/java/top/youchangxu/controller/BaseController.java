@@ -4,6 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import top.youchangxu.common.result.JsonResult;
 import top.youchangxu.common.result.JsonResult;
+import top.youchangxu.common.result.ResultEnum;
 
 /**
  * Author: D.Yang
@@ -52,7 +53,17 @@ public class BaseController {
     /**
      * 渲染失败数据（带消息）
      *
-     * @param msg 需要返回的消息
+     * @return result
+     */
+    protected JsonResult renderError(ResultEnum resultEnum) {
+        JsonResult result = renderError();
+        result.setMsg(resultEnum.getMsg());
+        return result;
+    }
+
+    /**
+     * 渲染失败数据（带消息）
+     *
      * @return result
      */
     protected JsonResult renderError(String msg) {
@@ -82,6 +93,17 @@ public class BaseController {
     protected JsonResult renderSuccess(String msg) {
         JsonResult result = renderSuccess();
         result.setMsg(msg);
+        return result;
+    }
+
+    /**
+     * 渲染成功数据（带信息）
+     *
+x     * @return result
+     */
+    protected JsonResult renderSuccess(ResultEnum resultEnum) {
+        JsonResult result = renderSuccess();
+        result.setMsg(resultEnum.getMsg());
         return result;
     }
 
