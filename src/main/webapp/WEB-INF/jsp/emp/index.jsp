@@ -21,10 +21,11 @@
         <div class="col-md-2">
             <div id="tree" class="panel panel-default">
                 <div class="panel-heading">组织架构</div>
-                <div class="panel-body" style="overflow: inherit;">
-                    <ul id="orgTree" class="ztree"></ul>
-                </div>
+                <%--<div class="panel-body" style="overflow: inherit;">--%>
+                <%--&lt;%&ndash;<ul id="orgTree" class="ztree"></ul>&ndash;%&gt;--%>
             </div>
+            <%--<div class="alert alert-danger" role="alert"><a href="javascript:;" onclick="showNotInOrgEmpsAction()">${noInOrgEmpIds.size()}个员工没有分配岗位</a></div>--%>
+            <div id="treeDiv"></div>
         </div>
         <div class="col-md-10">
             <div id="toolbar">
@@ -65,6 +66,20 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+
+    console.log(${treeData});
+    $('#treeDiv').treeview({
+        data: ${treeData},
+        onNodeSelected: function (event, data) {
+            // Your logic goes here
+            console.log(data);
+
+            orgId = data.id;
+            $table.bootstrapTable('refresh');
+        }
+    });
+
+
     //    function findDimensions() {
     //        var tree = document.getElementById('tree')
     //        var height = getHeight() - 50;
@@ -77,7 +92,7 @@
     //        });
     //    });
 
-    var orgId = 1;
+    var orgId = 0;
     var $table = $('#table');
     $(function () {
         // bootstrap table初始化
@@ -106,45 +121,8 @@
                 {field: 'entryTime', title: '入职时间', sortable: true, formatter: 'dateFormatter'},
                 {field: 'beFormalTime', title: '转正时间', sortable: true, formatter: 'dateFormatter'},
                 {field: 'empStatus', title: '状态', sortable: true, formatter: 'statusFormatter'}
-//                ,
-//                {
-//                    field: 'action',
-//                    title: '操作',
-//                    align: 'center',
-//                    formatter: 'actionFormatter',
-//                    events: 'actionEvents',
-//                    clickToSelect: false
-//                }
             ]
         });
-    });
-
-    var zTreeObj;
-    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-    var setting = {
-        view: {
-            showIcon: false
-        },
-        async: {
-            enable: true,
-            type: "get",
-            url: "${basePath}/org/orgTree/1",
-            autoParam: ["id=orgId", "name"]
-        },
-        callback: {
-            beforeClick: orgClick
-        }
-    };
-
-    function orgClick(treeId, treeNode, clickFlag) {
-//        alert(treeNode.id);
-        orgId = treeNode.id;
-        $table.bootstrapTable('refresh');
-    }
-    // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-
-    $(document).ready(function () {
-        zTreeObj = $.fn.zTree.init($("#orgTree"), setting);
     });
 
     function tableRefresh() {
@@ -152,6 +130,7 @@
     }
 
     function queryParams(params) {
+        console.log(params);
         var temp = {
             limit: params.limit,
             offset: params.offset,
@@ -221,6 +200,18 @@
             });
         }
 
+    }
+
+    var notInOrgEmpsDialog;
+    function showNotInOrgEmpsAction() {
+        notInOrgEmpsDialog = $.dialog({
+            animationSpeed: 300,
+            title: '未分配部门的员工列表',
+            content: 'url:${basePath}/emp/showNotInOrgEmps',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
     }
 
 

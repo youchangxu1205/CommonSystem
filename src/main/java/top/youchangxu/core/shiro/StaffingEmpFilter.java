@@ -20,8 +20,12 @@ public class StaffingEmpFilter extends PathMatchingFilter {
     private IStaffingEmpService staffingEmpService;
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        request.setAttribute(Constants.CURRENT_USER, staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username",username)));
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        if(principal!=null) {
+            String[] split = principal.split("#");
+
+            request.setAttribute(Constants.CURRENT_USER, staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", split[1])));
+        }
         return true;
     }
 }

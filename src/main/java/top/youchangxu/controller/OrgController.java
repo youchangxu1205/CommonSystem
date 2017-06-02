@@ -34,16 +34,18 @@ public class OrgController extends BaseController {
     }
 
     @RequestMapping(value = "/index")
-    public String index(){
+    public String index() {
         return "/org/index";
     }
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list(int limit, int offset, String sort, String order, StaffingOrg staffingOrg){
+    public Object list(int limit, int offset, String sort, String order, StaffingOrg staffingOrg) {
 
         EntityWrapper<StaffingOrg> orgEntityWrapper = new EntityWrapper<>();
+        orgEntityWrapper.eq("enterpriseId", getEnterpriseId());
 
-        Page<StaffingOrg> staffingOrgPage = new Page<>(offset + 1, limit, sort);
+        Page<StaffingOrg> staffingOrgPage = new Page<>(offset / limit + 1, limit, sort);
         staffingOrgPage.setAsc(order.equals("asc"));
         staffingOrgPage = staffingOrgService.selectPage(
                 staffingOrgPage,
@@ -54,32 +56,36 @@ public class OrgController extends BaseController {
         result.put("total", staffingOrgPage.getTotal());
         return result;
     }
-    @RequestMapping(value = "/create",method = RequestMethod.GET)
-    public String create(){
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String create() {
         return "/org/create";
     }
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(StaffingOrg staffingOrg){
-        return staffingOrgService.insert(staffingOrg)? renderSuccess("添加成功"):renderError(ResultEnum.INSERT_ERROR);
+    public Object create(StaffingOrg staffingOrg) {
+        staffingOrg.setEnterpriseId(Long.valueOf(getEnterpriseId()));
+        return staffingOrgService.insert(staffingOrg) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
-    @RequestMapping(value = "/update/{orgId}",method = RequestMethod.GET)
-    public String update(@PathVariable("orgId") Long orgId, Model model){
+    @RequestMapping(value = "/update/{orgId}", method = RequestMethod.GET)
+    public String update(@PathVariable("orgId") Long orgId, Model model) {
         StaffingOrg staffingOrg = staffingOrgService.selectById(orgId);
-        model.addAttribute("staffingOrg",staffingOrg);
+        model.addAttribute("staffingOrg", staffingOrg);
         return "/org/update";
     }
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(StaffingOrg staffingOrg){
-        return staffingOrgService.updateById(staffingOrg)? renderSuccess("修改成功"):renderError(ResultEnum.UPDATE_ERROR);
+    public Object update(StaffingOrg staffingOrg) {
+        return staffingOrgService.updateById(staffingOrg) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
-    @RequestMapping(value = "/delete/{ids}",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
-    public Object delete(@PathVariable("ids") String ids){
-        return staffingOrgService.deleteBatchIds(Arrays.asList(ids.split("-")))? renderSuccess("删除成功"):renderError(ResultEnum.DELETE_ERROR);
+    public Object delete(@PathVariable("ids") String ids) {
+        return staffingOrgService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 
 
@@ -91,7 +97,14 @@ public class OrgController extends BaseController {
     @RequestMapping(value = "/orgTree/{orgId}", method = RequestMethod.GET)
     @ResponseBody
     public Object orgTree(@PathVariable("orgId") Long orgId) {
-        JSONArray orgTree = staffingOrgService.getOrgTree(orgId);
+        JSONArray orgTree = staffingOrgService.getOrgTree(Long.valueOf(getEnterpriseId()));
+        return orgTree;
+    }
+
+    @RequestMapping(value = "/bootstrapOrgTree/{orgId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object bootstrapOrgTree(@PathVariable("orgId") Long orgId) {
+        JSONArray orgTree = staffingOrgService.getOrgBootstrapTree(Long.parseLong(getEnterpriseId()));
         return orgTree;
     }
 

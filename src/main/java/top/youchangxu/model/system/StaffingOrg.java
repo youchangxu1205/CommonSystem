@@ -16,13 +16,13 @@ public class StaffingOrg implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId
-    private long orgId;
+    private Long orgId;
     private String orgName;
-    private long pOrgId;
+    private Long pOrgId;
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    private int orgType;
-    private long enterpriseId;
+    private Integer orgType;
+    private Long enterpriseId;
 
     public StaffingOrg() {
     }
@@ -42,11 +42,11 @@ public class StaffingOrg implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
-    public long getOrgId() {
+    public Long getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(long orgId) {
+    public void setOrgId(Long orgId) {
         this.orgId = orgId;
     }
 
@@ -62,7 +62,7 @@ public class StaffingOrg implements Serializable {
         return pOrgId;
     }
 
-    public void setpOrgId(long pOrgId) {
+    public void setpOrgId(Long pOrgId) {
         this.pOrgId = pOrgId;
     }
 
@@ -74,19 +74,19 @@ public class StaffingOrg implements Serializable {
         this.createTime = createTime;
     }
 
-    public int getOrgType() {
+    public Integer getOrgType() {
         return orgType;
     }
 
-    public void setOrgType(int orgType) {
+    public void setOrgType(Integer orgType) {
         this.orgType = orgType;
     }
 
-    public long getEnterpriseId() {
+    public Long getEnterpriseId() {
         return enterpriseId;
     }
 
-    public void setEnterpriseId(long enterpriseId) {
+    public void setEnterpriseId(Long enterpriseId) {
         this.enterpriseId = enterpriseId;
     }
 

@@ -51,7 +51,7 @@ public class PermissionController extends BaseController {
         EntityWrapper<StaffingPermission> permissionEntityWrapper = new EntityWrapper<>();
 
 
-        Page<StaffingPermission> staffingPermissionPage = new Page<>(offset + 1, limit, sort);
+        Page<StaffingPermission> staffingPermissionPage = new Page<>(offset/limit + 1, limit, sort);
         staffingPermissionPage.setAsc(order.equals("asc"));
         staffingPermissionPage = staffingPermissionService.selectPage(
                 staffingPermissionPage,

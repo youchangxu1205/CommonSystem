@@ -1,5 +1,6 @@
 package top.youchangxu.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class EmpController extends BaseController {
     private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
     private IStaffingRoleEmpService staffingRoleEmpService;
     private IStaffingOrgEmpService staffingOrgEmpService;
-    private IStaffingOrgService  staffingOrgService;
+    private IStaffingOrgService staffingOrgService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
@@ -50,26 +51,52 @@ public class EmpController extends BaseController {
         this.staffingOrgService = staffingOrgService;
     }
 
+    /**
+     * 员工首页
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/index")
-    public String index() {
+    public String index(Model model) {
+        JSONArray orgBootstrapTree = staffingOrgService.getOrgBootstrapTree(Long.parseLong(getEnterpriseId()));
+        model.addAttribute("treeData", orgBootstrapTree);
         return "/emp/index";
     }
 
+    /**
+     * 获取员工列表
+     *
+     * @param limit
+     * @param offset
+     * @param sort
+     * @param order
+     * @param staffingEmp
+     * @param orgId
+     * @return
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp, Long orgId) {
         Map<String, Object> result = new HashMap<>();
+
         //获取部门以及下属部门的Id
-        List<Object> orgStrs = staffingOrgService.selectObjs(new EntityWrapper<StaffingOrg>().like("orgPath", "%/" + orgId + "/%").setSqlSelect("orgId"));
+        List<Object> orgStrs = staffingOrgService.selectObjs(
+                new EntityWrapper<StaffingOrg>()
+                        .like("orgPath", "%/" + orgId + "/%")
+                        .setSqlSelect("orgId")
+                        .eq("enterpriseId", getEnterpriseId()));
         //查询部门下的所有员工
-        List<Object> orgEmps = staffingOrgEmpService.selectObjs(new EntityWrapper<StaffingOrgEmp>().in("orgId", orgStrs).setSqlSelect("empId").groupBy("empId"));
+        List<Object> orgEmps = staffingOrgEmpService.selectObjs(
+                new EntityWrapper<StaffingOrgEmp>()
+                        .in("orgId", orgStrs)
+                        .setSqlSelect("empId").groupBy("empId"));
         List<StaffingEmp> rows = new ArrayList<>();
-        if(orgEmps.size()==0){
+        if (orgEmps.size() == 0) {
             result.put("rows", rows);
             result.put("total", 0);
             return result;
         }
-
 
         EntityWrapper<StaffingEmp> empEntityWrapper = new EntityWrapper<>();
 
@@ -77,7 +104,7 @@ public class EmpController extends BaseController {
             empEntityWrapper.eq("empStatus", staffingEmp.getEmpStatus());
         }
         empEntityWrapper.in("empId", orgEmps);
-        Page<StaffingEmp> staffingEmpPage = new Page<>(offset + 1, limit, sort);
+        Page<StaffingEmp> staffingEmpPage = new Page<>(offset / limit + 1, limit, sort);
         staffingEmpPage.setAsc(order.equals("asc"));
         staffingEmpPage = staffingEmpService.selectPage(
                 staffingEmpPage,
@@ -88,11 +115,22 @@ public class EmpController extends BaseController {
         return result;
     }
 
+    /**
+     * 创建员工
+     *
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
         return "/emp/create";
     }
 
+    /**
+     * 创建用户
+     *
+     * @param staffingEmp
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Object create(StaffingEmp staffingEmp) {
@@ -110,6 +148,13 @@ public class EmpController extends BaseController {
         return renderError(ResultEnum.INSERT_ERROR);
     }
 
+    /**
+     * 更新用户
+     *
+     * @param empId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/update/{empId}", method = RequestMethod.GET)
     public String update(@PathVariable("empId") Long empId, Model model) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
@@ -117,24 +162,51 @@ public class EmpController extends BaseController {
         return "emp/update";
     }
 
+    /**
+     * 更新用户
+     *
+     * @param staffingEmp
+     * @return
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Object update(StaffingEmp staffingEmp) {
         return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
+    /**
+     * 批量删除用户
+     *
+     * @param ids
+     * @return
+     */
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
         return staffingEmpService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param empId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/changePwd/{empId}")
     public String changePwd(@PathVariable("empId") Long empId, Model model) {
         model.addAttribute("empId", empId);
         return "emp/changePwd";
     }
 
+    /**
+     * 修改密码
+     *
+     * @param password
+     * @param confirmPwd
+     * @param empId
+     * @return
+     */
     @RequestMapping(value = "/changePwd")
     @ResponseBody
     public Object changePwd(String password, String confirmPwd, Long empId) {
@@ -145,11 +217,20 @@ public class EmpController extends BaseController {
         return staffingEmpService.updateById(staffingEmp) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
+    /**
+     * 员工角色
+     *
+     * @param empId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/role/{empId}")
     public String role(@PathVariable("empId") Long empId, Model model) {
         StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         String enterpriseId = getEnterpriseId();
-        List<StaffingRole> staffingRoles = staffingRoleService.selectList(new EntityWrapper<StaffingRole>().eq("enterpriseId", Long.parseLong(enterpriseId)));
+        List<StaffingRole> staffingRoles = staffingRoleService.selectList(
+                new EntityWrapper<StaffingRole>()
+                        .eq("enterpriseId", Long.parseLong(enterpriseId)));
         model.addAttribute("staffingRoles", staffingRoles);
 
         List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getUsername());
@@ -158,6 +239,13 @@ public class EmpController extends BaseController {
         return "emp/role";
     }
 
+    /**
+     * 保存更新员工角色
+     *
+     * @param empId
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/role/{empId}", method = RequestMethod.POST)
     @ResponseBody
     public Object role(@PathVariable("empId") Long empId, HttpServletRequest request) {

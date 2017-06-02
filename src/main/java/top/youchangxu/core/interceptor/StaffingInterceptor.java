@@ -33,9 +33,12 @@ public class StaffingInterceptor extends HandlerInterceptorAdapter {
         }
         // 登录信息
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipal();
-        StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username",username));
-        request.setAttribute("staffingEmp", staffingEmp);
+        String principal = (String) subject.getPrincipal();
+        if (principal != null) {
+            String[] split = principal.split("#");
+            StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", split[1]));
+            request.setAttribute("staffingEmp", staffingEmp);
+        }
         return true;
     }
 

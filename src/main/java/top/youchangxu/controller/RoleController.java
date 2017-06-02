@@ -49,9 +49,10 @@ public class RoleController extends BaseController {
     public Object list(int limit, int offset, String sort, String order, StaffingRole staffingRole) {
 
         EntityWrapper<StaffingRole> roleEntityWrapper = new EntityWrapper<>();
+        roleEntityWrapper.eq("enterpriseId",getEnterpriseId());
 
 
-        Page<StaffingRole> staffingRolePage = new Page<>(offset + 1, limit, sort);
+        Page<StaffingRole> staffingRolePage = new Page<>(offset / limit + 1, limit, sort);
         staffingRolePage.setAsc(order.equals("asc"));
         staffingRolePage = staffingRoleService.selectPage(
                 staffingRolePage,
@@ -71,7 +72,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Object create(StaffingRole staffingRole) {
-
+        staffingRole.setEnterpriseId(Long.valueOf(getEnterpriseId()));
         return staffingRoleService.insert(staffingRole) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 

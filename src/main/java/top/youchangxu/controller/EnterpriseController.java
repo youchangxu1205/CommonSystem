@@ -45,7 +45,7 @@ public class EnterpriseController extends BaseController {
     public Object list(int limit, int offset, String sort, String order, StaffingEnterprise staffingEnterprise) {
 
         EntityWrapper<StaffingEnterprise> enterpriseEntityWrapper = new EntityWrapper<>();
-        Page<StaffingEnterprise> staffingEnterprisePage = new Page<>(offset + 1, limit, sort);
+        Page<StaffingEnterprise> staffingEnterprisePage = new Page<>(offset/limit + 1, limit, sort);
         staffingEnterprisePage.setAsc(order.equals("asc"));
         staffingEnterprisePage = staffingEnterpriseService.selectPage(
                 staffingEnterprisePage,

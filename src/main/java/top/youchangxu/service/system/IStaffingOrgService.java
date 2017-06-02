@@ -11,8 +11,17 @@ public interface IStaffingOrgService extends IService<StaffingOrg> {
 
     /**
      * 获取部门树
-     * @param orgId
+     *
+     * @param enterpriseId
      * @return
      */
-    JSONArray getOrgTree(Long orgId);
+    JSONArray getOrgTree(Long enterpriseId);
+
+    /**
+     * 获取bootstrap部门数据
+     *
+     * @param enterpriseId
+     * @return
+     */
+    JSONArray getOrgBootstrapTree(Long enterpriseId);
 }
