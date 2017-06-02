@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEnterprise;
+import top.youchangxu.model.system.StaffingOrg;
 import top.youchangxu.service.system.IStaffingEnterpriseService;
+import top.youchangxu.service.system.IStaffingOrgService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,25 +29,43 @@ import java.util.Map;
 public class EnterpriseController extends BaseController {
 
     private IStaffingEnterpriseService staffingEnterpriseService;
+    private IStaffingOrgService staffingOrgService;
 
     @Autowired
-    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService) {
+    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService,
+                                IStaffingOrgService staffingOrgService) {
         this.staffingEnterpriseService = staffingEnterpriseService;
+        this.staffingOrgService = staffingOrgService;
     }
 
+    /**
+     * 企业首页
+     *
+     * @return
+     */
     @RequestMapping(value = "/index")
     @RequiresPermissions("staffing:enterprise:read")
     public String index() {
         return "/enterprise/index";
     }
 
+    /**
+     * 企业列表
+     *
+     * @param limit
+     * @param offset
+     * @param sort
+     * @param order
+     * @param staffingEnterprise
+     * @return
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @RequiresPermissions("staffing:enterprise:read")
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEnterprise staffingEnterprise) {
 
         EntityWrapper<StaffingEnterprise> enterpriseEntityWrapper = new EntityWrapper<>();
-        Page<StaffingEnterprise> staffingEnterprisePage = new Page<>(offset/limit + 1, limit, sort);
+        Page<StaffingEnterprise> staffingEnterprisePage = new Page<>(offset / limit + 1, limit, sort);
         staffingEnterprisePage.setAsc(order.equals("asc"));
         staffingEnterprisePage = staffingEnterpriseService.selectPage(
                 staffingEnterprisePage,
@@ -57,19 +77,48 @@ public class EnterpriseController extends BaseController {
         return result;
     }
 
+    /**
+     * 创建企业
+     *
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     @RequiresPermissions("staffing:enterprise:create")
     public String create() {
         return "/enterprise/create";
     }
 
+    /**
+     * 创建企业
+     *
+     * @param staffingEnterprise
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @RequiresPermissions("staffing:enterprise:create")
     @ResponseBody
     public Object create(StaffingEnterprise staffingEnterprise) {
-        return staffingEnterpriseService.insert(staffingEnterprise) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        boolean insert = staffingEnterpriseService.insert(staffingEnterprise);
+        if (insert) {
+            StaffingOrg staffingOrg = new StaffingOrg(staffingEnterprise.getEnterpriseName(),
+                    0L,
+                    1,
+                    staffingEnterprise.getEnterpriseId());
+
+            staffingOrgService.insert(staffingOrg);
+            staffingOrg.setOrgPath("/0/");
+            staffingOrgService.update(staffingOrg, new EntityWrapper<>(staffingOrg));
+        }
+        return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
+    /**
+     * 更新企业信息
+     *
+     * @param enterpriseId
+     * @param model
+     * @return
+     */
     @RequiresPermissions("staffing:enterprise:update")
     @RequestMapping(value = "/update/{enterpriseId}", method = RequestMethod.GET)
     public String update(@PathVariable("enterpriseId") Long enterpriseId, Model model) {
@@ -78,6 +127,12 @@ public class EnterpriseController extends BaseController {
         return "/enterprise/update";
     }
 
+    /**
+     * 更新企业信息
+     *
+     * @param staffingEnterprise
+     * @return
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @RequiresPermissions("staffing:enterprise:update")
     @ResponseBody
@@ -85,6 +140,12 @@ public class EnterpriseController extends BaseController {
         return staffingEnterpriseService.updateById(staffingEnterprise) ? renderSuccess("修改成功") : renderError(ResultEnum.UPDATE_ERROR);
     }
 
+    /**
+     * 删除企业
+     *
+     * @param ids
+     * @return
+     */
     @RequestMapping(value = "/delete/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {

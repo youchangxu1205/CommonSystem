@@ -34,7 +34,9 @@ public class OrgController extends BaseController {
     }
 
     @RequestMapping(value = "/index")
-    public String index() {
+    public String index(Model model) {
+        JSONArray orgBootstrapTree = staffingOrgService.getOrgBootstrapTree(Long.parseLong(getEnterpriseId()));
+        model.addAttribute("treeData", orgBootstrapTree);
         return "/org/index";
     }
 
@@ -44,6 +46,9 @@ public class OrgController extends BaseController {
 
         EntityWrapper<StaffingOrg> orgEntityWrapper = new EntityWrapper<>();
         orgEntityWrapper.eq("enterpriseId", getEnterpriseId());
+        if(staffingOrg.getOrgId()!=0){
+            orgEntityWrapper.eq("pOrgId",staffingOrg.getOrgId());
+        }
 
         Page<StaffingOrg> staffingOrgPage = new Page<>(offset / limit + 1, limit, sort);
         staffingOrgPage.setAsc(order.equals("asc"));
@@ -66,6 +71,11 @@ public class OrgController extends BaseController {
     @ResponseBody
     public Object create(StaffingOrg staffingOrg) {
         staffingOrg.setEnterpriseId(Long.valueOf(getEnterpriseId()));
+
+        //获取上级部门信息
+        StaffingOrg topOrg = staffingOrgService.selectOne(new EntityWrapper<StaffingOrg>()
+                .eq("orgId", staffingOrg.getpOrgId()));
+        staffingOrg.setOrgPath(topOrg.getOrgPath() + topOrg.getOrgId() + "/");
         return staffingOrgService.insert(staffingOrg) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 

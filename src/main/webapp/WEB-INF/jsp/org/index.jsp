@@ -17,11 +17,25 @@
 </head>
 <body>
 <div id="main">
-    <div id="toolbar">
-        <button type="button" class="btn btn-default" onclick="createAction()">添加部门</button>
-        <button type="button" class="btn btn-default" onclick="orgTreeAction()">组织架构</button>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div id="tree" class="panel panel-default">
+                <div class="panel-heading">组织架构</div>
+                <%--<div class="panel-body" style="overflow: inherit;">--%>
+                <%--&lt;%&ndash;<ul id="orgTree" class="ztree"></ul>&ndash;%&gt;--%>
+            </div>
+            <%--<div class="alert alert-danger" role="alert"><a href="javascript:;" onclick="showNotInOrgEmpsAction()">${noInOrgEmpIds.size()}个员工没有分配岗位</a></div>--%>
+            <div id="treeDiv"></div>
+        </div>
+        <div class="col-md-10">
+            <div id="toolbar">
+                <button type="button" class="btn btn-default" onclick="createAction()">添加部门</button>
+                <button type="button" class="btn btn-default" onclick="orgTreeAction()">组织架构</button>
+            </div>
+            <table id="table" class="table"></table>
+        </div>
     </div>
-    <table id="table" class="table"></table>
 </div>
 
 <div id="setting" class="btn-group-vertical" role="group" aria-label="btn" style="display: none">
@@ -41,6 +55,17 @@
     //            findDimensions();
     //        });
     //    });
+
+    var orgId = 0;
+    $('#treeDiv').treeview({
+        data: ${treeData},
+        onNodeSelected: function (event, data) {
+            // Your logic goes here
+            console.log(data);
+            orgId = data.id;
+            $table.bootstrapTable('refresh');
+        }
+    });
 
     var $table = $('#table');
     $(function () {
@@ -78,22 +103,7 @@
             ]
         });
     });
-    var zTreeObj;
-    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-    var setting = {
-        async: {
-            enable: true,
-            type: "get",
-            url: "${basePath}/org/orgTree/1",
-            autoParam: ["id=orgId", "name"]
-        }
-    };
 
-    // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-
-    $(document).ready(function () {
-        zTreeObj = $.fn.zTree.init($("#orgTree"), setting);
-    });
 
     function orgTypeFormatter(value, row, index) {
         if (value == 1) {
@@ -112,7 +122,8 @@
             limit: params.limit,
             offset: params.offset,
             sort: params.sort,
-            order: params.order
+            order: params.order,
+            orgId:orgId
         }
         return temp;
     }
@@ -127,6 +138,7 @@
     // 新增
     var createDialog;
     function createAction() {
+
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加部门',

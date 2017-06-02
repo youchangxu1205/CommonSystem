@@ -8,6 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
     <form id="createForm" method="post">
+        <input type="hidden"  id="orgId" name="orgId" value="${orgId}"/>
         <div class="form-group">
             <label for="username">账户名</label>
             <input id="username" type="text" class="form-control" name="username" maxlength="20">

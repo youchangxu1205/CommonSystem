@@ -11,6 +11,11 @@ public class StaffingOrgEmp {
     private Long orgId;
     private Long empId;
 
+    public StaffingOrgEmp(Long orgId, Long empId) {
+        this.orgId = orgId;
+        this.empId = empId;
+    }
+
     public Long getOrgId() {
         return orgId;
     }

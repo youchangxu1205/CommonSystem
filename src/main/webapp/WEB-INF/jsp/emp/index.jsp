@@ -202,26 +202,18 @@
 
     }
 
-    var notInOrgEmpsDialog;
-    function showNotInOrgEmpsAction() {
-        notInOrgEmpsDialog = $.dialog({
-            animationSpeed: 300,
-            title: '未分配部门的员工列表',
-            content: 'url:${basePath}/emp/showNotInOrgEmps',
-            onContentReady: function () {
-                initMaterialInput();
-            }
-        });
-    }
-
 
     // 新增
     var createDialog;
     function createAction() {
+        if(orgId==0){
+            alert("请选择部门");
+            return;
+        }
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加员工',
-            content: 'url:${basePath}/emp/create',
+            content: 'url:${basePath}/emp/create?orgId='+orgId,
             onContentReady: function () {
                 initMaterialInput();
             }

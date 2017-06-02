@@ -2,6 +2,7 @@ package top.youchangxu.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,13 +80,17 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp, Long orgId) {
         Map<String, Object> result = new HashMap<>();
-
+        StaffingOrg currentOrg = staffingOrgService.selectOne(new EntityWrapper<StaffingOrg>().eq("orgId", orgId));
+        Wrapper<StaffingOrg> staffingOrgWrapper = new EntityWrapper<StaffingOrg>()
+                .setSqlSelect("orgId")
+                .eq("enterpriseId", getEnterpriseId());
+        if (orgId != 0) {
+            staffingOrgWrapper.like("orgPath", "%/" + currentOrg.getpOrgId() + "/%");
+        }
         //获取部门以及下属部门的Id
         List<Object> orgStrs = staffingOrgService.selectObjs(
-                new EntityWrapper<StaffingOrg>()
-                        .like("orgPath", "%/" + orgId + "/%")
-                        .setSqlSelect("orgId")
-                        .eq("enterpriseId", getEnterpriseId()));
+                staffingOrgWrapper);
+
         //查询部门下的所有员工
         List<Object> orgEmps = staffingOrgEmpService.selectObjs(
                 new EntityWrapper<StaffingOrgEmp>()
@@ -121,7 +126,8 @@ public class EmpController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(Long orgId, Model model) {
+        model.addAttribute("orgId", orgId);
         return "/emp/create";
     }
 
@@ -129,11 +135,12 @@ public class EmpController extends BaseController {
      * 创建用户
      *
      * @param staffingEmp
+     * @param orgId
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(StaffingEmp staffingEmp) {
+    public Object create(StaffingEmp staffingEmp, Long orgId) {
 
         //TODO 需要判断手机号是否存在,各种判断 以后再做
 
@@ -143,7 +150,13 @@ public class EmpController extends BaseController {
         boolean insert = staffingEmpService.insert(staffingEmp);
         if (insert) {
             boolean insertEmpToEnterprise = staffingEnterpriseEmpService.insert(new StaffingEnterpriseEmp(Long.parseLong(getEnterpriseId()), staffingEmp.getEmpId()));
-            return insertEmpToEnterprise ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+            if (insertEmpToEnterprise) {
+                boolean insertOrgEmp = staffingOrgEmpService.insert(new StaffingOrgEmp(orgId, staffingEmp.getEmpId()));
+                if (insertOrgEmp) {
+                    return insertOrgEmp ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+                }
+            }
+            return renderError(ResultEnum.INSERT_ERROR);
         }
         return renderError(ResultEnum.INSERT_ERROR);
     }

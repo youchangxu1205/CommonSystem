@@ -19,25 +19,19 @@ public class StaffingOrg implements Serializable {
     private Long orgId;
     private String orgName;
     private Long pOrgId;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private Integer orgType;
     private Long enterpriseId;
+    private String orgPath;
+
 
     public StaffingOrg() {
     }
 
-    public StaffingOrg(long orgId, String orgName, long pOrgId) {
-        this.orgId = orgId;
+    public StaffingOrg(String orgName, Long pOrgId, Integer orgType, Long enterpriseId) {
         this.orgName = orgName;
         this.pOrgId = pOrgId;
-    }
-
-    public StaffingOrg(long orgId, String orgName, long pOrgId, Date createTime, int orgType,long enterpriseId) {
-        this.orgId = orgId;
-        this.orgName = orgName;
-        this.pOrgId = pOrgId;
-        this.createTime = createTime;
         this.orgType = orgType;
         this.enterpriseId = enterpriseId;
     }
@@ -58,7 +52,7 @@ public class StaffingOrg implements Serializable {
         this.orgName = orgName;
     }
 
-    public long getpOrgId() {
+    public Long getpOrgId() {
         return pOrgId;
     }
 
@@ -90,6 +84,14 @@ public class StaffingOrg implements Serializable {
         this.enterpriseId = enterpriseId;
     }
 
+    public String getOrgPath() {
+        return orgPath;
+    }
+
+    public void setOrgPath(String orgPath) {
+        this.orgPath = orgPath;
+    }
+
     @Override
     public String toString() {
         return "StaffingOrg{" +
@@ -99,6 +101,7 @@ public class StaffingOrg implements Serializable {
                 ", createTime=" + createTime +
                 ", orgType=" + orgType +
                 ", enterpriseId=" + enterpriseId +
+                ", orgPath='" + orgPath + '\'' +
                 '}';
     }
 }
