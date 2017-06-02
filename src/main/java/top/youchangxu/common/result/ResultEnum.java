@@ -12,7 +12,8 @@ public enum ResultEnum {
     DELETE_ERROR(-103,"删除失败"),
     ACCOUNT_OR_PASSWORD_IS_WRONG(104,"账号或密码错误"),
     REPEAT_LOGIN_TO_MUCH(105,"重试次数过多,请10分钟再试"),
-    SERVER_HAS_BUSY(106,"服务器错误")
+    SERVER_HAS_BUSY(106,"服务器错误"),
+    USERNAME_HAS_EXITS(107,"用户名已存在")
     ;
 
     private int code;

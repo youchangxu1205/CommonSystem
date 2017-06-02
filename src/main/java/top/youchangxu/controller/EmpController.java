@@ -145,6 +145,15 @@ public class EmpController extends BaseController {
         //TODO 需要判断手机号是否存在,各种判断 以后再做
 
         //TODO 查询员工是否存在
+
+        //如果账户名username存在 则不保存
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(
+                new EntityWrapper<StaffingEmp>()
+                        .eq("username", staffingEmp.getUsername()));
+
+        if (staffingEmps.size() > 0) {
+            return renderError(ResultEnum.USERNAME_HAS_EXITS);
+        }
         staffingEmp.setPassword("123456");
         passwordHelper.encryptPassword(staffingEmp);
         boolean insert = staffingEmpService.insert(staffingEmp);
