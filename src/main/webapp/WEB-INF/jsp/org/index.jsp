@@ -138,13 +138,20 @@
     // 新增
     var createDialog;
     function createAction() {
-
+        if(orgId==0){
+            alert("请选择上级部门");
+            return;
+        }
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加部门',
-            content: 'url:${basePath}/org/create',
+            content: 'url:${basePath}/org/create?orgId='+orgId,
             onContentReady: function () {
                 initMaterialInput();
+                $('select').select2({
+                    placeholder: '请选择上级部门',
+                    allowClear: true
+                });
             }
         });
     }

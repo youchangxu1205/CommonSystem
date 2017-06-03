@@ -13,9 +13,16 @@
             <label for="orgName">部门名称</label>
             <input id="orgName" type="text" class="form-control" name="orgName" maxlength="20">
         </div>
+        <label>上级部门</label>
         <div class="form-group">
-            <label for="pOrgId">上级部门</label>
-            <input id="pOrgId" type="text" class="form-control" name="pOrgId" maxlength="20">
+            <%--<input id="pOrgId" type="text" class="form-control" name="pOrgId" maxlength="20">--%>
+            <select id="pOrgId" name="pOrgId" style="width: 100%">
+                <c:forEach var="org" items="${orgs}">
+                    <option value="${org.orgId}"
+                            <c:if test="${org.orgId==orgId}">selected="selected"</c:if>>${org.orgName}
+                    </option>
+                </c:forEach>
+            </select>
         </div>
         <div class="radio">
             <div class="radio radio-inline radio-info">

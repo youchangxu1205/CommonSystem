@@ -43,4 +43,14 @@ public class PasswordHelper {
 
         staffingEmp.setPassword(newPassword);
     }
+
+    public boolean compilePassword(String password,StaffingEmp staffingEmp){
+        String newPassword = new SimpleHash(
+                algorithmName,
+                password,
+                ByteSource.Util.bytes(staffingEmp.getCredentialsSalt()),
+                hashIterations).toHex();
+
+        return newPassword.equals(staffingEmp.getPassword());
+    }
 }

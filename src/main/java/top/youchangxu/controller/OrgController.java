@@ -46,8 +46,8 @@ public class OrgController extends BaseController {
 
         EntityWrapper<StaffingOrg> orgEntityWrapper = new EntityWrapper<>();
         orgEntityWrapper.eq("enterpriseId", getEnterpriseId());
-        if(staffingOrg.getOrgId()!=0){
-            orgEntityWrapper.eq("pOrgId",staffingOrg.getOrgId());
+        if (staffingOrg.getOrgId() != 0) {
+            orgEntityWrapper.eq("pOrgId", staffingOrg.getOrgId());
         }
 
         Page<StaffingOrg> staffingOrgPage = new Page<>(offset / limit + 1, limit, sort);
@@ -63,7 +63,11 @@ public class OrgController extends BaseController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(Model model, Long orgId) {
+        model.addAttribute("orgId", orgId);
+        //
+        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("orgs",orgs);
         return "/org/create";
     }
 
@@ -75,8 +79,14 @@ public class OrgController extends BaseController {
         //获取上级部门信息
         StaffingOrg topOrg = staffingOrgService.selectOne(new EntityWrapper<StaffingOrg>()
                 .eq("orgId", staffingOrg.getpOrgId()));
-        staffingOrg.setOrgPath(topOrg.getOrgPath() + topOrg.getOrgId() + "/");
-        return staffingOrgService.insert(staffingOrg) ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        boolean insert = staffingOrgService.insert(staffingOrg);
+        if (insert) {
+            staffingOrg.setOrgPath(topOrg.getOrgPath() + staffingOrg.getOrgId() + "/");
+            boolean updateById = staffingOrgService.updateById(staffingOrg);
+
+            return updateById ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        }
+        return renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/update/{orgId}", method = RequestMethod.GET)

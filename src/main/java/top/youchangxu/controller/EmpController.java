@@ -80,16 +80,16 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object list(int limit, int offset, String sort, String order, StaffingEmp staffingEmp, Long orgId) {
         Map<String, Object> result = new HashMap<>();
-        StaffingOrg currentOrg = staffingOrgService.selectOne(new EntityWrapper<StaffingOrg>().eq("orgId", orgId));
         Wrapper<StaffingOrg> staffingOrgWrapper = new EntityWrapper<StaffingOrg>()
                 .setSqlSelect("orgId")
                 .eq("enterpriseId", getEnterpriseId());
         if (orgId != 0) {
-            staffingOrgWrapper.like("orgPath", "%/" + currentOrg.getpOrgId() + "/%");
+            staffingOrgWrapper.like("orgPath", "%/" + orgId + "/%");
         }
         //获取部门以及下属部门的Id
         List<Object> orgStrs = staffingOrgService.selectObjs(
                 staffingOrgWrapper);
+
 
         //查询部门下的所有员工
         List<Object> orgEmps = staffingOrgEmpService.selectObjs(
