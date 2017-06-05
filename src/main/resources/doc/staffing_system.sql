@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-05 11:50:10
+Date: 2017-06-05 16:45:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -86,29 +86,31 @@ CREATE TABLE `staffing_enterprise_emp` (
   `enterpriseId` int(11) NOT NULL,
   `empId` int(11) NOT NULL,
   `status` tinyint(11) DEFAULT '-1' COMMENT '是否激活 在企业添加时需要设置为待激活 -1 未激活 1 已激活',
+  `password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `salt` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`enterpriseId`,`empId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_enterprise_emp
 -- ----------------------------
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '35', '1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '36', '-1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '37', '-1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '38', '1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '39', '1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '40', '-1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '41', '-1');
-INSERT INTO `staffing_enterprise_emp` VALUES ('1', '44', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('2', '45', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('2', '46', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('2', '47', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('2', '48', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('2', '49', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('5', '52', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('6', '53', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('6', '54', '0');
-INSERT INTO `staffing_enterprise_emp` VALUES ('6', '55', '0');
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '35', '1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '36', '-1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '37', '-1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '38', '1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '39', '1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '40', '-1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '41', '-1', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('1', '44', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('2', '45', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('2', '46', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('2', '47', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('2', '48', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('2', '49', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('5', '52', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '53', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '54', '0', null, null);
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '55', '0', null, null);
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -123,28 +125,29 @@ CREATE TABLE `staffing_org` (
   `orgType` tinyint(4) DEFAULT NULL COMMENT '1为企业 2为部门',
   `enterpriseId` int(11) NOT NULL COMMENT '企业ID',
   `orgPath` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `orgManagerId` bigint(20) DEFAULT NULL COMMENT '部门负责人',
   PRIMARY KEY (`orgId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_org
 -- ----------------------------
-INSERT INTO `staffing_org` VALUES ('1', '多态科技有限公司', '0', '2017-05-08 09:03:26', '2017-06-05 11:10:49', '1', '1', '/0/1/');
-INSERT INTO `staffing_org` VALUES ('2', '多态积分研发部', '1', '2017-05-08 09:03:37', '2017-06-05 11:10:52', '2', '1', '/0/1/2/');
-INSERT INTO `staffing_org` VALUES ('3', '市场部', '1', '2017-05-08 09:03:49', '2017-06-05 11:10:55', '2', '1', '/0/1/3/');
-INSERT INTO `staffing_org` VALUES ('4', '人事部', '1', '2017-05-09 14:31:56', '2017-06-05 11:10:57', '2', '1', '/0/1/4/');
-INSERT INTO `staffing_org` VALUES ('5', '财务部', '1', '2017-05-09 14:33:54', '2017-06-05 11:11:00', '2', '1', '/0/1/5/');
-INSERT INTO `staffing_org` VALUES ('12', '市场一部', '3', '2017-05-25 18:02:16', '2017-06-05 11:11:03', '2', '1', '/0/3/12/');
-INSERT INTO `staffing_org` VALUES ('13', '卡车团', '0', '2017-06-02 11:33:36', '2017-06-05 11:11:06', '1', '2', '/0/13/');
-INSERT INTO `staffing_org` VALUES ('14', '人事部', '13', '2017-06-02 17:12:58', '2017-06-05 11:11:08', '2', '2', '/0/13/14/');
-INSERT INTO `staffing_org` VALUES ('15', '财务部', '14', '2017-06-02 17:40:04', '2017-06-05 11:11:12', '2', '2', '/0/13/14/15/');
-INSERT INTO `staffing_org` VALUES ('18', '赛优', '0', '2017-06-05 10:59:32', '2017-06-05 11:11:21', '1', '5', '/0/18/');
-INSERT INTO `staffing_org` VALUES ('19', '光光', '0', '2017-06-05 11:04:10', '2017-06-05 11:11:24', '1', '6', '/0/19/');
-INSERT INTO `staffing_org` VALUES ('20', '财务部', '19', '2017-06-05 11:35:04', '2017-06-05 11:35:04', '2', '6', '/0/19/20/');
-INSERT INTO `staffing_org` VALUES ('21', '市场部', '19', '2017-06-05 11:45:49', '2017-06-05 11:45:49', '2', '6', '/0/19/21/');
-INSERT INTO `staffing_org` VALUES ('22', '研发部', '19', '2017-06-05 11:46:21', '2017-06-05 11:46:21', '2', '6', '/0/19/22/');
-INSERT INTO `staffing_org` VALUES ('23', '人事部', '19', '2017-06-05 11:46:59', '2017-06-05 11:46:59', '2', '6', '/0/19/23/');
-INSERT INTO `staffing_org` VALUES ('24', '行政部', '19', '2017-06-05 11:47:54', '2017-06-05 11:47:54', '2', '6', '/0/19/24/');
+INSERT INTO `staffing_org` VALUES ('1', '多态科技有限公司', '0', '2017-05-08 09:03:26', '2017-06-05 11:10:49', '1', '1', '/0/1/', null);
+INSERT INTO `staffing_org` VALUES ('2', '多态积分研发部', '1', '2017-05-08 09:03:37', '2017-06-05 11:10:52', '2', '1', '/0/1/2/', null);
+INSERT INTO `staffing_org` VALUES ('3', '市场部', '1', '2017-05-08 09:03:49', '2017-06-05 11:10:55', '2', '1', '/0/1/3/', null);
+INSERT INTO `staffing_org` VALUES ('4', '人事部', '1', '2017-05-09 14:31:56', '2017-06-05 11:10:57', '2', '1', '/0/1/4/', null);
+INSERT INTO `staffing_org` VALUES ('5', '财务部', '1', '2017-05-09 14:33:54', '2017-06-05 11:11:00', '2', '1', '/0/1/5/', null);
+INSERT INTO `staffing_org` VALUES ('12', '市场一部', '3', '2017-05-25 18:02:16', '2017-06-05 11:11:03', '2', '1', '/0/3/12/', null);
+INSERT INTO `staffing_org` VALUES ('13', '卡车团', '0', '2017-06-02 11:33:36', '2017-06-05 11:11:06', '1', '2', '/0/13/', null);
+INSERT INTO `staffing_org` VALUES ('14', '人事部', '13', '2017-06-02 17:12:58', '2017-06-05 11:11:08', '2', '2', '/0/13/14/', null);
+INSERT INTO `staffing_org` VALUES ('15', '财务部', '14', '2017-06-02 17:40:04', '2017-06-05 11:11:12', '2', '2', '/0/13/14/15/', null);
+INSERT INTO `staffing_org` VALUES ('18', '赛优', '0', '2017-06-05 10:59:32', '2017-06-05 11:11:21', '1', '5', '/0/18/', null);
+INSERT INTO `staffing_org` VALUES ('19', '光光', '0', '2017-06-05 11:04:10', '2017-06-05 11:11:24', '1', '6', '/0/19/', null);
+INSERT INTO `staffing_org` VALUES ('20', '财务部', '19', '2017-06-05 11:35:04', '2017-06-05 11:35:04', '2', '6', '/0/19/20/', null);
+INSERT INTO `staffing_org` VALUES ('21', '市场部', '19', '2017-06-05 11:45:49', '2017-06-05 11:45:49', '2', '6', '/0/19/21/', null);
+INSERT INTO `staffing_org` VALUES ('22', '研发部', '19', '2017-06-05 11:46:21', '2017-06-05 11:46:21', '2', '6', '/0/19/22/', null);
+INSERT INTO `staffing_org` VALUES ('23', '人事部', '19', '2017-06-05 11:46:59', '2017-06-05 11:46:59', '2', '6', '/0/19/23/', null);
+INSERT INTO `staffing_org` VALUES ('24', '行政部', '19', '2017-06-05 11:47:54', '2017-06-05 11:47:54', '2', '6', '/0/19/24/', null);
 
 -- ----------------------------
 -- Table structure for staffing_org_emp
@@ -278,7 +281,6 @@ INSERT INTO `staffing_role` VALUES ('2', '积分管理员', '2');
 INSERT INTO `staffing_role` VALUES ('3', '组织架构管理员', '2');
 INSERT INTO `staffing_role` VALUES ('4', '组织架构管理员', '1');
 INSERT INTO `staffing_role` VALUES ('6', '系统管理员', '-1');
-INSERT INTO `staffing_role` VALUES ('8', '系统管理员', null);
 INSERT INTO `staffing_role` VALUES ('9', '系统管理员', '6');
 
 -- ----------------------------
