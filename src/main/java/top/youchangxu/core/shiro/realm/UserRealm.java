@@ -13,6 +13,7 @@ import top.youchangxu.core.shiro.EnterpriseToken;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
 import top.youchangxu.model.system.StaffingRole;
+import top.youchangxu.model.vo.EnterpriseEmpVO;
 import top.youchangxu.service.system.IStaffingEmpService;
 
 import java.util.HashSet;
@@ -55,9 +56,6 @@ public class UserRealm extends AuthorizingRealm {
         authorizationInfo.setStringPermissions(permissionStrs);
 
 
-        //获取用户在企业内的权限和角色
-
-        //设置权限给用户
         return authorizationInfo;
     }
 
@@ -67,14 +65,23 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String)token.getPrincipal();
         Long enterpriseId = enterpriseToken.getEnterpriseId();
 
+        EnterpriseEmpVO enterpriseEmpVO = enterpriseToken.getEnterpriseEmpVO();
+        if(enterpriseEmpVO!=null){
+            //TODO 表示用户加入的企业为多个
+            username = enterpriseEmpVO.getUsername();
+            //多个企业走到这一步证明
+            return new SimpleAuthenticationInfo(enterpriseEmpVO.getEnterpriseId()+"#"+username,"",getName());
+
+        }
 
         StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", username));
         if(staffingEmp == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-//        if(Boolean.TRUE.equals(staffingEmp.getLocked())) {
-//            throw new LockedAccountException(); //帐号锁定
-//        }
+
+
+
+
         return new SimpleAuthenticationInfo(
                 enterpriseId+"#"+staffingEmp.getUsername(), //用户名
                 staffingEmp.getPassword(), //密码

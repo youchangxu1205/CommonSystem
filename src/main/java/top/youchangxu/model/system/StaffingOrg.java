@@ -25,6 +25,8 @@ public class StaffingOrg implements Serializable {
     private Long enterpriseId;
     private String orgPath;
 
+    private Long orgManagerId;
+
 
     public StaffingOrg() {
     }
@@ -90,6 +92,14 @@ public class StaffingOrg implements Serializable {
 
     public void setOrgPath(String orgPath) {
         this.orgPath = orgPath;
+    }
+
+    public Long getOrgManagerId() {
+        return orgManagerId;
+    }
+
+    public void setOrgManagerId(Long orgManagerId) {
+        this.orgManagerId = orgManagerId;
     }
 
     @Override

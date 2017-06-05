@@ -10,6 +10,8 @@ public class StaffingEnterpriseEmp {
     private Long enterpriseId;
     private Long empId;
     private int status;
+    private String password;
+    private String salt;
 
     public StaffingEnterpriseEmp(Long enterpriseId, Long empId) {
         this.enterpriseId = enterpriseId;
@@ -38,5 +40,21 @@ public class StaffingEnterpriseEmp {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
