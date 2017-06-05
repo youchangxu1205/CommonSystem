@@ -11,14 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingEnterprise;
-import top.youchangxu.model.system.StaffingOrg;
-import top.youchangxu.model.system.StaffingRole;
-import top.youchangxu.service.PasswordHelper;
-import top.youchangxu.service.system.IStaffingEmpService;
 import top.youchangxu.service.system.IStaffingEnterpriseService;
-import top.youchangxu.service.system.IStaffingOrgService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,20 +26,11 @@ import java.util.Map;
 @RequestMapping("/enterprise")
 public class EnterpriseController extends BaseController {
 
-    private PasswordHelper passwordHelper;
     private IStaffingEnterpriseService staffingEnterpriseService;
-    private IStaffingOrgService staffingOrgService;
-    private IStaffingEmpService staffingEmpService;
 
     @Autowired
-    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService,
-                                IStaffingOrgService staffingOrgService,
-                                PasswordHelper passwordHelper,
-                                IStaffingEmpService staffingEmpService) {
+    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService) {
         this.staffingEnterpriseService = staffingEnterpriseService;
-        this.staffingOrgService = staffingOrgService;
-        this.passwordHelper = passwordHelper;
-        this.staffingEmpService= staffingEmpService;
     }
 
     /**
@@ -108,34 +93,8 @@ public class EnterpriseController extends BaseController {
     @RequiresPermissions("staffing:enterprise:create")
     @ResponseBody
     public Object create(StaffingEnterprise staffingEnterprise) {
-        boolean insert = staffingEnterpriseService.insert(staffingEnterprise);
-        if (insert) {
-            StaffingOrg staffingOrg = new StaffingOrg(staffingEnterprise.getEnterpriseName(),
-                    0L,
-                    1,
-                    staffingEnterprise.getEnterpriseId());
+        boolean insert = staffingEnterpriseService.saveEnterprise(staffingEnterprise);
 
-            staffingOrgService.insert(staffingOrg);
-            staffingOrg.setOrgPath("/0/");
-            staffingOrgService.update(staffingOrg, new EntityWrapper<>(staffingOrg));
-
-
-            //TODO 新增员工
-
-            StaffingEmp staffingEmp= new StaffingEmp();
-            staffingEmp.setUsername(staffingEnterprise.getEnterpriseCode()+"system");
-            staffingEmp.setPassword("123456");
-            passwordHelper.encryptPassword(staffingEmp);
-            staffingEmpService.insert(staffingEmp);
-
-            //TODO 新增角色
-            StaffingRole staffingRole = new StaffingRole();
-            staffingRole.setRoleName("系统管理员");
-
-            //TODO 给员工分配角色
-            //TODO 新增员工至顶级部门
-
-        }
         return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 

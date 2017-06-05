@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-02 18:10:46
+Date: 2017-06-05 11:50:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `staffing_emp` (
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   `salt` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`empId`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_emp
@@ -54,6 +54,10 @@ INSERT INTO `staffing_emp` VALUES ('46', '胡坤龙', '15535002233', null, '1', 
 INSERT INTO `staffing_emp` VALUES ('47', '123456', '123', null, '1', null, '2017-06-02 17:04:11', '2017-06-02 00:00:00', '2017-06-02 17:04:11', '2017-06-02 00:00:00', '12345', '463aea0d2809e01ac7460200e56a9f90', '863bbee0d5fdd616c7376ba8d52fa0c7');
 INSERT INTO `staffing_emp` VALUES ('48', '1', '1', null, '1', null, '2017-06-02 17:39:23', '2017-06-02 00:00:00', '2017-06-02 17:39:23', '2017-06-02 00:00:00', '1', '08b1b84219ca9954800d7ff9bb2eb4b9', 'd2bb0636c8825c3716ba7dd4597be600');
 INSERT INTO `staffing_emp` VALUES ('49', '财务1', '18039211881', null, '1', null, '2017-06-02 17:53:43', '2017-06-02 00:00:00', '2017-06-02 17:53:43', '2017-06-02 00:00:00', 'caiwu1', 'd9d18519bb2538e650bc6e081764eb40', '1f97a81a678a1434ec70180c05551743');
+INSERT INTO `staffing_emp` VALUES ('52', '系统管理员', 'saiyousystem', null, '0', null, '2017-06-05 10:59:33', '2017-06-05 10:59:32', '2017-06-05 10:59:33', '2017-06-05 10:59:32', 'saiyousystem', '459f6f00c31b6a5e6fa715b48b0964ad', 'f1f0871f1c409e25d67695ae46359a7c');
+INSERT INTO `staffing_emp` VALUES ('53', '系统管理员', 'guangguangsystem', null, '1', null, '2017-06-05 11:04:10', '2017-06-05 11:04:10', '2017-06-05 11:14:51', '2017-06-05 11:04:10', 'guangguangsystem', '611adf8acb1d2ce4934aa3552a48823c', '2897de18e5a284baf6fd77dee453b93f');
+INSERT INTO `staffing_emp` VALUES ('54', '123', '123', null, '1', null, '2017-06-05 11:20:55', '2017-06-05 00:00:00', '2017-06-05 11:20:55', '2017-06-05 00:00:00', 'qwe', '3bfce5a8ae0a0e9b44044cd446ac6f9f', '174ea470a8f24e5d5a542feabb63b911');
+INSERT INTO `staffing_emp` VALUES ('55', 'caafdfasdf', '123', null, '1', null, '2017-06-05 11:49:53', '2017-06-05 00:00:00', '2017-06-05 11:49:53', '2017-06-05 00:00:00', 'caiwusystem', 'b921e6d1919ce4e77e3d151343d68d68', 'f092947f2ec682b079cdc42a506a49c5');
 
 -- ----------------------------
 -- Table structure for staffing_enterprise
@@ -64,13 +68,15 @@ CREATE TABLE `staffing_enterprise` (
   `enterpriseName` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '企业名称',
   `enterpriseCode` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '企业编码',
   PRIMARY KEY (`enterpriseId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_enterprise
 -- ----------------------------
 INSERT INTO `staffing_enterprise` VALUES ('1', '多态科技有限公司', 'dtkj');
 INSERT INTO `staffing_enterprise` VALUES ('2', '卡车团', 'kct');
+INSERT INTO `staffing_enterprise` VALUES ('5', '赛优', 'saiyou');
+INSERT INTO `staffing_enterprise` VALUES ('6', '光光', 'guangguang');
 
 -- ----------------------------
 -- Table structure for staffing_enterprise_emp
@@ -99,6 +105,10 @@ INSERT INTO `staffing_enterprise_emp` VALUES ('2', '46', '0');
 INSERT INTO `staffing_enterprise_emp` VALUES ('2', '47', '0');
 INSERT INTO `staffing_enterprise_emp` VALUES ('2', '48', '0');
 INSERT INTO `staffing_enterprise_emp` VALUES ('2', '49', '0');
+INSERT INTO `staffing_enterprise_emp` VALUES ('5', '52', '0');
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '53', '0');
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '54', '0');
+INSERT INTO `staffing_enterprise_emp` VALUES ('6', '55', '0');
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -114,20 +124,27 @@ CREATE TABLE `staffing_org` (
   `enterpriseId` int(11) NOT NULL COMMENT '企业ID',
   `orgPath` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_org
 -- ----------------------------
-INSERT INTO `staffing_org` VALUES ('1', '多态科技有限公司', '0', '2017-05-08 09:03:26', '2017-06-02 17:32:56', '1', '1', '/0/');
-INSERT INTO `staffing_org` VALUES ('2', '多态积分研发部', '1', '2017-05-08 09:03:37', '2017-06-02 17:33:00', '2', '1', '/0/1/');
-INSERT INTO `staffing_org` VALUES ('3', '市场部', '1', '2017-05-08 09:03:49', '2017-06-02 17:33:01', '2', '1', '/0/1/');
-INSERT INTO `staffing_org` VALUES ('4', '人事部', '1', '2017-05-09 14:31:56', '2017-06-02 17:33:03', '2', '1', '/0/1/');
-INSERT INTO `staffing_org` VALUES ('5', '财务部', '1', '2017-05-09 14:33:54', '2017-06-02 17:33:04', '2', '1', '/0/1/');
-INSERT INTO `staffing_org` VALUES ('12', '市场一部', '3', '2017-05-25 18:02:16', '2017-06-02 17:33:23', '2', '1', '/0/3/');
-INSERT INTO `staffing_org` VALUES ('13', '卡车团', '0', '2017-06-02 11:33:36', '2017-06-02 17:33:28', '1', '2', '/0/');
-INSERT INTO `staffing_org` VALUES ('14', '人事部', '13', '2017-06-02 17:12:58', '2017-06-02 17:33:33', '2', '2', '/0/13/');
-INSERT INTO `staffing_org` VALUES ('15', '财务部', '14', '2017-06-02 17:40:04', '2017-06-02 17:43:22', '2', '2', '/0/13/14/');
+INSERT INTO `staffing_org` VALUES ('1', '多态科技有限公司', '0', '2017-05-08 09:03:26', '2017-06-05 11:10:49', '1', '1', '/0/1/');
+INSERT INTO `staffing_org` VALUES ('2', '多态积分研发部', '1', '2017-05-08 09:03:37', '2017-06-05 11:10:52', '2', '1', '/0/1/2/');
+INSERT INTO `staffing_org` VALUES ('3', '市场部', '1', '2017-05-08 09:03:49', '2017-06-05 11:10:55', '2', '1', '/0/1/3/');
+INSERT INTO `staffing_org` VALUES ('4', '人事部', '1', '2017-05-09 14:31:56', '2017-06-05 11:10:57', '2', '1', '/0/1/4/');
+INSERT INTO `staffing_org` VALUES ('5', '财务部', '1', '2017-05-09 14:33:54', '2017-06-05 11:11:00', '2', '1', '/0/1/5/');
+INSERT INTO `staffing_org` VALUES ('12', '市场一部', '3', '2017-05-25 18:02:16', '2017-06-05 11:11:03', '2', '1', '/0/3/12/');
+INSERT INTO `staffing_org` VALUES ('13', '卡车团', '0', '2017-06-02 11:33:36', '2017-06-05 11:11:06', '1', '2', '/0/13/');
+INSERT INTO `staffing_org` VALUES ('14', '人事部', '13', '2017-06-02 17:12:58', '2017-06-05 11:11:08', '2', '2', '/0/13/14/');
+INSERT INTO `staffing_org` VALUES ('15', '财务部', '14', '2017-06-02 17:40:04', '2017-06-05 11:11:12', '2', '2', '/0/13/14/15/');
+INSERT INTO `staffing_org` VALUES ('18', '赛优', '0', '2017-06-05 10:59:32', '2017-06-05 11:11:21', '1', '5', '/0/18/');
+INSERT INTO `staffing_org` VALUES ('19', '光光', '0', '2017-06-05 11:04:10', '2017-06-05 11:11:24', '1', '6', '/0/19/');
+INSERT INTO `staffing_org` VALUES ('20', '财务部', '19', '2017-06-05 11:35:04', '2017-06-05 11:35:04', '2', '6', '/0/19/20/');
+INSERT INTO `staffing_org` VALUES ('21', '市场部', '19', '2017-06-05 11:45:49', '2017-06-05 11:45:49', '2', '6', '/0/19/21/');
+INSERT INTO `staffing_org` VALUES ('22', '研发部', '19', '2017-06-05 11:46:21', '2017-06-05 11:46:21', '2', '6', '/0/19/22/');
+INSERT INTO `staffing_org` VALUES ('23', '人事部', '19', '2017-06-05 11:46:59', '2017-06-05 11:46:59', '2', '6', '/0/19/23/');
+INSERT INTO `staffing_org` VALUES ('24', '行政部', '19', '2017-06-05 11:47:54', '2017-06-05 11:47:54', '2', '6', '/0/19/24/');
 
 -- ----------------------------
 -- Table structure for staffing_org_emp
@@ -166,6 +183,10 @@ INSERT INTO `staffing_org_emp` VALUES ('13', '45', '1', '2017-06-02 14:13:12', '
 INSERT INTO `staffing_org_emp` VALUES ('13', '47', '1', '2017-06-02 17:04:12', '2017-06-02 17:04:12');
 INSERT INTO `staffing_org_emp` VALUES ('14', '48', '1', '2017-06-02 17:39:26', '2017-06-02 17:39:26');
 INSERT INTO `staffing_org_emp` VALUES ('15', '49', '1', '2017-06-02 17:53:43', '2017-06-02 17:53:43');
+INSERT INTO `staffing_org_emp` VALUES ('18', '52', '1', '2017-06-05 10:59:33', '2017-06-05 10:59:33');
+INSERT INTO `staffing_org_emp` VALUES ('19', '53', '1', '2017-06-05 11:04:10', '2017-06-05 11:04:10');
+INSERT INTO `staffing_org_emp` VALUES ('19', '54', '1', '2017-06-05 11:20:55', '2017-06-05 11:20:55');
+INSERT INTO `staffing_org_emp` VALUES ('20', '55', '1', '2017-06-05 11:49:53', '2017-06-05 11:49:53');
 
 -- ----------------------------
 -- Table structure for staffing_permission
@@ -247,7 +268,7 @@ CREATE TABLE `staffing_role` (
   `roleName` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '角色名称',
   `enterpriseId` int(11) DEFAULT NULL,
   PRIMARY KEY (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of staffing_role
@@ -256,6 +277,9 @@ INSERT INTO `staffing_role` VALUES ('1', '超级管理员', '1');
 INSERT INTO `staffing_role` VALUES ('2', '积分管理员', '2');
 INSERT INTO `staffing_role` VALUES ('3', '组织架构管理员', '2');
 INSERT INTO `staffing_role` VALUES ('4', '组织架构管理员', '1');
+INSERT INTO `staffing_role` VALUES ('6', '系统管理员', '-1');
+INSERT INTO `staffing_role` VALUES ('8', '系统管理员', null);
+INSERT INTO `staffing_role` VALUES ('9', '系统管理员', '6');
 
 -- ----------------------------
 -- Table structure for staffing_role_emp
@@ -281,6 +305,9 @@ INSERT INTO `staffing_role_emp` VALUES ('2', '41');
 INSERT INTO `staffing_role_emp` VALUES ('2', '44');
 INSERT INTO `staffing_role_emp` VALUES ('2', '45');
 INSERT INTO `staffing_role_emp` VALUES ('4', '35');
+INSERT INTO `staffing_role_emp` VALUES ('8', '52');
+INSERT INTO `staffing_role_emp` VALUES ('9', '53');
+INSERT INTO `staffing_role_emp` VALUES ('9', '54');
 
 -- ----------------------------
 -- Table structure for staffing_role_permission
@@ -330,6 +357,25 @@ INSERT INTO `staffing_role_permission` VALUES ('4', '9');
 INSERT INTO `staffing_role_permission` VALUES ('4', '10');
 INSERT INTO `staffing_role_permission` VALUES ('4', '11');
 INSERT INTO `staffing_role_permission` VALUES ('4', '12');
+INSERT INTO `staffing_role_permission` VALUES ('6', '1');
+INSERT INTO `staffing_role_permission` VALUES ('6', '2');
+INSERT INTO `staffing_role_permission` VALUES ('6', '3');
+INSERT INTO `staffing_role_permission` VALUES ('6', '9');
+INSERT INTO `staffing_role_permission` VALUES ('6', '10');
+INSERT INTO `staffing_role_permission` VALUES ('6', '11');
+INSERT INTO `staffing_role_permission` VALUES ('6', '12');
+INSERT INTO `staffing_role_permission` VALUES ('6', '13');
+INSERT INTO `staffing_role_permission` VALUES ('6', '15');
+INSERT INTO `staffing_role_permission` VALUES ('8', '1');
+INSERT INTO `staffing_role_permission` VALUES ('9', '1');
+INSERT INTO `staffing_role_permission` VALUES ('9', '2');
+INSERT INTO `staffing_role_permission` VALUES ('9', '3');
+INSERT INTO `staffing_role_permission` VALUES ('9', '9');
+INSERT INTO `staffing_role_permission` VALUES ('9', '10');
+INSERT INTO `staffing_role_permission` VALUES ('9', '11');
+INSERT INTO `staffing_role_permission` VALUES ('9', '12');
+INSERT INTO `staffing_role_permission` VALUES ('9', '13');
+INSERT INTO `staffing_role_permission` VALUES ('9', '15');
 
 -- ----------------------------
 -- Table structure for sys_user

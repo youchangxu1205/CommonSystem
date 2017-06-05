@@ -84,7 +84,7 @@ public class EmpController extends BaseController {
                 .setSqlSelect("orgId")
                 .eq("enterpriseId", getEnterpriseId());
         if (orgId != 0) {
-            staffingOrgWrapper.like("orgPath", "%/" + orgId + "/%");
+            staffingOrgWrapper.like("orgPath", "/" + orgId + "/");
         }
         //获取部门以及下属部门的Id
         List<Object> orgStrs = staffingOrgService.selectObjs(

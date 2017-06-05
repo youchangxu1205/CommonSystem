@@ -56,6 +56,43 @@
     //        });
     //    });
 
+    function refreshTree() {
+        $.ajax({
+            type: 'get',
+            url: '${basePath}/org/bootstrapOrgTree',
+            dataType: 'json',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                $('#treeDiv').treeview({
+                    data: data,
+                    onNodeSelected: function (event, data) {
+                        // Your logic goes here
+                        console.log(data);
+                        orgId = data.id;
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.confirm({
+                    theme: 'dark',
+                    animation: 'rotateX',
+                    closeAnimation: 'rotateX',
+                    title: false,
+                    content: textStatus,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'waves-effect waves-button waves-light'
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
     var orgId = 0;
     $('#treeDiv').treeview({
         data: ${treeData},
@@ -123,7 +160,7 @@
             offset: params.offset,
             sort: params.sort,
             order: params.order,
-            orgId:orgId
+            orgId: orgId
         }
         return temp;
     }
@@ -138,14 +175,14 @@
     // 新增
     var createDialog;
     function createAction() {
-        if(orgId==0){
+        if (orgId == 0) {
             alert("请选择上级部门");
             return;
         }
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加部门',
-            content: 'url:${basePath}/org/create?orgId='+orgId,
+            content: 'url:${basePath}/org/create?orgId=' + orgId,
             onContentReady: function () {
                 initMaterialInput();
                 $('select').select2({

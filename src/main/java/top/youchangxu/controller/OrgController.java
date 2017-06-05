@@ -121,9 +121,9 @@ public class OrgController extends BaseController {
         return orgTree;
     }
 
-    @RequestMapping(value = "/bootstrapOrgTree/{orgId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/bootstrapOrgTree", method = RequestMethod.GET)
     @ResponseBody
-    public Object bootstrapOrgTree(@PathVariable("orgId") Long orgId) {
+    public Object bootstrapOrgTree() {
         JSONArray orgTree = staffingOrgService.getOrgBootstrapTree(Long.parseLong(getEnterpriseId()));
         return orgTree;
     }

@@ -53,6 +53,7 @@
                 if (data.success) {
                     createDialog.close();
                     $table.bootstrapTable('refresh');
+                    refreshTree();
                 } else {
 
                     $.confirm({

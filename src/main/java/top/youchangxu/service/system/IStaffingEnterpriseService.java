@@ -8,4 +8,6 @@ import top.youchangxu.model.system.StaffingEnterprise;
  */
 public interface IStaffingEnterpriseService extends IService<StaffingEnterprise> {
 
+    boolean saveEnterprise(StaffingEnterprise staffingEnterprise);
+
 }
