@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 public class StaffingEnterpriseEmp {
     private Long enterpriseId;
     private Long empId;
-    private int status;
+    private Integer status;
     private String password;
     private String salt;
     private String enterpriseEmpName;
@@ -19,7 +19,7 @@ public class StaffingEnterpriseEmp {
         this.empId = empId;
     }
 
-    public StaffingEnterpriseEmp(Long enterpriseId, Long empId, int status, String password, String salt, String enterpriseEmpName) {
+    public StaffingEnterpriseEmp(Long enterpriseId, Long empId, Integer status, String password, String salt, String enterpriseEmpName) {
         this.enterpriseId = enterpriseId;
         this.empId = empId;
         this.status = status;
@@ -44,11 +44,11 @@ public class StaffingEnterpriseEmp {
         this.empId = empId;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

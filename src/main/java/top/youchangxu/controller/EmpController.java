@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.exception.StaffingException;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.*;
+import top.youchangxu.model.system.StaffingEmp;
+import top.youchangxu.model.system.StaffingOrg;
+import top.youchangxu.model.system.StaffingOrgEmp;
+import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.PasswordHelper;
 import top.youchangxu.service.system.*;
 
@@ -142,8 +146,16 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object create(StaffingEmp staffingEmp, Long orgId) {
 
-        boolean save = staffingEmpService.saveEmp(staffingEmp, orgId, getEnterpriseId());
-        return save ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+
+        try {
+            boolean save = staffingEmpService.saveEmp(staffingEmp, orgId, getEnterpriseId());
+            return save ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        } catch (StaffingException staffingException) {
+            return renderError("添加失败");
+        } catch (Exception e){
+            return renderError(e.getMessage());
+        }
+
 //        //判断账户名在企业内是否存在
 //        List<StaffingEnterpriseEmp> enterpriseEmps = staffingEnterpriseEmpService.selectList(
 //                new EntityWrapper<StaffingEnterpriseEmp>()
