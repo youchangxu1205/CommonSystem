@@ -45,7 +45,10 @@
                     <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
                             class="zmdi zmdi-edit"></i> 编辑员工</a>
                 </shiro:hasPermission>
-
+                <%--<shiro:hasPermission name="staffing:emp:update">--%>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
+                        class="zmdi zmdi-edit"></i> 奖扣分范围</a>
+                <%--</shiro:hasPermission>--%>
 
                 员工状态:
                 <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
@@ -208,14 +211,14 @@
     // 新增
     var createDialog;
     function createAction() {
-        if(orgId==0){
+        if (orgId == 0) {
             alert("请选择部门");
             return;
         }
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加员工',
-            content: 'url:${basePath}/emp/create?orgId='+orgId,
+            content: 'url:${basePath}/emp/create?orgId=' + orgId,
             onContentReady: function () {
                 initMaterialInput();
             }
@@ -281,6 +284,39 @@
                 content: 'url:${basePath}/emp/update/' + rows[0].empId,
                 onContentReady: function () {
                     initMaterialInput();
+                }
+            });
+        }
+    }
+
+    var empRangeDialog;
+    function empRangeAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            empRangeDialog = $.dialog({
+                animationSpeed: 300,
+                title: '奖扣分范围',
+                content: 'url:${basePath}/emp/range/' + rows[0].empId,
+                columnClass:'col-md-8',
+                onContentReady: function () {
+                    initMaterialInput();
+                    $('select').select2({
+                        placeholder: '请选择部门',
+                        allowClear: true
+                    });
                 }
             });
         }

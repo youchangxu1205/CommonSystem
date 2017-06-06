@@ -18,7 +18,6 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        <button type="button" class="btn btn-default" onclick="createAction()">添加权限</button>
     </div>
     <table id="table"></table>
 </div>

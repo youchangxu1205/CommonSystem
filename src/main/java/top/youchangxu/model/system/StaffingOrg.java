@@ -24,7 +24,6 @@ public class StaffingOrg implements Serializable {
     private Integer orgType;
     private Long enterpriseId;
     private String orgPath;
-
     private Long orgManagerId;
 
 

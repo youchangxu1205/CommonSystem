@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
+import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingOrg;
+import top.youchangxu.service.system.IStaffingEmpService;
 import top.youchangxu.service.system.IStaffingOrgService;
 
 import java.util.Arrays;
@@ -27,10 +29,13 @@ import java.util.Map;
 public class OrgController extends BaseController {
 
     private IStaffingOrgService staffingOrgService;
+    private IStaffingEmpService staffingEmpService;
 
     @Autowired
-    public OrgController(IStaffingOrgService staffingOrgService) {
+    public OrgController(IStaffingOrgService staffingOrgService,
+                         IStaffingEmpService staffingEmpService) {
         this.staffingOrgService = staffingOrgService;
+        this.staffingEmpService = staffingEmpService;
     }
 
     @RequestMapping(value = "/index")
@@ -67,7 +72,8 @@ public class OrgController extends BaseController {
         model.addAttribute("orgId", orgId);
         //
         List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
-        model.addAttribute("orgs",orgs);
+        model.addAttribute("orgs", orgs);
+
         return "/org/create";
     }
 
