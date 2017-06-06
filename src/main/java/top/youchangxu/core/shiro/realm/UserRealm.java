@@ -33,9 +33,9 @@ public class UserRealm extends AuthorizingRealm {
         String primaryPrincipal = (String)principals.getPrimaryPrincipal();
         String[] strings = primaryPrincipal.split("#");
         String enterpriseId = strings[0];
-        String username = strings[1];
+        String empId = strings[1];
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<StaffingRole> roles = staffingEmpService.findRoles(enterpriseId, username);
+        List<StaffingRole> roles = staffingEmpService.findRoles(enterpriseId, empId);
         Set<String> roleStrs =new HashSet<>();
         for (StaffingRole staffingRole :
                 roles) {
@@ -45,7 +45,7 @@ public class UserRealm extends AuthorizingRealm {
         }
         authorizationInfo.setRoles(roleStrs);
         Set<String> permissionStrs =new HashSet<>();
-        List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId, username);
+        List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId, empId);
         for (StaffingPermission staffingPermission :
                 permissions) {
             if(StringUtils.isNotBlank(staffingPermission.getPermissionValue())) {
@@ -62,19 +62,19 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         EnterpriseToken  enterpriseToken = (EnterpriseToken) token;
-        String username = (String)token.getPrincipal();
+        String empId = (String)token.getPrincipal();
         Long enterpriseId = enterpriseToken.getEnterpriseId();
 
         EnterpriseEmpVO enterpriseEmpVO = enterpriseToken.getEnterpriseEmpVO();
         if(enterpriseEmpVO!=null){
             //TODO 表示用户加入的企业为多个
-            username = enterpriseEmpVO.getUsername();
+            empId = enterpriseEmpVO.getUsername();
             //多个企业走到这一步证明
-            return new SimpleAuthenticationInfo(enterpriseEmpVO.getEnterpriseId()+"#"+username,"",getName());
+            return new SimpleAuthenticationInfo(enterpriseEmpVO.getEnterpriseId()+"#"+empId,"",getName());
 
         }
 
-        StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", username));
+        StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         if(staffingEmp == null) {
             throw new UnknownAccountException();//没找到帐号
         }
@@ -83,7 +83,7 @@ public class UserRealm extends AuthorizingRealm {
 
 
         return new SimpleAuthenticationInfo(
-                enterpriseId+"#"+staffingEmp.getUsername(), //用户名
+                enterpriseId+"#"+staffingEmp.getEmpId(), //用户名
                 staffingEmp.getPassword(), //密码
                 ByteSource.Util.bytes(staffingEmp.getCredentialsSalt()),//salt=username+salt
                 getName()  //realm name

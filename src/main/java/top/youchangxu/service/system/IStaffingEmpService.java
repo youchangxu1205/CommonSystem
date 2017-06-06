@@ -12,7 +12,9 @@ import java.util.Set;
  * Created by dtkj_android on 2017/5/25.
  */
 public interface IStaffingEmpService extends IService<StaffingEmp> {
-    List<StaffingRole> findRoles(String enterpriseId, String username);
+    List<StaffingRole> findRoles(String enterpriseId, String empId);
 
-    List<StaffingPermission> findPermissions(String enterpriseId, String username);
+    List<StaffingPermission> findPermissions(String enterpriseId, String empId);
+
+    boolean saveEmp(StaffingEmp staffingEmp, Long orgId, String enterpriseId);
 }

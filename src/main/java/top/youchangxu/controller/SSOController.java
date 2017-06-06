@@ -66,7 +66,8 @@ public class SSOController extends BaseController {
     public Object login(String username, String password, String rememberMe) {
         //TODO 优化登录流程
         //查看用户是否存在
-        StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", username));
+        //只支持手机号登陆,根据手机号查询手机号
+        StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("empPhone", username));
         if (staffingEmp == null || !passwordHelper.compilePassword(password, staffingEmp)) {
             return renderError(ResultEnum.ACCOUNT_OR_PASSWORD_IS_WRONG);
         }
@@ -80,12 +81,11 @@ public class SSOController extends BaseController {
         if (enterprises.size() > 1) {
             //跳转到企业选择界面
 
-
             return renderSuccess(map);
         } else if (enterprises.size() == 1) {
             //直接进行登录操作
             Subject subject = SecurityUtils.getSubject();
-            EnterpriseToken enterpriseToken = new EnterpriseToken(username, password, enterprises.get(0).getEnterpriseId(), null);
+            EnterpriseToken enterpriseToken = new EnterpriseToken(staffingEmp.getEmpId()+"", password, enterprises.get(0).getEnterpriseId(), null);
             Object x = commonLogin(rememberMe, subject, enterpriseToken);
             if (x != null) return x;
             return renderSuccess("/index");

@@ -3,7 +3,6 @@ package top.youchangxu.controller;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import top.youchangxu.common.result.JsonResult;
-import top.youchangxu.common.result.JsonResult;
 import top.youchangxu.common.result.ResultEnum;
 
 /**
@@ -42,7 +41,7 @@ public class BaseController {
      * 获取用户名
      * @return
      */
-    protected String getUsername(){
+    protected String getEmpId(){
         Subject subject = SecurityUtils.getSubject();
         String principal = (String) subject.getPrincipal();
         String[] strings = principal.split("#");

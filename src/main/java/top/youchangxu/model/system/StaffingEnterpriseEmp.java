@@ -12,10 +12,20 @@ public class StaffingEnterpriseEmp {
     private int status;
     private String password;
     private String salt;
+    private String enterpriseEmpName;
 
     public StaffingEnterpriseEmp(Long enterpriseId, Long empId) {
         this.enterpriseId = enterpriseId;
         this.empId = empId;
+    }
+
+    public StaffingEnterpriseEmp(Long enterpriseId, Long empId, int status, String password, String salt, String enterpriseEmpName) {
+        this.enterpriseId = enterpriseId;
+        this.empId = empId;
+        this.status = status;
+        this.password = password;
+        this.salt = salt;
+        this.enterpriseEmpName = enterpriseEmpName;
     }
 
     public Long getEnterpriseId() {
@@ -56,5 +66,13 @@ public class StaffingEnterpriseEmp {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getEnterpriseEmpName() {
+        return enterpriseEmpName;
+    }
+
+    public void setEnterpriseEmpName(String enterpriseEmpName) {
+        this.enterpriseEmpName = enterpriseEmpName;
     }
 }

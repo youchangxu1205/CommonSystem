@@ -1,8 +1,6 @@
 package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +30,10 @@ public class ManagerController extends BaseController {
     @RequestMapping(value = "/index")
     public String index(Model model) {
         String enterpriseId = getEnterpriseId();
-        String username= getUsername();
-        StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username",username));
+        String empId= getEmpId();
+        StaffingEmp staffingEmp = staffingEmpService.selectById(empId);
         model.addAttribute("staffingEmp",staffingEmp);
-        List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId,username);
+        List<StaffingPermission> permissions = staffingEmpService.findPermissions(enterpriseId,empId);
         model.addAttribute("permissions", permissions);
         return "/index";
     }

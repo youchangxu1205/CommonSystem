@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本地服务器
+Source Server         : 本地centos服务器
 Source Server Version : 50717
-Source Host           : localhost:3306
+Source Host           : 192.168.217.129:3306
 Source Database       : staffing_system
 
 Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-06 10:22:52
+Date: 2017-06-06 15:26:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,36 +27,37 @@ CREATE TABLE `staffing_emp` (
   `empStatus` tinyint(4) NOT NULL DEFAULT '1' COMMENT '员工状态:-2:离职 -1:试岗离开 1:试岗中 2:在职 3:休长假',
   `otherInfo` text COLLATE utf8_bin COMMENT '员工其他信息,用json格式保存',
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `entryTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '入职时间',
+  `entryTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '入职时间',
   `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `beFormalTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '转正时间',
+  `beFormalTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '转正时间',
   `username` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '员工登录名',
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   `salt` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`empId`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_enterprise
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_enterprise`;
 CREATE TABLE `staffing_enterprise` (
-  `enterpriseId` int(11) NOT NULL AUTO_INCREMENT COMMENT '企业ID',
+  `enterpriseId` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '企业ID',
   `enterpriseName` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '企业名称',
   `enterpriseCode` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '企业编码',
   PRIMARY KEY (`enterpriseId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_enterprise_emp
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_enterprise_emp`;
 CREATE TABLE `staffing_enterprise_emp` (
-  `enterpriseId` int(11) NOT NULL,
-  `empId` int(11) NOT NULL,
+  `enterpriseId` bigint(11) NOT NULL,
+  `empId` bigint(11) NOT NULL,
   `status` tinyint(11) DEFAULT '-1' COMMENT '是否激活 在企业添加时需要设置为待激活 -1 未激活 1 已激活',
   `password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `salt` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `enterpriseEmpName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`enterpriseId`,`empId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -65,7 +66,7 @@ CREATE TABLE `staffing_enterprise_emp` (
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_log`;
 CREATE TABLE `staffing_log` (
-  `logId` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `logId` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `description` varchar(100) DEFAULT NULL COMMENT '操作描述',
   `username` varchar(20) DEFAULT NULL COMMENT '操作用户',
   `startTime` bigint(20) DEFAULT NULL COMMENT '操作时间',
@@ -80,7 +81,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -93,11 +94,11 @@ CREATE TABLE `staffing_org` (
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `orgType` tinyint(4) DEFAULT NULL COMMENT '1为企业 2为部门',
-  `enterpriseId` int(11) NOT NULL COMMENT '企业ID',
+  `enterpriseId` bigint(11) NOT NULL COMMENT '企业ID',
   `orgPath` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `orgManagerId` bigint(20) DEFAULT NULL COMMENT '部门负责人',
   PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_org_emp
@@ -165,19 +166,19 @@ CREATE TABLE `staffing_post_emp` (
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_role`;
 CREATE TABLE `staffing_role` (
-  `roleId` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `roleId` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `roleName` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '角色名称',
-  `enterpriseId` int(11) DEFAULT NULL,
+  `enterpriseId` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_role_emp
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_role_emp`;
 CREATE TABLE `staffing_role_emp` (
-  `roleId` int(11) NOT NULL,
-  `empId` int(11) NOT NULL,
+  `roleId` bigint(11) NOT NULL,
+  `empId` bigint(11) NOT NULL,
   PRIMARY KEY (`roleId`,`empId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -186,8 +187,8 @@ CREATE TABLE `staffing_role_emp` (
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_role_permission`;
 CREATE TABLE `staffing_role_permission` (
-  `roleId` int(11) NOT NULL,
-  `permissionId` int(11) NOT NULL,
+  `roleId` bigint(11) NOT NULL,
+  `permissionId` bigint(11) NOT NULL,
   PRIMARY KEY (`roleId`,`permissionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

@@ -15,16 +15,16 @@ public interface StaffingEmpMapper extends BaseMapper<StaffingEmp> {
     /**
      * 获取员工的角色
      * @param enterpriseId
-     * @param username
+     * @param empId
      * @return
      */
-    List<StaffingRole> findRoles(@Param("enterpriseId") String enterpriseId, @Param("username") String username);
+    List<StaffingRole> findRoles(@Param("enterpriseId") String enterpriseId, @Param("empId") String empId);
 
     /**
      * 获取员工的权限
      * @param enterpriseId
-     * @param username
+     * @param empId
      * @return
      */
-    List<StaffingPermission> findPermissions(@Param("enterpriseId") String enterpriseId, @Param("username") String username);
+    List<StaffingPermission> findPermissions(@Param("enterpriseId") String enterpriseId, @Param("empId") String empId);
 }

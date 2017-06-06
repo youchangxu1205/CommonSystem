@@ -36,7 +36,7 @@ public class StaffingInterceptor extends HandlerInterceptorAdapter {
         String principal = (String) subject.getPrincipal();
         if (principal != null) {
             String[] split = principal.split("#");
-            StaffingEmp staffingEmp = staffingEmpService.selectOne(new EntityWrapper<StaffingEmp>().eq("username", split[1]));
+            StaffingEmp staffingEmp = staffingEmpService.selectById(split[1]);
             request.setAttribute("staffingEmp", staffingEmp);
         }
         return true;

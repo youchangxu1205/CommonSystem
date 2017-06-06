@@ -142,32 +142,50 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object create(StaffingEmp staffingEmp, Long orgId) {
 
-        //TODO 需要判断手机号是否存在,各种判断 以后再做
-
-        //TODO 查询员工是否存在
-
-        //如果账户名username存在 则不保存
-        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(
-                new EntityWrapper<StaffingEmp>()
-                        .eq("username", staffingEmp.getUsername()));
-
-        if (staffingEmps.size() > 0) {
-            return renderError(ResultEnum.USERNAME_HAS_EXITS);
-        }
-        staffingEmp.setPassword("123456");
-        passwordHelper.encryptPassword(staffingEmp);
-        boolean insert = staffingEmpService.insert(staffingEmp);
-        if (insert) {
-            boolean insertEmpToEnterprise = staffingEnterpriseEmpService.insert(new StaffingEnterpriseEmp(Long.parseLong(getEnterpriseId()), staffingEmp.getEmpId()));
-            if (insertEmpToEnterprise) {
-                boolean insertOrgEmp = staffingOrgEmpService.insert(new StaffingOrgEmp(orgId, staffingEmp.getEmpId()));
-                if (insertOrgEmp) {
-                    return insertOrgEmp ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
-                }
-            }
-            return renderError(ResultEnum.INSERT_ERROR);
-        }
-        return renderError(ResultEnum.INSERT_ERROR);
+        boolean save = staffingEmpService.saveEmp(staffingEmp, orgId, getEnterpriseId());
+        return save ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+//        //判断账户名在企业内是否存在
+//        List<StaffingEnterpriseEmp> enterpriseEmps = staffingEnterpriseEmpService.selectList(
+//                new EntityWrapper<StaffingEnterpriseEmp>()
+//                        .eq("enterpriseId", getEnterpriseId())
+//                        .eq("enterpriseEmpName", staffingEmp.getUsername()));
+//
+//        if (enterpriseEmps.size() > 0) {
+//            return renderError(ResultEnum.USERNAME_HAS_EXITS);
+//        }
+//        //设置企业的初始密码
+//        staffingEmp.setPassword("123456");
+//        //加密数据
+//        passwordHelper.encryptPassword(staffingEmp);
+//        //判断手机号是否在员工表中存在
+//        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(
+//                new EntityWrapper<StaffingEmp>()
+//                        .eq("empPhone", staffingEmp.getEmpPhone()));
+//        boolean insert = false;
+//        if (staffingEmps.size() == 0) {
+//            insert = staffingEmpService.insert(staffingEmp);
+//        } else {
+//            staffingEmp = staffingEmps.get(0);
+//            insert = true;
+//        }
+//
+//        if (insert) {
+//            boolean insertEmpToEnterprise = staffingEnterpriseEmpService.insert(
+//                    new StaffingEnterpriseEmp(Long.parseLong(getEnterpriseId()),
+//                            staffingEmp.getEmpId(),
+//                            0,
+//                            staffingEmp.getPassword(),
+//                            staffingEmp.getSalt(),
+//                            staffingEmp.getUsername()));
+//            if (insertEmpToEnterprise) {
+//                boolean insertOrgEmp = staffingOrgEmpService.insert(new StaffingOrgEmp(orgId, staffingEmp.getEmpId()));
+//                if (insertOrgEmp) {
+//                    return insertOrgEmp ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+//                }
+//            }
+//            return renderError(ResultEnum.INSERT_ERROR);
+//        }
+//        return renderError(ResultEnum.INSERT_ERROR);
     }
 
     /**
@@ -255,7 +273,7 @@ public class EmpController extends BaseController {
                         .eq("enterpriseId", Long.parseLong(enterpriseId)));
         model.addAttribute("staffingRoles", staffingRoles);
 
-        List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getUsername());
+        List<StaffingRole> staffingEmpRoles = staffingEmpService.findRoles(getEnterpriseId(), staffingEmp.getEmpId() + "");
 
         model.addAttribute("staffingEmpRoles", staffingEmpRoles);
         return "emp/role";

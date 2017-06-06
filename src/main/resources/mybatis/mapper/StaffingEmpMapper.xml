@@ -6,9 +6,7 @@
     <select id="findRoles" resultType="top.youchangxu.model.system.StaffingRole">
         SELECT sr.*
         FROM staffing_role sr LEFT JOIN staffing_role_emp sre ON sre.roleId = sr.roleId
-        WHERE sre.empId = (SELECT se.empId
-                           FROM staffing_emp se
-                           WHERE se.username = #{username}) AND sr.enterpriseId = #{enterpriseId}
+        WHERE sre.empId = #{empId} AND sr.enterpriseId = #{enterpriseId}
     </select>
 
     <select id="findPermissions" resultType="top.youchangxu.model.system.StaffingPermission">
@@ -17,8 +15,6 @@
         WHERE srp.roleId IN (
             SELECT sr.roleId
             FROM staffing_role sr LEFT JOIN staffing_role_emp sre ON sre.roleId = sr.roleId
-            WHERE sre.empId = (SELECT se.empId
-                               FROM staffing_emp se
-                               WHERE se.username = #{username}) AND sr.enterpriseId = #{enterpriseId})
+            WHERE sre.empId = #{empId} AND sr.enterpriseId = #{enterpriseId})
     </select>
 </mapper>
