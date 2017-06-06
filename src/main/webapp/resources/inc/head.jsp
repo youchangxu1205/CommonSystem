@@ -12,7 +12,6 @@
 <link href="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
 <link href="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
 <link href="${basePath}/resources/zheng-admin/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet"/>
-<link href="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
 <link href="${basePath}/resources/zheng-admin/plugins/select2/css/select2.min.css" rel="stylesheet"/>
 <link href="${basePath}/resources/zheng-admin/plugins/select2/theme/select2-bootstrap.min.css" rel="stylesheet"/>
 <link href="${basePath}/resources/zheng-admin/plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>

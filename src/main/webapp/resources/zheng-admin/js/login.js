@@ -42,11 +42,37 @@ function login() {
 			// alert(json.msg);
 			console.log(json);
 			if(json.success){
+
+				var obj = json.obj;
+				if(obj!=null){
+
+					var enterprises = obj.enterprises;
+					var rememberMe = obj.rememberMe;
+					var staffingEmp = obj.staffingEmp;
+					enterpriseLoginAction(enterprises,rememberMe,staffingEmp);
+
+					return;
+				}
+
 				window.location.href = BASE_PATH + json.msg;
+			}else{
+
+
 			}
 		},
 		error: function(error){
 			console.log(error);
 		}
 	});
+	
+	
+}
+
+function enterpriseLoginAction(enterprises, rememberMe, staffingEmp) {
+
+	// console.log(enterprises);
+	// console.log(rememberMe);
+	// console.log(staffingEmp);
+	alert("多个账套 还没实现");
+
 }

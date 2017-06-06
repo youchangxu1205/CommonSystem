@@ -109,6 +109,8 @@
             sidePagination: 'server',
             silentSort: false,
             smartDisplay: false,
+            showExport: true,
+            exportDataType: 'excel',
             escape: true,
             idField: 'empId',
             maintainSelected: true,

@@ -81,8 +81,6 @@ public class SSOController extends BaseController {
             //跳转到企业选择界面
 
 
-
-
             return renderSuccess(map);
         } else if (enterprises.size() == 1) {
             //直接进行登录操作

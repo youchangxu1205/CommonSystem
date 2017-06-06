@@ -48,7 +48,7 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
                     staffingEnterprise.getEnterpriseId());
 
             staffingOrgService.insert(staffingOrg);
-            staffingOrg.setOrgPath("/0/");
+            staffingOrg.setOrgPath("/0/"+staffingOrg.getOrgId()+"/");
             staffingOrgService.updateById(staffingOrg);
             //新增员工
             StaffingEmp staffingEmp = new StaffingEmp();
@@ -68,6 +68,7 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
             //新增角色
             StaffingRole staffingRole = new StaffingRole();
             staffingRole.setRoleName("系统管理员");
+            staffingRole.setEnterpriseId(staffingEnterprise.getEnterpriseId());
             staffingRoleService.insert(staffingRole);
 
             //获取通用系统管理员 enterprieId为-1
