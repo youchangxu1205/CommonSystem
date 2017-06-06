@@ -10,10 +10,20 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-06 15:26:31
+Date: 2017-06-06 18:06:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for multiplescore_emp_range
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_emp_range`;
+CREATE TABLE `multiplescore_emp_range` (
+  `higherId` bigint(20) NOT NULL,
+  `lowerId` bigint(20) NOT NULL,
+  PRIMARY KEY (`higherId`,`lowerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='上下级关系表';
 
 -- ----------------------------
 -- Table structure for staffing_emp
@@ -81,7 +91,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=598 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
