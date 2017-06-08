@@ -10,6 +10,7 @@ public class StaffingRoleEmp {
 
     private Long roleId;
     private Long empId;
+    private Long enterpriseId;
 
     public Long getRoleId() {
         return roleId;
@@ -25,5 +26,13 @@ public class StaffingRoleEmp {
 
     public void setEmpId(Long empId) {
         this.empId = empId;
+    }
+
+    public Long getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(Long enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

@@ -9,7 +9,9 @@ import top.youchangxu.common.exception.StaffingException;
 import top.youchangxu.mapper.system.StaffingEmpMapper;
 import top.youchangxu.model.system.*;
 import top.youchangxu.service.PasswordHelper;
-import top.youchangxu.service.system.*;
+import top.youchangxu.service.system.IStaffingEmpService;
+import top.youchangxu.service.system.IStaffingEnterpriseEmpService;
+import top.youchangxu.service.system.IStaffingOrgEmpService;
 
 import java.util.List;
 
@@ -21,15 +23,9 @@ public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, Staff
     @Autowired
     private PasswordHelper passwordHelper;
     @Autowired
-    private IStaffingRoleService staffingRoleService;
-    @Autowired
     private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
     @Autowired
-    private IStaffingRoleEmpService staffingRoleEmpService;
-    @Autowired
     private IStaffingOrgEmpService staffingOrgEmpService;
-    @Autowired
-    private IStaffingOrgService staffingOrgService;
 
 
     @Override
@@ -87,7 +83,7 @@ public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, Staff
                     throw new StaffingException("员工加入部门失败");
                 }
             }
-        }else{
+        } else {
             throw new StaffingException("员工加入员工表失败");
         }
         return insert;

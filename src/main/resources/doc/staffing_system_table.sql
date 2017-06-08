@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-06 18:06:19
+Date: 2017-06-08 14:52:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS `multiplescore_emp_range`;
 CREATE TABLE `multiplescore_emp_range` (
   `higherId` bigint(20) NOT NULL,
   `lowerId` bigint(20) NOT NULL,
-  PRIMARY KEY (`higherId`,`lowerId`)
+  `enterpriseId` bigint(20) NOT NULL,
+  PRIMARY KEY (`higherId`,`lowerId`,`enterpriseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='上下级关系表';
 
 -- ----------------------------
@@ -91,7 +92,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=598 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=988 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -120,7 +121,8 @@ CREATE TABLE `staffing_org_emp` (
   `status` tinyint(4) DEFAULT '1' COMMENT '是否有效 1有效 2无效',
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
-  PRIMARY KEY (`orgId`,`empId`),
+  `enterpriseId` bigint(20) NOT NULL,
+  PRIMARY KEY (`orgId`,`empId`,`enterpriseId`),
   KEY `org_emp_id` (`empId`) USING BTREE,
   CONSTRAINT `staffing_org_emp_ibfk_1` FOREIGN KEY (`orgId`) REFERENCES `staffing_org` (`orgId`),
   CONSTRAINT `staffing_org_emp_ibfk_2` FOREIGN KEY (`empId`) REFERENCES `staffing_emp` (`empId`)
@@ -189,7 +191,8 @@ DROP TABLE IF EXISTS `staffing_role_emp`;
 CREATE TABLE `staffing_role_emp` (
   `roleId` bigint(11) NOT NULL,
   `empId` bigint(11) NOT NULL,
-  PRIMARY KEY (`roleId`,`empId`)
+  `enterpriseId` bigint(20) NOT NULL,
+  PRIMARY KEY (`roleId`,`empId`,`enterpriseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
