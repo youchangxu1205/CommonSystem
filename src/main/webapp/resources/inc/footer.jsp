@@ -22,3 +22,4 @@
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-treeview-1.2.0/bootstrap-treeview.min.js" charset="UTF-8"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-multipleselected/multiselect.min.js"></script>

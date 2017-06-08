@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.exception.StaffingException;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.StaffingEmp;
-import top.youchangxu.model.system.StaffingOrg;
-import top.youchangxu.model.system.StaffingOrgEmp;
-import top.youchangxu.model.system.StaffingRole;
+import top.youchangxu.model.system.*;
 import top.youchangxu.service.PasswordHelper;
 import top.youchangxu.service.system.*;
 
@@ -38,6 +35,7 @@ public class EmpController extends BaseController {
     private IStaffingRoleEmpService staffingRoleEmpService;
     private IStaffingOrgEmpService staffingOrgEmpService;
     private IStaffingOrgService staffingOrgService;
+    private IMultiplescoreEmpRangeService multiplescoreEmpRangeService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
@@ -46,7 +44,8 @@ public class EmpController extends BaseController {
                          IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
                          IStaffingRoleEmpService staffingRoleEmpService,
                          IStaffingOrgEmpService staffingOrgEmpService,
-                         IStaffingOrgService staffingOrgService) {
+                         IStaffingOrgService staffingOrgService,
+                         IMultiplescoreEmpRangeService multiplescoreEmpRangeService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
@@ -54,6 +53,7 @@ public class EmpController extends BaseController {
         this.staffingRoleEmpService = staffingRoleEmpService;
         this.staffingOrgEmpService = staffingOrgEmpService;
         this.staffingOrgService = staffingOrgService;
+        this.multiplescoreEmpRangeService = multiplescoreEmpRangeService;
     }
 
     /**
@@ -260,7 +260,7 @@ public class EmpController extends BaseController {
     public Object role(@PathVariable("empId") Long empId, HttpServletRequest request) {
 
         String[] roleIds = request.getParameterValues("roleId");
-        staffingRoleEmpService.updateRole(roleIds, empId);
+        staffingRoleEmpService.updateRole(roleIds, empId, getEnterpriseId());
         return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 
@@ -271,12 +271,76 @@ public class EmpController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/range/{empId}", method = RequestMethod.GET)
-    public String range(@PathVariable("empId") Long empId,Model model) {
+    public String range(@PathVariable("empId") Long empId, Model model) {
 
-        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
-        model.addAttribute("orgs", orgs);
+        //获取企业所有的员工
+        List<Object> empIds = staffingEnterpriseEmpService.selectObjs(
+                new EntityWrapper<StaffingEnterpriseEmp>()
+                        .eq("enterpriseId", getEnterpriseId()).setSqlSelect("empId"));
+
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+
+        //获取员工的奖扣分范围
+        List<MultiplescoreEmpRange> staffingRangeEmps =
+                multiplescoreEmpRangeService.selectList(
+                        new EntityWrapper<MultiplescoreEmpRange>()
+                                .eq("enterpriseId", getEnterpriseId())
+                                .eq("higherId", empId));
+
+        model.addAttribute("staffingEmps", staffingEmps);
+        model.addAttribute("staffingRangeEmps", staffingRangeEmps);
 
         return "emp/range";
+    }
+
+
+    /**
+     * 保存员工的奖扣分范围
+     *
+     * @param empId
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/range/{empId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object range(@PathVariable("empId") Long empId, HttpServletRequest request) {
+
+        String[] empIds = request.getParameterValues("empIds");
+        multiplescoreEmpRangeService.updateEmpRanges(empIds, empId, getEnterpriseId());
+        return renderSuccess(ResultEnum.UPDATE_SUCCESS);
+    }
+
+    /**
+     * 奖扣分范围页面
+     *
+     * @param empId
+     * @return
+     */
+    @RequestMapping(value = "/org/{empId}", method = RequestMethod.GET)
+    public String org(@PathVariable("empId") Long empId, Model model) {
+
+        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("staffingOrgs", orgs);
+        List<StaffingOrgEmp> staffingOrgEmps = staffingOrgEmpService.selectList(new EntityWrapper<StaffingOrgEmp>().eq("empId", empId).eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("staffingOrgEmps", staffingOrgEmps);
+        return "emp/org";
+    }
+
+
+    /**
+     * 保存员工的奖扣分范围
+     *
+     * @param empId
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/org/{empId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object org(@PathVariable("empId") Long empId, HttpServletRequest request) {
+
+        String[] orgIds = request.getParameterValues("orgIds");
+        staffingOrgEmpService.updateEmpOrg(orgIds, empId, getEnterpriseId());
+        return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 
 }

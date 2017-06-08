@@ -15,10 +15,10 @@ import top.youchangxu.service.system.IStaffingRoleEmpService;
 @Service
 public class StaffingRoleEmpServiceImpl extends ServiceImpl<StaffingRoleEmpMapper, StaffingRoleEmp> implements IStaffingRoleEmpService {
     @Override
-    public int updateRole(String[] roleIds, Long empId) {
+    public int updateRole(String[] roleIds, Long empId,String enterpriseId) {
         int result = 0;
         // 删除旧记录
-        baseMapper.delete(new EntityWrapper<StaffingRoleEmp>().eq("empId",empId));
+        baseMapper.delete(new EntityWrapper<StaffingRoleEmp>().eq("empId",empId).eq("enterpriseId",enterpriseId));
         // 增加新记录
         if (null != roleIds) {
             for (String roleId : roleIds) {

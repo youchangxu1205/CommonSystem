@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 public class MultiplescoreEmpRange {
     private Long higherId;
     private Long lowerId;
+    private Long enterpriseId;
 
     public Long getHigherId() {
         return higherId;
@@ -25,5 +26,13 @@ public class MultiplescoreEmpRange {
 
     public void setLowerId(Long lowerId) {
         this.lowerId = lowerId;
+    }
+
+    public Long getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(Long enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

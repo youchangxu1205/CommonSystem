@@ -2,6 +2,7 @@ package top.youchangxu.service.system.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.youchangxu.common.exception.StaffingException;
@@ -79,7 +80,7 @@ public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, Staff
                             staffingEmp.getSalt(),
                             staffingEmp.getUsername()));
             if (insertEmpToEnterprise) {
-                boolean insertOrgEmp = staffingOrgEmpService.insert(new StaffingOrgEmp(orgId, staffingEmp.getEmpId()));
+                boolean insertOrgEmp = staffingOrgEmpService.insert(new StaffingOrgEmp(orgId, staffingEmp.getEmpId(), NumberUtils.toLong(enterpriseId)));
                 if (insertOrgEmp) {
                     return true;
                 } else {

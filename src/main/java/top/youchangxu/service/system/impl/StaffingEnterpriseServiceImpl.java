@@ -95,7 +95,7 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
             staffingRoleEmp.setEmpId(staffingEmp.getEmpId());
             staffingRoleEmpService.insert(staffingRoleEmp);
             //新增员工至顶级部门
-            staffingOrgEmpService.insert(new StaffingOrgEmp(staffingOrg.getOrgId(), staffingEmp.getEmpId()));
+            staffingOrgEmpService.insert(new StaffingOrgEmp(staffingOrg.getOrgId(), staffingEmp.getEmpId(),staffingEnterprise.getEnterpriseId()));
 
         }
         return insert;

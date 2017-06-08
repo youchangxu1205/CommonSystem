@@ -49,7 +49,8 @@
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 奖扣分范围</a>
                 <%--</shiro:hasPermission>--%>
-
+                <a class="waves-effect waves-button" href="javascript:;" onclick="empOrgAction()"><i
+                        class="zmdi zmdi-edit"></i> 更换部门</a>
                 员工状态:
                 <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
                         onchange="tableRefresh()">
@@ -290,6 +291,7 @@
     }
 
     var empRangeDialog;
+    var empRangeEmpId
     function empRangeAction() {
         var rows = $table.bootstrapTable('getSelections');
         if (rows.length != 1) {
@@ -306,15 +308,49 @@
                 }
             });
         } else {
+            empRangeEmpId = rows[0].empId;
             empRangeDialog = $.dialog({
                 animationSpeed: 300,
                 title: '奖扣分范围',
                 content: 'url:${basePath}/emp/range/' + rows[0].empId,
-                columnClass:'col-md-8',
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2({
-                        placeholder: '请选择部门',
+                        placeholder: '请选择员工',
+                        allowClear: true
+                    });
+                }
+            });
+        }
+    }
+
+    var empOrgDialog;
+    var orgEmpId
+    function empOrgAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            orgEmpId = rows[0].empId;
+            empOrgDialog = $.dialog({
+                animationSpeed: 300,
+                title: '更换部门',
+                content: 'url:${basePath}/emp/org/' + rows[0].empId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    $('select').select2({
+                        placeholder: '请选择员工',
                         allowClear: true
                     });
                 }
