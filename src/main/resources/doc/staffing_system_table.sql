@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-08 14:52:20
+Date: 2017-06-09 16:58:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,6 +25,49 @@ CREATE TABLE `multiplescore_emp_range` (
   `enterpriseId` bigint(20) NOT NULL,
   PRIMARY KEY (`higherId`,`lowerId`,`enterpriseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='上下级关系表';
+
+-- ----------------------------
+-- Table structure for multiplescore_event
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_event`;
+CREATE TABLE `multiplescore_event` (
+  `eventId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `eventName` varchar(255) COLLATE utf8_bin NOT NULL,
+  `minScore` int(11) DEFAULT NULL,
+  `maxScore` int(11) DEFAULT NULL,
+  `isFixed` tinyint(4) DEFAULT NULL,
+  `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `eventCategoryId` bigint(20) DEFAULT NULL,
+  `eventDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`eventId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for multiplescore_event_range
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_event_range`;
+CREATE TABLE `multiplescore_event_range` (
+  `empId` bigint(20) NOT NULL,
+  `eventId` bigint(20) NOT NULL,
+  `enterpriseId` bigint(20) NOT NULL,
+  PRIMARY KEY (`empId`,`eventId`,`enterpriseId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for multiplescore_eventcategory
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_eventcategory`;
+CREATE TABLE `multiplescore_eventcategory` (
+  `eventCategoryId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `eventCategoryName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `eventCategoryDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`eventCategoryId`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_emp
@@ -92,7 +135,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=988 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1264 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -143,7 +186,7 @@ CREATE TABLE `staffing_permission` (
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `permissionStatus` tinyint(4) NOT NULL DEFAULT '1' COMMENT '权限状态:1 可用 0 不可用',
   PRIMARY KEY (`permissionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_post
