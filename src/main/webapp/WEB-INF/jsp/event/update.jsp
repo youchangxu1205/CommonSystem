@@ -8,41 +8,31 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
     <form id="updateForm" method="post">
-        <input type="hidden" id="permissionId" name="permissionId" value="${staffingPermission.permissionId}">
+        <input type="hidden" id="eventId" name="eventName" value="${multiplescoreEvent.eventId}"/>
         <div class="form-group">
-            <label for="permissionName">权限名称</label>
-            <input id="permissionName" type="text" class="form-control" name="permissionName" maxlength="20" value="${staffingPermission.permissionName}">
+            <label for="eventName">事件名称</label>
+            <input id="eventName" type="text" class="form-control" name="eventName" maxlength="50" value="${multiplescoreEvent.eventName}">
         </div>
+        <label for="isFixed">事件属性</label>
         <div class="form-group">
-            <label for="permissionValue">权限值</label>
-            <input id="permissionValue" type="text" class="form-control" name="permissionValue" maxlength="20" value="${staffingPermission.permissionValue}">
-        </div>
-        <div class="form-group">
-            <label for="permissionIcon">权限图标</label>
-            <input id="permissionIcon" type="text" class="form-control" name="permissionIcon" maxlength="20" value="${staffingPermission.permissionIcon}">
-        </div>
+            <%--<input id="isFixed" type="text" class="form-control" name="isFixed" maxlength="20">--%>
+            <select class="form-control" id="isFixed" name="isFixed">
+                <option value="1" <c:if test="${multiplescoreEvent.isFixed==1}">selected</c:if>>固定事件</option>
+                <option value="2"<c:if test="${multiplescoreEvent.isFixed==2}">selected</c:if>>随机事件</option>
+            </select>
 
-        <div class="form-group">
-            <label for="pPermissionId">上级权限</label>
-            <input type="text" id="pPermissionId" name="pPermissionId" class="form-control" value="${staffingPermission.pPermissionId}">
         </div>
         <div class="form-group">
-            <label for="permissionUri">权限地址</label>
-            <input type="text" id="permissionUri" name="permissionUri" class="form-control" value="${staffingPermission.permissionUri}">
+            <label for="eventDesc">事件描述</label>
+            <input id="eventDesc" type="text" class="form-control" name="eventDesc" maxlength="200" value="${multiplescoreEvent.eventDesc}">
         </div>
-        <div class="radio">
-            <div class="radio radio-inline radio-info">
-                <input id="type_1" type="radio" name="permissionType" value="1" <c:if test="${staffingPermission.permissionType==1}">checked</c:if>>
-                <label for="type_1">目录 </label>
-            </div>
-            <div class="radio radio-inline radio-warning">
-                <input id="type_2" type="radio" name="permissionType" value="2" <c:if test="${staffingPermission.permissionType==2}">checked</c:if>>
-                <label for="type_2">菜单 </label>
-            </div>
-            <div class="radio radio-inline radio-danger">
-                <input id="type_3" type="radio" name="permissionType" value="3" <c:if test="${staffingPermission.permissionType==3}">checked</c:if>>
-                <label for="type_3">按钮 </label>
-            </div>
+        <div class="form-group">
+            <label for="minScore">最低分</label>
+            <input id="minScore" type="text" class="form-control" name="minScore" maxlength="200" value="${multiplescoreEvent.minScore}">
+        </div>
+        <div class="form-group">
+            <label for="maxScore">最高分</label>
+            <input id="maxScore" type="text" class="form-control" name="maxScore" maxlength="200" value="${multiplescoreEvent.maxScore}">
         </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
@@ -54,8 +44,9 @@
     function updateSubmit() {
         $.ajax({
             type: 'post',
-            url: '${basePath}/permission/update',
+            url: '${basePath}/event/update',
             data: $('#updateForm').serialize(),
+            dataType: 'json',
             beforeSend: function () {
 
             },

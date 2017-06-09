@@ -20,6 +20,16 @@
                 </c:forEach>
             </select>
             奖扣分事件
+
+            <select id="eventIds" name="eventIds" multiple="multiple" style="width: 100%">
+                <c:forEach var="event" items="${multiplescoreEvents}">
+                    <option value="${event.eventId}"
+                            <c:forEach var="eventRange" items="${multiplescoreEventRanges}">
+                                <c:if test="${event.eventId==eventRange.eventId}">selected="selected"</c:if>
+                            </c:forEach>>${event.eventName}
+                    </option>
+                </c:forEach>
+            </select>
         </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeSubmit();">保存</a>

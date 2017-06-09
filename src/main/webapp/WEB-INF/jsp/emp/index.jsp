@@ -21,10 +21,7 @@
         <div class="col-md-2">
             <div id="tree" class="panel panel-default">
                 <div class="panel-heading">组织架构</div>
-                <%--<div class="panel-body" style="overflow: inherit;">--%>
-                <%--&lt;%&ndash;<ul id="orgTree" class="ztree"></ul>&ndash;%&gt;--%>
             </div>
-            <%--<div class="alert alert-danger" role="alert"><a href="javascript:;" onclick="showNotInOrgEmpsAction()">${noInOrgEmpIds.size()}个员工没有分配岗位</a></div>--%>
             <div id="treeDiv"></div>
         </div>
         <div class="col-md-10">
@@ -315,9 +312,12 @@
                 content: 'url:${basePath}/emp/range/' + rows[0].empId,
                 onContentReady: function () {
                     initMaterialInput();
-                    $('select').select2({
-                        placeholder: '请选择员工',
-                        allowClear: true
+                    $('#empIds').select2({
+                        placeholder: '请选择员工'
+                    });
+
+                    $('#eventIds').select2({
+                        placeholder: '请选择积分事件'
                     });
                 }
             });

@@ -36,6 +36,8 @@ public class EmpController extends BaseController {
     private IStaffingOrgEmpService staffingOrgEmpService;
     private IStaffingOrgService staffingOrgService;
     private IMultiplescoreEmpRangeService multiplescoreEmpRangeService;
+    private IMultiplescoreEventRangeService multiplescoreEventRangeService;
+    private IMultiplescoreEventService multiplescoreEventService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
@@ -45,7 +47,9 @@ public class EmpController extends BaseController {
                          IStaffingRoleEmpService staffingRoleEmpService,
                          IStaffingOrgEmpService staffingOrgEmpService,
                          IStaffingOrgService staffingOrgService,
-                         IMultiplescoreEmpRangeService multiplescoreEmpRangeService) {
+                         IMultiplescoreEmpRangeService multiplescoreEmpRangeService,
+                         IMultiplescoreEventRangeService multiplescoreEventRangeService,
+                         IMultiplescoreEventService multiplescoreEventService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
@@ -54,6 +58,8 @@ public class EmpController extends BaseController {
         this.staffingOrgEmpService = staffingOrgEmpService;
         this.staffingOrgService = staffingOrgService;
         this.multiplescoreEmpRangeService = multiplescoreEmpRangeService;
+        this.multiplescoreEventRangeService = multiplescoreEventRangeService;
+        this.multiplescoreEventService = multiplescoreEventService;
     }
 
     /**
@@ -290,6 +296,18 @@ public class EmpController extends BaseController {
         model.addAttribute("staffingEmps", staffingEmps);
         model.addAttribute("staffingRangeEmps", staffingRangeEmps);
 
+
+        List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(new EntityWrapper<MultiplescoreEvent>().eq("enterpriseId", getEnterpriseId()));
+        //获取员工的奖扣分事件范围
+        List<MultiplescoreEventRange> multiplescoreEventRanges =
+                multiplescoreEventRangeService.selectList(
+                        new EntityWrapper<MultiplescoreEventRange>()
+                                .eq("enterpriseId", getEnterpriseId())
+                                .eq("empId", empId));
+
+        model.addAttribute("multiplescoreEvents", multiplescoreEvents);
+        model.addAttribute("multiplescoreEventRanges", multiplescoreEventRanges);
+
         return "emp/range";
     }
 
@@ -306,7 +324,9 @@ public class EmpController extends BaseController {
     public Object range(@PathVariable("empId") Long empId, HttpServletRequest request) {
 
         String[] empIds = request.getParameterValues("empIds");
+        String[] eventIds = request.getParameterValues("eventIds");
         multiplescoreEmpRangeService.updateEmpRanges(empIds, empId, getEnterpriseId());
+        multiplescoreEventRangeService.updateEventRanges(eventIds,empId,getEnterpriseId());
         return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 
