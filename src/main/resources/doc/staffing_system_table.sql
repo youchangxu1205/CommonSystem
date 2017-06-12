@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-12 17:10:31
+Date: 2017-06-12 18:22:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,7 +147,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1586 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1611 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
