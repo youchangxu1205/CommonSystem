@@ -32,20 +32,14 @@ public class PostController extends BaseController {
     private IStaffingPostService staffingPostService;
     private IStaffingOrgService staffingOrgService;
     private IMultiplesoreRangeService multiplesoreRangeService;
-    private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
-    private IStaffingEmpService staffingEmpService;
 
     @Autowired
     public PostController(IStaffingPostService staffingPostService,
                           IStaffingOrgService staffingOrgService,
-                          IMultiplesoreRangeService multiplesoreRangeService,
-                          IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
-                          IStaffingEmpService staffingEmpService) {
+                          IMultiplesoreRangeService multiplesoreRangeService) {
         this.staffingPostService = staffingPostService;
         this.staffingOrgService = staffingOrgService;
         this.multiplesoreRangeService = multiplesoreRangeService;
-        this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
-        this.staffingEmpService = staffingEmpService;
     }
 
     /**
@@ -167,24 +161,13 @@ public class PostController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/range/{postId}", method = RequestMethod.GET)
-    public String org(@PathVariable("postId") Long postId, Model model) {
-
-        //TODO  获取已分配的岗位和员工
-        List<MultiplescoreRange> multiplescoreRanges = multiplesoreRangeService.selectList(new EntityWrapper<MultiplescoreRange>().eq("enterpriseId", getEnterpriseId())
-                .eq("postHigherId", postId));
-        model.addAttribute("multiplescoreRanges", multiplescoreRanges);
-        //TODO 获取全部岗位和员工
-        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
-        model.addAttribute("staffingOrgs", orgs);
-        List<StaffingPost> staffingPosts = staffingPostService.selectList(new EntityWrapper<StaffingPost>().eq("enterpriseId", getEnterpriseId()));
-        model.addAttribute("staffingPosts", staffingPosts);
-        List<Object> empIds = staffingEnterpriseEmpService.selectObjs(new EntityWrapper<StaffingEnterpriseEmp>().eq("enterpriseId", getEnterpriseId()).setSqlSelect("empId"));
-        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
-        model.addAttribute("staffingEmps", staffingEmps);
-
-
+    public String range(@PathVariable("postId") Long postId, Model model) {
         return "post/range";
     }
 
+    @RequestMapping(value = "/postRange/{postId}", method = RequestMethod.GET)
+    public Object postRange(@PathVariable("postId") Long postId){
+        return multiplesoreRangeService.selectPostRangeVOS(postId);
+    }
 
 }

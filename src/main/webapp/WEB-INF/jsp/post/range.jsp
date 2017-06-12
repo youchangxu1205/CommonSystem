@@ -6,60 +6,10 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<style>
-    .value-item{
-        height: 30px;
-        cursor: pointer;
-        overflow: hidden;
-    }
-</style>
 <div id="scoreRangeDialog" class="crudDialog">
     <form id="scoreRangeForm" method="post">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="row">
-                    <div class="col-md-4">
-                        <ul id="noChooseEmps">
-                            <c:forEach items="${staffingEmps}" var="emp">
-                                <li class="value-item">
-                                        ${emp.empName}
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <ul id="noChoosePosts">
-                            <c:forEach items="${staffingPosts}" var="post">
-                                <li class="value-item">
-                                        ${post.postName}
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <ul id="noChooseOrgs">
-                            <c:forEach items="${staffingOrgs}" var="org">
-                                <li class="value-item">
-                                        ${org.orgName}
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-5">
-                <div id="choosedEmps">
-                    选择的员工
-                </div>
-                <div id="choosedPosts">
-                    选择的岗位
-                </div>
-                <div id="choosedOrgs">
-                    选择的部门
-                </div>
-            </div>
+        <div class="form-group">
+            <table id="rangesTable"></table>
         </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
@@ -70,8 +20,53 @@
 <script src="${basePath}/resources/zheng-admin/js/range.js"></script>
 <script>
 
+    var $rangesTable = $('#rangesTable');
+    $(function () {
+        // bootstrap table初始化
+        $rangesTable.bootstrapTable({
+            url: '${basePath}/post/postRange',
+            height: getHeight(),
+            striped: true,
+            showRefresh: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            pagination: true,
+            queryParams: 'postRangeParams',
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            idField: 'empId',
+            maintainSelected: true,
+            toolbar: '#toolbar',
+            columns: [
+                {field: 'ck', checkbox: true},
+                {field: 'orgPathName', title: '组织路径'},
+                {field: 'postName', title: '岗位名称'},
+                {field: 'postEmpName', title: '任职人'},
+                {
+                    field: 'action',
+                    title: '操作',
+                    align: 'center',
+                    formatter: 'actionFormatter',
+                    events: 'actionEvents',
+                    clickToSelect: false
+                }
+            ]
+        });
+    });
 
-
+    function postRangeParams(params) {
+        var temp = {
+            limit: params.limit,
+            offset: params.offset,
+            sort: params.sort,
+            order: params.order,
+            eventCategoryId: eventCategoryId
+        }
+        return temp;
+    }
     <%--var noChooseEmps = new Vue({--%>
     <%--el:'#noChooseEmps',--%>
     <%--data:{--%>
