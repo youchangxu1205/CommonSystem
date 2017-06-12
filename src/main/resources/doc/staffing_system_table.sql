@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-10 12:15:11
+Date: 2017-06-12 17:10:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -68,6 +68,18 @@ CREATE TABLE `multiplescore_eventcategory` (
   `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`eventCategoryId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for multiplescore_range
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_range`;
+CREATE TABLE `multiplescore_range` (
+  `postHigherId` bigint(20) DEFAULT NULL,
+  `postLowerId` bigint(20) DEFAULT NULL,
+  `empLowerId` bigint(20) DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  `orgLowerId` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_emp
@@ -135,7 +147,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1264 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1586 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -186,7 +198,7 @@ CREATE TABLE `staffing_permission` (
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `permissionStatus` tinyint(4) NOT NULL DEFAULT '1' COMMENT '权限状态:1 可用 0 不可用',
   PRIMARY KEY (`permissionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_post
@@ -197,8 +209,12 @@ CREATE TABLE `staffing_post` (
   `postName` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '岗位名称',
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
+  `orgId` bigint(20) DEFAULT NULL,
+  `pathName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `isManager` tinyint(1) DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`postId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_post_emp
