@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by dtkj_android on 2017/5/5.
  */
 @TableName("staffing_emp")
-public class StaffingEmp {
+public class StaffingEmp implements Serializable {
     @TableId
     private long empId;//员工ID
     private String empName;//员工姓名

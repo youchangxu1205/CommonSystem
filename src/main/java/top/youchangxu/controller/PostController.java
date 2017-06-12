@@ -1,10 +1,12 @@
 package top.youchangxu.controller;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.StaffingOrg;
-import top.youchangxu.model.system.StaffingOrgEmp;
-import top.youchangxu.model.system.StaffingPost;
-import top.youchangxu.service.system.IStaffingOrgService;
-import top.youchangxu.service.system.IStaffingPostService;
+import top.youchangxu.model.system.*;
+import top.youchangxu.service.system.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,12 +31,21 @@ public class PostController extends BaseController {
 
     private IStaffingPostService staffingPostService;
     private IStaffingOrgService staffingOrgService;
+    private IMultiplesoreRangeService multiplesoreRangeService;
+    private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
+    private IStaffingEmpService staffingEmpService;
 
     @Autowired
     public PostController(IStaffingPostService staffingPostService,
-                          IStaffingOrgService staffingOrgService) {
+                          IStaffingOrgService staffingOrgService,
+                          IMultiplesoreRangeService multiplesoreRangeService,
+                          IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
+                          IStaffingEmpService staffingEmpService) {
         this.staffingPostService = staffingPostService;
         this.staffingOrgService = staffingOrgService;
+        this.multiplesoreRangeService = multiplesoreRangeService;
+        this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
+        this.staffingEmpService = staffingEmpService;
     }
 
     /**
@@ -89,11 +97,11 @@ public class PostController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model,Long orgId) {
+    public String create(Model model, Long orgId) {
         List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
         model.addAttribute("staffingOrgs", orgs);
         StaffingOrg staffingOrg = staffingOrgService.selectById(orgId);
-        model.addAttribute("staffingOrg",staffingOrg);
+        model.addAttribute("staffingOrg", staffingOrg);
         return "/post/create";
     }
 
@@ -161,11 +169,20 @@ public class PostController extends BaseController {
     @RequestMapping(value = "/range/{postId}", method = RequestMethod.GET)
     public String org(@PathVariable("postId") Long postId, Model model) {
 
+        //TODO  获取已分配的岗位和员工
+        List<MultiplescoreRange> multiplescoreRanges = multiplesoreRangeService.selectList(new EntityWrapper<MultiplescoreRange>().eq("enterpriseId", getEnterpriseId())
+                .eq("postHigherId", postId));
+        model.addAttribute("multiplescoreRanges", multiplescoreRanges);
+        //TODO 获取全部岗位和员工
+        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("staffingOrgs", orgs);
+        List<StaffingPost> staffingPosts = staffingPostService.selectList(new EntityWrapper<StaffingPost>().eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("staffingPosts", staffingPosts);
+        List<Object> empIds = staffingEnterpriseEmpService.selectObjs(new EntityWrapper<StaffingEnterpriseEmp>().eq("enterpriseId", getEnterpriseId()).setSqlSelect("empId"));
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+        model.addAttribute("staffingEmps", staffingEmps);
 
-//        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
-//        model.addAttribute("staffingOrgs", orgs);
-//        List<StaffingOrgEmp> staffingOrgEmps = staffingOrgEmpService.selectList(new EntityWrapper<StaffingOrgEmp>().eq("empId", empId).eq("enterpriseId", getEnterpriseId()));
-//        model.addAttribute("staffingOrgEmps", staffingOrgEmps);
+
         return "post/range";
     }
 

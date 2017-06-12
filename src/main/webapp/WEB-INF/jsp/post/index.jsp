@@ -79,15 +79,9 @@
                 animationSpeed: 300,
                 title: '奖扣分范围',
                 content: 'url:${basePath}/post/range/' + rows[0].postId,
+                columnClass:'col-md-12',
                 onContentReady: function () {
                     initMaterialInput();
-                    $('#empIds').select2({
-                        placeholder: '请选择员工'
-                    });
-
-                    $('#eventIds').select2({
-                        placeholder: '请选择积分事件'
-                    });
                 }
             });
         }

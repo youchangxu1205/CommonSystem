@@ -4,6 +4,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import top.youchangxu.common.result.JsonResult;
 import top.youchangxu.common.result.ResultEnum;
+import top.youchangxu.model.system.StaffingOrg;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Author: D.Yang
@@ -27,25 +32,27 @@ public class BaseController {
 
     /**
      * 获取企业编号
+     *
      * @return
      */
-    protected String getEnterpriseId(){
+    protected String getEnterpriseId() {
         Subject subject = SecurityUtils.getSubject();
         String principal = (String) subject.getPrincipal();
         String[] strings = principal.split("#");
-        String enterpriseId =strings[0];
+        String enterpriseId = strings[0];
         return enterpriseId;
     }
 
     /**
      * 获取用户名
+     *
      * @return
      */
-    protected String getEmpId(){
+    protected String getEmpId() {
         Subject subject = SecurityUtils.getSubject();
         String principal = (String) subject.getPrincipal();
         String[] strings = principal.split("#");
-        String username =strings[1];
+        String username = strings[1];
         return username;
     }
 
@@ -59,6 +66,18 @@ public class BaseController {
         result.setMsg(resultEnum.getMsg());
         return result;
     }
+
+//    protected List<StaffingOrg> getCookiesOrg(HttpServletRequest request) {
+//        Cookie[] cookies = request.getCookies();
+//        if (cookies == null) {
+//            return null;
+//        } else {
+//            for (Cookie cookie :
+//                    cookies) {
+//                String name = cookie.getName();
+//            }
+//        }
+//    }
 
     /**
      * 渲染失败数据（带消息）
@@ -97,8 +116,8 @@ public class BaseController {
 
     /**
      * 渲染成功数据（带信息）
-     *
-x     * @return result
+     * <p>
+     * x     * @return result
      */
     protected JsonResult renderSuccess(ResultEnum resultEnum) {
         JsonResult result = renderSuccess();
