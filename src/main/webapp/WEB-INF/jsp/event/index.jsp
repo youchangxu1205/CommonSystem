@@ -18,12 +18,17 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        <shiro:hasPermission name="staffing:enterprise:create">
-            <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增事件</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="staffing:enterprise:update">
-            <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑事件</a>
-        </shiro:hasPermission>
+
+        <a class="waves-effect waves-button" href="javascript:;" onclick="createCategoryAction()"><i
+                class="zmdi zmdi-plus"></i> 新增分类</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="updateCategoryAction()"><i
+                class="zmdi zmdi-edit"></i> 修改分类</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="deleteCategoryAction()"><i
+                class="zmdi zmdi-delete"></i> 删除分类</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i>
+            新增事件</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i>
+            编辑事件</a>
     </div>
 
     <div class="row">
@@ -35,7 +40,6 @@
         </div>
         <div class="col-md-10">
             <table id="table"></table>
-
         </div>
     </div>
 
@@ -53,6 +57,41 @@
             $table.bootstrapTable('refresh');
         }
     });
+
+    function treeRefresh() {
+        $.ajax({
+            type: 'get',
+            url: '${basePath}/event/listCategory',
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                $('#treeDiv').treeview({
+                    data: data,
+                    onNodeSelected: function (event, data) {
+                        eventCategoryId = data.id;
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.confirm({
+                    theme: 'dark',
+                    animation: 'rotateX',
+                    closeAnimation: 'rotateX',
+                    title: false,
+                    content: textStatus,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'waves-effect waves-button waves-light'
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     var $table = $('#table');
     $(function () {
@@ -80,7 +119,7 @@
                 {field: 'eventName', title: '事件名称'},
                 {field: 'minScore', title: '最低分'},
                 {field: 'maxScore', title: '最高分'},
-                {field: 'isFixed', title: '事件属性',formatter: 'fixedFormatter'},
+                {field: 'isFixed', title: '事件属性', formatter: 'fixedFormatter'},
                 {field: 'eventDesc', title: '事件描述'},
                 {
                     field: 'action',
@@ -95,9 +134,9 @@
     });
 
     function fixedFormatter(value, row, index) {
-        if(value==1){
+        if (value == 1) {
             return '<span class="label label-default">固定事件</span>';
-        }else if(value == 2){
+        } else if (value == 2) {
             return '<span class="label label-danger">随机事件</span>';
         }
     }
@@ -151,6 +190,47 @@
             }
         });
     }
+
+    // 新增
+    var createCategoryDialog;
+    function createCategoryAction() {
+
+        createCategoryDialog = $.dialog({
+            animationSpeed: 300,
+            title: '添加分类',
+            content: 'url:${basePath}/event/category/create',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
+    var updateCategoryDialog;
+    function updateCategoryAction() {
+        if (eventCategoryId == 0) {
+            $.confirm({
+                title: false,
+                content: '请选择分类！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+            return;
+        }
+        updateCategoryDialog = $.dialog({
+            animationSpeed: 300,
+            title: '修改分类',
+            content: 'url:${basePath}/event/category/update/' + eventCategoryId,
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
+
     // 编辑
     var updateDialog;
     function updateAction() {
@@ -218,6 +298,88 @@
                                 success: function (data) {
                                     if (data.success) {
                                         deleteDialog.close();
+                                        $table.bootstrapTable('refresh');
+                                    } else {
+
+                                        $.confirm({
+                                            theme: 'dark',
+                                            animation: 'rotateX',
+                                            closeAnimation: 'rotateX',
+                                            title: false,
+                                            content: data.msg,
+                                            buttons: {
+                                                confirm: {
+                                                    text: '确认',
+                                                    btnClass: 'waves-effect waves-button waves-light'
+                                                }
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    $.confirm({
+                                        theme: 'dark',
+                                        animation: 'rotateX',
+                                        closeAnimation: 'rotateX',
+                                        title: false,
+                                        content: textStatus,
+                                        buttons: {
+                                            confirm: {
+                                                text: '确认',
+                                                btnClass: 'waves-effect waves-button waves-light'
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        }
+    }
+
+
+    // 删除
+    var deleteCategoryDialog;
+    function deleteCategoryAction() {
+        if (eventCategoryId == 0) {
+            $.confirm({
+                title: false,
+                content: '请选择积分事件分类！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            deleteCategoryDialog = $.confirm({
+                type: 'red',
+                animationSpeed: 300,
+                title: false,
+                content: '确认删除该分类吗？这将会删除分类下的事件，是否确定删除',
+                buttons: {
+                    confirm: {
+                        text: '确认',
+                        btnClass: 'waves-effect waves-button',
+                        action: function () {
+
+                            $.ajax({
+                                type: 'post',
+                                url: '${basePath}/event/deleteCategory/' + eventCategoryId,
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.success) {
+                                        deleteCategoryDialog.close();
+                                        treeRefresh();
                                         $table.bootstrapTable('refresh');
                                     } else {
 

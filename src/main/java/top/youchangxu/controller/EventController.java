@@ -3,7 +3,6 @@ package top.youchangxu.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,8 +48,15 @@ public class EventController extends BaseController {
     public String index(Model model) {
 
         JSONArray eventCategories = multiplescoreEventCategoryService.getBootstrapTreeData(getEnterpriseId());
-        model.addAttribute("eventCategories",eventCategories);
+        model.addAttribute("eventCategories", eventCategories);
         return "/event/index";
+    }
+
+    @RequestMapping(value = "/listCategory", method = RequestMethod.GET)
+    @ResponseBody
+    public Object listCategory() {
+        JSONArray eventCategories = multiplescoreEventCategoryService.getBootstrapTreeData(getEnterpriseId());
+        return eventCategories;
     }
 
     /**
@@ -69,7 +75,7 @@ public class EventController extends BaseController {
     public Object list(int limit, int offset, String sort, String order, MultiplescoreEvent multiplescoreEvent) {
 
         EntityWrapper<MultiplescoreEvent> eventEntityWrapper = new EntityWrapper<>();
-        if(multiplescoreEvent.getEventCategoryId()!=null) {
+        if (multiplescoreEvent.getEventCategoryId() != null) {
             eventEntityWrapper.eq("eventCategoryId", multiplescoreEvent.getEventCategoryId());
         }
         Page<MultiplescoreEvent> multiplescoreEventPage = new Page<>(offset / limit + 1, limit, sort);
@@ -84,6 +90,7 @@ public class EventController extends BaseController {
         return result;
     }
 
+
     /**
      * 创建积分事件
      *
@@ -93,6 +100,71 @@ public class EventController extends BaseController {
 //    @RequiresPermissions("staffing:event:create")
     public String create() {
         return "/event/create";
+    }
+
+    /**
+     * 创建积分分类
+     *
+     * @return
+     */
+    @RequestMapping(value = "/category/create", method = RequestMethod.GET)
+//    @RequiresPermissions("staffing:event:create")
+    public String createCategory() {
+        return "/event/createCategory";
+    }
+
+
+    /**
+     * 修改积分分类
+     *
+     * @return
+     */
+    @RequestMapping(value = "/category/update/{eventCategoryId}", method = RequestMethod.GET)
+    public String updateCategory(@PathVariable("eventCategoryId") Long eventCategoryId, Model model) {
+        MultiplescoreEventCategory multiplescoreEventCategory = multiplescoreEventCategoryService.selectById(eventCategoryId);
+        model.addAttribute("multiplescoreEventCategory", multiplescoreEventCategory);
+        return "/event/updateCategory";
+    }
+
+
+    /**
+     * 创建积分事件
+     *
+     * @param multiplescoreEventCategory
+     * @return
+     */
+    @RequestMapping(value = "/createCategory", method = RequestMethod.POST)
+    @ResponseBody
+    public Object createCategory(MultiplescoreEventCategory multiplescoreEventCategory) {
+        multiplescoreEventCategory.setEnterpriseId(Long.parseLong(getEnterpriseId()));
+        boolean insert = multiplescoreEventCategoryService.insert(multiplescoreEventCategory);
+        return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+    }
+
+    /**
+     * 修改积分分类
+     *
+     * @param multiplescoreEventCategory
+     * @return
+     */
+    @RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateCategory(MultiplescoreEventCategory multiplescoreEventCategory) {
+        boolean insert = multiplescoreEventCategoryService.updateById(multiplescoreEventCategory);
+        return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+    }
+
+    /**
+     * 删除积分分类
+     *
+     * @param eventCategoryId
+     * @return
+     */
+    @RequestMapping(value = "/deleteCategory/{eventCategoryId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteCategory(@PathVariable("eventCategoryId") Long eventCategoryId) {
+        boolean insert = multiplescoreEventCategoryService.deleteById(eventCategoryId);
+        return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
     /**
