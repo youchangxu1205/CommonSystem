@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-12 18:22:22
+Date: 2017-06-13 16:06:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,7 +42,7 @@ CREATE TABLE `multiplescore_event` (
   `eventDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for multiplescore_event_range
@@ -70,15 +70,25 @@ CREATE TABLE `multiplescore_eventcategory` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
--- Table structure for multiplescore_range
+-- Table structure for multiplescore_post_event_range
 -- ----------------------------
-DROP TABLE IF EXISTS `multiplescore_range`;
-CREATE TABLE `multiplescore_range` (
-  `postHigherId` bigint(20) DEFAULT NULL,
-  `postLowerId` bigint(20) DEFAULT NULL,
-  `empLowerId` bigint(20) DEFAULT NULL,
+DROP TABLE IF EXISTS `multiplescore_post_event_range`;
+CREATE TABLE `multiplescore_post_event_range` (
+  `postHigherId` bigint(20) NOT NULL,
+  `scoreEventId` bigint(20) NOT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
-  `orgLowerId` bigint(20) DEFAULT NULL
+  PRIMARY KEY (`postHigherId`,`scoreEventId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for multiplescore_post_range
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_post_range`;
+CREATE TABLE `multiplescore_post_range` (
+  `postHigherId` bigint(20) NOT NULL,
+  `postLowerId` bigint(20) NOT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`postHigherId`,`postLowerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
@@ -147,7 +157,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1611 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=2554 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
