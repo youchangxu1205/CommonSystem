@@ -5,7 +5,7 @@ package top.youchangxu.model.vo;
  */
 public class PostRangeVO {
     private Long postId;
-    private String orgPathName;
+    private String orgName;
     private String postName;
     private String postEmpName;
 
@@ -17,12 +17,12 @@ public class PostRangeVO {
         this.postId = postId;
     }
 
-    public String getOrgPathName() {
-        return orgPathName;
+    public String getOrgName() {
+        return orgName;
     }
 
-    public void setOrgPathName(String orgPathName) {
-        this.orgPathName = orgPathName;
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 
     public String getPostName() {

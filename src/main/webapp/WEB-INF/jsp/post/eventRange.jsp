@@ -6,65 +6,64 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="postRangeDialog" class="crudDialog">
-    <form id="postRangeForm" method="post">
+<div id="postEventRangeDialog" class="crudDialog">
+    <form id="postEventRangeForm" method="post">
 
         <div class="form-group">
             <div class="row">
                 <div class="col-md-5">
-                    不在奖扣分范围内的岗位
-                    <table id="noRangesTable"></table>
+                    不在奖扣分范围内的事件
+                    <table id="noEventRangesTable"></table>
                 </div>
                 <div class="col-md-2">
                     <a class="btn btn-primary" style="margin-top: 150px" href="javascript:;" onclick="addRanges()">&gt;&gt;添加&gt;&gt;</a>
                     <a class="btn btn-danger" style="margin-top: 50px" href="javascript:;" onclick="removeRanges()">&lt;&lt;取消&lt;&lt;</a>
                 </div>
                 <div class="col-md-5">
-                    在奖扣分范围内的岗位
-                    <table id="rangesTable"></table>
+                    在奖扣分范围内的事件
+                    <table id="eventRangesTable"></table>
                 </div>
             </div>
         </div>
         <div class="form-group text-right dialog-buttons">
-            <a class="waves-effect waves-button" href="javascript:;" onclick="scoreRangeSubmit();">保存</a>
-            <a class="waves-effect waves-button" href="javascript:;" onclick="scoreRangeDialog.close();">取消</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="eventRangeSubmit();">保存</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="eventRangeDialog.close();">取消</a>
         </div>
     </form>
 </div>
-<script src="${basePath}/resources/zheng-admin/js/range.js"></script>
 <script>
 
     function addRanges() {
-        var rows = $noRangesTable.bootstrapTable('getSelections');
-        $rangesTable.bootstrapTable('append', rows);
-        var ids = $.map($noRangesTable.bootstrapTable('getSelections'), function (row) {
-            return row.postId;
+        var rows = $noEventRangesTable.bootstrapTable('getSelections');
+        $eventRangesTable.bootstrapTable('append', rows);
+        var ids = $.map($noEventRangesTable.bootstrapTable('getSelections'), function (row) {
+            return row.eventId;
         });
-        $noRangesTable.bootstrapTable('remove', {
-            field: 'postId',
+        $noEventRangesTable.bootstrapTable('remove', {
+            field: 'eventId',
             values: ids
         });
     }
 
 
     function removeRanges() {
-        var rows = $rangesTable.bootstrapTable('getSelections');
-        $noRangesTable.bootstrapTable('append', rows);
-        var ids = $.map($rangesTable.bootstrapTable('getSelections'), function (row) {
-            return row.postId;
+        var rows = $eventRangesTable.bootstrapTable('getSelections');
+        $noEventRangesTable.bootstrapTable('append', rows);
+        var ids = $.map($eventRangesTable.bootstrapTable('getSelections'), function (row) {
+            return row.eventId;
         });
 
-        $rangesTable.bootstrapTable('remove', {
-            field: 'postId',
+        $eventRangesTable.bootstrapTable('remove', {
+            field: 'eventId',
             values: ids
         });
     }
 
-    var $rangesTable = $('#rangesTable');
+    var $eventRangesTable = $('#eventRangesTable');
     $(function () {
         // bootstrap table初始化
-        $rangesTable.bootstrapTable({
-            url: '${basePath}/post/range',
+        $eventRangesTable.bootstrapTable({
+            url: '${basePath}/post/eventRange',
             height: 500,
             striped: true,
             minimumCountColumns: 2,
@@ -80,19 +79,20 @@
             maintainSelected: true,
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'postId', title: '岗位编号'},
-                {field: 'postName', title: '岗位名称'},
-                {field: 'postEmpName', title: '任职人'},
-                {field: 'orgName', title: '所属部门'}
+                {field: 'eventId', title: '事件编号'},
+                {field: 'eventName', title: '事件名称'},
+                {field: 'eventDesc', title: '事件描述'},
+                {field: 'maxScore', title: '最高分'},
+                {field: 'minScore', title: '最低分'}
             ]
         });
     });
 
-    var $noRangesTable = $('#noRangesTable');
+    var $noEventRangesTable = $('#noEventRangesTable');
     $(function () {
         // bootstrap table初始化
-        $noRangesTable.bootstrapTable({
-            url: '${basePath}/post/noRange',
+        $noEventRangesTable.bootstrapTable({
+            url: '${basePath}/post/noEventRange',
             height: 500,
             striped: true,
             minimumCountColumns: 2,
@@ -104,14 +104,15 @@
             silentSort: false,
             smartDisplay: false,
             escape: true,
-            idField: 'postId',
+            idField: 'eventId',
             maintainSelected: true,
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'postId', title: '岗位编号'},
-                {field: 'postName', title: '岗位名称'},
-                {field: 'postEmpName', title: '任职人'},
-                {field: 'orgName', title: '所属部门'}
+                {field: 'eventId', title: '事件编号'},
+                {field: 'eventName', title: '事件名称'},
+                {field: 'eventDesc', title: '事件描述'},
+                {field: 'maxScore', title: '最高分'},
+                {field: 'minScore', title: '最低分'}
             ]
         });
     });
@@ -123,28 +124,28 @@
             offset: params.offset,
             sort: params.sort,
             order: params.order,
-            postId: postRangePostId
+            postId: eventRangePostId
         }
         return temp;
     }
 
 
-    function scoreRangeSubmit() {
-        var ids = $.map($rangesTable.bootstrapTable('getData'), function (row) {
-            return row.postId;
+    function eventRangeSubmit() {
+        var ids = $.map($eventRangesTable.bootstrapTable('getData'), function (row) {
+            return row.eventId;
         });
 
         $.ajax({
             type: 'post',
-            url: '${basePath}/post/postRange',
+            url: '${basePath}/post/eventRange',
             data: {
                 ids: ids.join("-"),
-                postId: postRangePostId
+                postId: eventRangePostId
             },
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    postRangeDialog.close();
+                    eventRangeDialog.close();
                     $table.bootstrapTable('refresh');
                 } else {
 

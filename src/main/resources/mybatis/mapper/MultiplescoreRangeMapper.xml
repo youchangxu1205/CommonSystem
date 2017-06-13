@@ -4,6 +4,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.youchangxu.mapper.system.MultiplescoreRangeMapper">
     <select id="selectPostRangeVOS" parameterType="java.lang.Long" resultType="top.youchangxu.model.vo.PostRangeVO">
-
+        SELECT
+            sp.postId                postId,
+            sp.postName              postName,
+            GROUP_CONCAT(se.empName) postEmpName,
+            so.orgName,
+            so.orgPath
+        FROM
+            multiplescore_post_range mr
+            LEFT JOIN staffing_post sp ON sp.postId = mr.postLowerId
+            LEFT JOIN staffing_post_emp spe ON spe.postId = mr.postLowerId
+            LEFT JOIN staffing_emp se ON se.empId = spe.empId
+            LEFT JOIN staffing_org so ON so.orgId = sp.orgId
+        WHERE
+            postHigherId = #{postId}
+        GROUP BY
+            sp.postId;
+    </select>
+    <select id="selectPostNoRangeVOS" parameterType="java.lang.Long" resultType="top.youchangxu.model.vo.PostRangeVO">
+        SELECT
+            sp.postId                postId,
+            sp.postName              postName,
+            GROUP_CONCAT(se.empName) postEmpName,
+            so.orgName,
+            so.orgPath
+        FROM
+            staffing_post sp
+            LEFT JOIN staffing_post_emp spe ON spe.postId = sp.postId
+            LEFT JOIN staffing_emp se ON se.empId = spe.empId
+            LEFT JOIN staffing_org so ON so.orgId = sp.orgId
+        WHERE
+            sp.postId NOT IN (
+                SELECT mr.postLowerId
+                FROM
+                    multiplescore_post_range mr
+                WHERE
+                    mr.postHigherId = #{postId}
+            )
+        GROUP BY
+            sp.postId;
     </select>
 </mapper>

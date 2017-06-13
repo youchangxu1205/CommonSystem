@@ -36,8 +36,10 @@
                             class="zmdi zmdi-edit"></i> 编辑岗位</a>
                 </shiro:hasPermission>
 
-                <a class="waves-effect waves-button" href="javascript:;" onclick="scoreRangeAction()"><i
-                        class="zmdi zmdi-edit"></i> 奖扣分范围</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="postRangeAction()"><i
+                        class="zmdi zmdi-edit"></i> 岗位范围</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="eventRangeAction()"><i
+                        class="zmdi zmdi-edit"></i> 事件范围</a>
             </div>
             <table id="table"></table>
         </div>
@@ -55,10 +57,9 @@
             $table.bootstrapTable('refresh');
         }
     });
-
-    var scoreRangeDialog;
-    var scoreRangePostId
-    function scoreRangeAction() {
+    var eventRangeDialog;
+    var eventRangePostId;
+    function eventRangeAction() {
         var rows = $table.bootstrapTable('getSelections');
         if (rows.length != 1) {
             $.confirm({
@@ -74,8 +75,39 @@
                 }
             });
         } else {
-            scoreRangePostId = rows[0].postId;
-            scoreRangeDialog = $.dialog({
+            eventRangePostId = rows[0].postId;
+            eventRangeDialog = $.dialog({
+                animationSpeed: 300,
+                title: '奖扣分范围',
+                content: 'url:${basePath}/post/eventRange/' + rows[0].postId,
+                columnClass:'col-md-12',
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
+
+    var postRangeDialog;
+    var postRangePostId;
+    function postRangeAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            postRangePostId = rows[0].postId;
+            postRangeDialog = $.dialog({
                 animationSpeed: 300,
                 title: '奖扣分范围',
                 content: 'url:${basePath}/post/range/' + rows[0].postId,

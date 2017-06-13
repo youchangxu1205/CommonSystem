@@ -8,6 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
     <form id="createForm" method="post">
+    <input id="eventCategoryId" name="eventCategoryId" type="hidden"/>
         <div class="form-group">
             <label for="eventName">事件名称</label>
             <input id="eventName" type="text" class="form-control" name="eventName" maxlength="50">
@@ -40,6 +41,7 @@
     </form>
 </div>
 <script>
+    $("#eventCategoryId").val(eventCategoryId);
     function createSubmit() {
         $.ajax({
             type: 'post',

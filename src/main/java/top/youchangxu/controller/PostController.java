@@ -1,12 +1,10 @@
 package top.youchangxu.controller;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
+import top.youchangxu.common.utils.StringUtil;
 import top.youchangxu.model.system.*;
+import top.youchangxu.model.vo.PostRangeVO;
 import top.youchangxu.service.system.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dtkj_android on 2017/5/26.
@@ -32,14 +29,20 @@ public class PostController extends BaseController {
     private IStaffingPostService staffingPostService;
     private IStaffingOrgService staffingOrgService;
     private IMultiplesoreRangeService multiplesoreRangeService;
+    private IMultiplescorePostEventRangeService multiplescorePostEventRangeService;
+    private IMultiplescoreEventService multiplescoreEventService;
 
     @Autowired
     public PostController(IStaffingPostService staffingPostService,
                           IStaffingOrgService staffingOrgService,
-                          IMultiplesoreRangeService multiplesoreRangeService) {
+                          IMultiplesoreRangeService multiplesoreRangeService,
+                          IMultiplescorePostEventRangeService multiplescorePostEventRangeService,
+                          IMultiplescoreEventService multiplescoreEventService) {
         this.staffingPostService = staffingPostService;
         this.staffingOrgService = staffingOrgService;
         this.multiplesoreRangeService = multiplesoreRangeService;
+        this.multiplescorePostEventRangeService = multiplescorePostEventRangeService;
+        this.multiplescoreEventService = multiplescoreEventService;
     }
 
     /**
@@ -155,7 +158,7 @@ public class PostController extends BaseController {
 
 
     /**
-     * 奖扣分范围页面
+     * 奖扣分范围岗位页面
      *
      * @param postId
      * @return
@@ -165,9 +168,118 @@ public class PostController extends BaseController {
         return "post/range";
     }
 
-    @RequestMapping(value = "/postRange/{postId}", method = RequestMethod.GET)
-    public Object postRange(@PathVariable("postId") Long postId){
-        return multiplesoreRangeService.selectPostRangeVOS(postId);
+    @RequestMapping(value = "/range", method = RequestMethod.GET)
+    @ResponseBody
+    public Object range(Long postId) {
+        Map<String, Object> result = new HashMap<>();
+        List<PostRangeVO> postRangeVOS = multiplesoreRangeService.selectPostRangeVOS(postId);
+        result.put("rows", postRangeVOS);
+        result.put("total", postRangeVOS.size());
+        return result;
     }
+
+    @RequestMapping(value = "/noRange", method = RequestMethod.GET)
+    @ResponseBody
+    public Object noRange(Long postId) {
+        Map<String, Object> result = new HashMap<>();
+        List<PostRangeVO> postRangeVOS = multiplesoreRangeService.selectPostNoRangeVOS(postId);
+        result.put("rows", postRangeVOS);
+        result.put("total", postRangeVOS.size());
+        return result;
+    }
+
+    @RequestMapping(value = "/postRange", method = RequestMethod.POST)
+    @ResponseBody
+    public Object postRange(String ids, Long postId) {
+        List<MultiplescorePostRange> multiplescorePostRanges = new ArrayList<>();
+        if (StringUtil.isNotEmpty(ids)) {
+            String[] idsArray = ids.split("-");
+            for (String id :
+                    idsArray) {
+                MultiplescorePostRange multiplescorePostRange = new MultiplescorePostRange();
+                multiplescorePostRange.setPostHigherId(postId);
+                multiplescorePostRange.setPostLowerId(NumberUtils.toLong(id));
+                multiplescorePostRange.setEnterpriseId(NumberUtils.toLong(getEnterpriseId()));
+                multiplescorePostRanges.add(multiplescorePostRange);
+            }
+        }
+
+        boolean b = multiplesoreRangeService.updateRanges(multiplescorePostRanges, postId, NumberUtils.toLong(getEnterpriseId()));
+        return b ? renderSuccess(ResultEnum.UPDATE_SUCCESS) : renderError(ResultEnum.UPDATE_ERROR);
+    }
+
+
+    /**
+     * 奖扣分范围事件页面
+     *
+     * @param postId
+     * @return
+     */
+    @RequestMapping(value = "/eventRange/{postId}", method = RequestMethod.GET)
+    public String eventRange(@PathVariable("postId") Long postId, Model model) {
+        return "post/eventRange";
+    }
+
+    @RequestMapping(value = "/eventRange", method = RequestMethod.GET)
+    @ResponseBody
+    public Object eventRange(Long postId) {
+        Map<String, Object> result = new HashMap<>();
+
+
+        List<Object> eventIds = multiplescorePostEventRangeService.selectObjs(new EntityWrapper<MultiplescorePostEventRange>()
+                .eq("enterpriseId", getEnterpriseId())
+                .eq("postHigherId", postId)
+                .setSqlSelect("scoreEventId"));
+        List<MultiplescoreEvent> multiplescoreEvents = new ArrayList<>();
+        if (eventIds.size() > 0) {
+            multiplescoreEvents = multiplescoreEventService.selectList(
+                    new EntityWrapper<MultiplescoreEvent>().in("eventId", eventIds).eq("enterpriseId", getEnterpriseId()));
+
+        }
+        result.put("rows", multiplescoreEvents);
+        result.put("total", multiplescoreEvents.size());
+        return result;
+    }
+
+    @RequestMapping(value = "/noEventRange", method = RequestMethod.GET)
+    @ResponseBody
+    public Object noEventRange(Long postId) {
+        Map<String, Object> result = new HashMap<>();
+
+
+        List<Object> eventIds = multiplescorePostEventRangeService.selectObjs(new EntityWrapper<MultiplescorePostEventRange>()
+                .eq("enterpriseId", getEnterpriseId())
+                .eq("postHigherId", postId)
+                .setSqlSelect("scoreEventId"));
+
+        List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(
+                new EntityWrapper<MultiplescoreEvent>().notIn("eventId", eventIds).eq("enterpriseId", getEnterpriseId()));
+
+
+        result.put("rows", multiplescoreEvents);
+        result.put("total", multiplescoreEvents.size());
+        return result;
+    }
+
+    @RequestMapping(value = "/eventRange", method = RequestMethod.POST)
+    @ResponseBody
+    public Object postEventRange(String ids, Long postId) {
+        List<MultiplescorePostEventRange> multiplescorePostEventRanges = new ArrayList<>();
+        if (StringUtil.isNotEmpty(ids)) {
+            String[] idsArray = ids.split("-");
+            for (String id :
+                    idsArray) {
+                MultiplescorePostEventRange multiplescorePostEventRange = new MultiplescorePostEventRange();
+                multiplescorePostEventRange.setPostHigherId(postId);
+                multiplescorePostEventRange.setScoreEventId(NumberUtils.toLong(id));
+                multiplescorePostEventRange.setEnterpriseId(NumberUtils.toLong(getEnterpriseId()));
+                multiplescorePostEventRanges.add(multiplescorePostEventRange);
+            }
+        }
+
+        boolean b = multiplescorePostEventRangeService.updateEventRanges(multiplescorePostEventRanges, postId, NumberUtils.toLong(getEnterpriseId()));
+        return b ? renderSuccess(ResultEnum.UPDATE_SUCCESS) : renderError(ResultEnum.UPDATE_ERROR);
+    }
+
 
 }

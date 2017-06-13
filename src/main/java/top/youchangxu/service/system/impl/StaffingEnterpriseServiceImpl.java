@@ -48,7 +48,7 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
                     staffingEnterprise.getEnterpriseId());
 
             staffingOrgService.insert(staffingOrg);
-            staffingOrg.setOrgPath("/0/"+staffingOrg.getOrgId()+"/");
+            staffingOrg.setOrgPath(staffingOrg.getOrgId()+"");
             staffingOrgService.updateById(staffingOrg);
             //新增员工
             StaffingEmp staffingEmp = new StaffingEmp();

@@ -87,7 +87,7 @@ public class OrgController extends BaseController {
                 .eq("orgId", staffingOrg.getpOrgId()));
         boolean insert = staffingOrgService.insert(staffingOrg);
         if (insert) {
-            staffingOrg.setOrgPath(topOrg.getOrgPath() + staffingOrg.getOrgId() + "/");
+            staffingOrg.setOrgPath(topOrg.getOrgPath() +","+ staffingOrg.getOrgId());
             boolean updateById = staffingOrgService.updateById(staffingOrg);
 
             return updateById ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);

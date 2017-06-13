@@ -3,13 +3,13 @@ package top.youchangxu.model.system;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 /**
- * Created by dtkj_android on 2017/6/12.
+ * Created by dtkj_android on 2017/6/13.
  */
-@TableName("multiplescore_range")
-public class MultiplescoreRange {
+@TableName("multiplescore_post_event_range")
+public class MultiplescorePostEventRange {
+
     private Long postHigherId;
-    private Long postLowerId;
-    private Long empLowerId;
+    private Long scoreEventId;
     private Long enterpriseId;
 
     public Long getPostHigherId() {
@@ -20,20 +20,12 @@ public class MultiplescoreRange {
         this.postHigherId = postHigherId;
     }
 
-    public Long getPostLowerId() {
-        return postLowerId;
+    public Long getScoreEventId() {
+        return scoreEventId;
     }
 
-    public void setPostLowerId(Long postLowerId) {
-        this.postLowerId = postLowerId;
-    }
-
-    public Long getEmpLowerId() {
-        return empLowerId;
-    }
-
-    public void setEmpLowerId(Long empLowerId) {
-        this.empLowerId = empLowerId;
+    public void setScoreEventId(Long scoreEventId) {
+        this.scoreEventId = scoreEventId;
     }
 
     public Long getEnterpriseId() {

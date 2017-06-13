@@ -127,9 +127,24 @@
     // 新增
     var createDialog;
     function createAction() {
+        if (eventCategoryId == 0) {
+            $.confirm({
+                title: false,
+                content: '请选择分类！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+            return;
+        }
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '添加企业',
+            title: '添加事件',
             content: 'url:${basePath}/event/create',
             onContentReady: function () {
                 initMaterialInput();
