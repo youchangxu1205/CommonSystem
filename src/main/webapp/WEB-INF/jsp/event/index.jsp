@@ -187,6 +187,9 @@
             content: 'url:${basePath}/event/create',
             onContentReady: function () {
                 initMaterialInput();
+                $('select').select2({
+                    placeholder: '请选择事件属性'
+                });
             }
         });
     }

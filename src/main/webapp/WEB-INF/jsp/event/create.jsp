@@ -8,7 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
     <form id="createForm" method="post">
-    <input id="eventCategoryId" name="eventCategoryId" type="hidden"/>
+        <input id="eventCategoryId" name="eventCategoryId" type="hidden"/>
         <div class="form-group">
             <label for="eventName">事件名称</label>
             <input id="eventName" type="text" class="form-control" name="eventName" maxlength="50">
@@ -21,6 +21,10 @@
                 <option value="2">随机事件</option>
             </select>
 
+        </div>
+        <div id="eventScoreDiv" class="form-group">
+            <label for="eventScore">单人单月最高奖分</label>
+            <input id="eventScore" type="text" class="form-control" name="eventScore" maxlength="200">
         </div>
         <div class="form-group">
             <label for="eventDesc">事件描述</label>
@@ -41,6 +45,17 @@
     </form>
 </div>
 <script>
+    $("#isFixed").trigger("change");
+    $("#eventScoreDiv").show();
+    $("#isFixed").change(function () {
+        var value = $(this).children('option:selected').val();
+        if (value == 1) {
+            $("#eventScoreDiv").show();
+        } else {
+            $("#eventScoreDiv").hide();
+        }
+
+    })
     $("#eventCategoryId").val(eventCategoryId);
     function createSubmit() {
         $.ajax({
@@ -49,7 +64,12 @@
             data: $('#createForm').serialize(),
             dataType: 'json',
             beforeSend: function () {
-
+                var minScore = $("#minScore").val();
+                var maxScore = $("#maxScore").val();
+                if (minScore > maxScore) {
+                    alert("最低分不能高于最高分");
+                    return false;
+                }
             },
             success: function (data) {
                 if (data.success) {

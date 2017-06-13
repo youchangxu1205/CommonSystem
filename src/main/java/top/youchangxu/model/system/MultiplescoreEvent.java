@@ -24,6 +24,7 @@ public class MultiplescoreEvent {
     private Long eventCategoryId;
     private String eventDesc;
     private Long enterpriseId;
+    private int eventScore;
 
     public Long getEventId() {
         return eventId;
@@ -103,5 +104,13 @@ public class MultiplescoreEvent {
 
     public void setEnterpriseId(Long enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public int getEventScore() {
+        return eventScore;
+    }
+
+    public void setEventScore(int eventScore) {
+        this.eventScore = eventScore;
     }
 }
