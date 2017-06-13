@@ -16,7 +16,6 @@
         </div>
         <label for="isFixed">事件属性</label>
         <div class="form-group">
-            <%--<input id="isFixed" type="text" class="form-control" name="isFixed" maxlength="20">--%>
             <select class="form-control" id="isFixed" name="isFixed">
                 <option value="1" <c:if test="${multiplescoreEvent.isFixed==1}">selected</c:if>>固定事件</option>
                 <option value="2" <c:if test="${multiplescoreEvent.isFixed==2}">selected</c:if>>随机事件</option>

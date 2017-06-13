@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-13 16:06:51
+Date: 2017-06-13 18:04:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,7 @@ CREATE TABLE `multiplescore_event` (
   `eventId` bigint(20) NOT NULL AUTO_INCREMENT,
   `eventName` varchar(255) COLLATE utf8_bin NOT NULL,
   `minScore` int(11) DEFAULT NULL,
+  `eventScore` int(11) DEFAULT NULL COMMENT '单人单月最高奖分',
   `maxScore` int(11) DEFAULT NULL,
   `isFixed` tinyint(4) DEFAULT NULL,
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,7 +43,7 @@ CREATE TABLE `multiplescore_event` (
   `eventDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for multiplescore_event_range
@@ -67,7 +68,7 @@ CREATE TABLE `multiplescore_eventcategory` (
   `eventCategoryDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`eventCategoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for multiplescore_post_event_range
@@ -157,7 +158,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2554 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=2729 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
