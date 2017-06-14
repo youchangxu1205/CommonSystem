@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-13 18:04:57
+Date: 2017-06-14 18:01:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,6 +93,40 @@ CREATE TABLE `multiplescore_post_range` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
+-- Table structure for multiplescore_scorebill
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_scorebill`;
+CREATE TABLE `multiplescore_scorebill` (
+  `scoreBillId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `scoreBillNo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `drawerId` bigint(20) DEFAULT NULL,
+  `scoreBillDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `scoreBillStatus` tinyint(4) DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  `isEnable` tinyint(1) DEFAULT NULL,
+  `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`scoreBillId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for multiplescore_scorebill_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `multiplescore_scorebill_detail`;
+CREATE TABLE `multiplescore_scorebill_detail` (
+  `scoreBillDetailId` bigint(20) NOT NULL AUTO_INCREMENT,
+  `drawerId` bigint(20) DEFAULT NULL,
+  `draweeId` bigint(20) DEFAULT NULL,
+  `scoreBillScore` float DEFAULT NULL,
+  `scoreBillDetailDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `isEnable` tinyint(2) DEFAULT NULL,
+  `enterpriseId` bigint(20) DEFAULT NULL,
+  `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`scoreBillDetailId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
 -- Table structure for staffing_emp
 -- ----------------------------
 DROP TABLE IF EXISTS `staffing_emp`;
@@ -158,7 +192,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2729 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=3336 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
@@ -188,6 +222,7 @@ CREATE TABLE `staffing_org_emp` (
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
   `enterpriseId` bigint(20) NOT NULL,
+  `isMaster` tinyint(1) DEFAULT NULL COMMENT '是否是主属部门',
   PRIMARY KEY (`orgId`,`empId`,`enterpriseId`),
   KEY `org_emp_id` (`empId`) USING BTREE,
   CONSTRAINT `staffing_org_emp_ibfk_1` FOREIGN KEY (`orgId`) REFERENCES `staffing_org` (`orgId`),
@@ -209,7 +244,7 @@ CREATE TABLE `staffing_permission` (
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `permissionStatus` tinyint(4) NOT NULL DEFAULT '1' COMMENT '权限状态:1 可用 0 不可用',
   PRIMARY KEY (`permissionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_post
@@ -234,9 +269,10 @@ DROP TABLE IF EXISTS `staffing_post_emp`;
 CREATE TABLE `staffing_post_emp` (
   `postId` bigint(20) NOT NULL COMMENT '岗位ID',
   `empId` bigint(20) NOT NULL COMMENT '员工ID',
-  `status` tinyint(4) DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
+  `status` tinyint(1) DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
+  `enterpriseId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`postId`,`empId`),
   KEY `post_emp_id` (`empId`) USING BTREE,
   CONSTRAINT `staffing_post_emp_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `staffing_post` (`postId`),
