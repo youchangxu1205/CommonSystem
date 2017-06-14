@@ -1,6 +1,7 @@
 package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,10 +13,20 @@ public class StaffingPostEmp {
     private Long postId;
     private Long empId;
     private boolean status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     private Long enterpriseId;
 
+    public StaffingPostEmp() {
+    }
+
+    public StaffingPostEmp(Long postId, Long empId, Long enterpriseId) {
+        this.postId = postId;
+        this.empId = empId;
+        this.enterpriseId = enterpriseId;
+    }
 
     public Long getPostId() {
         return postId;

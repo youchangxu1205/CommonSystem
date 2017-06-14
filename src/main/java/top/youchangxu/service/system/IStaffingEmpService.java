@@ -17,4 +17,8 @@ public interface IStaffingEmpService extends IService<StaffingEmp> {
     List<StaffingPermission> findPermissions(String enterpriseId, String empId);
 
     boolean saveEmp(StaffingEmp staffingEmp, Long orgId, String enterpriseId);
+
+    int selectNoSetPostCount(String enterpriseId);
+
+    List<StaffingEmp> selectNoSetPostEmps(String enterpriseId);
 }

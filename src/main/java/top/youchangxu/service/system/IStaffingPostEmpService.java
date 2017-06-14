@@ -7,4 +7,5 @@ import top.youchangxu.model.system.StaffingPostEmp;
  * Created by dtkj_android on 2017/6/14.
  */
 public interface IStaffingPostEmpService extends IService<StaffingPostEmp> {
+    int updateEmpPost(String[] postIds, Long empId, String enterpriseId);
 }

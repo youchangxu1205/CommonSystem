@@ -17,4 +17,36 @@
             FROM staffing_role sr LEFT JOIN staffing_role_emp sre ON sre.roleId = sr.roleId
             WHERE sre.empId = #{empId} AND sr.enterpriseId = #{enterpriseId})
     </select>
+    <select id="selectNoSetPostCount" resultType="java.lang.Integer">
+        SELECT COUNT(empId)
+        FROM
+            staffing_enterprise_emp see
+        WHERE
+            see.empId NOT IN (
+                SELECT spe.empId
+                FROM
+                    staffing_post_emp spe
+                WHERE
+                    spe.enterpriseId = #{enterpriseId}
+            )
+            AND see.enterpriseId = #{enterpriseId};
+    </select>
+
+
+    <select id="selectNoSetPostEmps" resultType="top.youchangxu.model.system.StaffingEmp">
+        SELECT se.*
+        FROM
+            staffing_enterprise_emp see
+            LEFT JOIN staffing_emp se ON se.empId = see.empId
+        WHERE
+            see.empId NOT IN (
+                SELECT spe.empId
+                FROM
+                    staffing_post_emp spe
+                WHERE
+                    spe.enterpriseId = #{enterpriseId}
+            )
+            AND see.enterpriseId = #{enterpriseId};
+    </select>
+
 </mapper>

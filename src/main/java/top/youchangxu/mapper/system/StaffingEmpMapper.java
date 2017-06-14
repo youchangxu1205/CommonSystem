@@ -27,4 +27,8 @@ public interface StaffingEmpMapper extends BaseMapper<StaffingEmp> {
      * @return
      */
     List<StaffingPermission> findPermissions(@Param("enterpriseId") String enterpriseId, @Param("empId") String empId);
+
+    int selectNoSetPostCount(String enterpriseId);
+
+    List<StaffingEmp> selectNoSetPostEmps(String enterpriseId);
 }

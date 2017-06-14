@@ -88,4 +88,14 @@ public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, Staff
         }
         return insert;
     }
+
+    @Override
+    public int selectNoSetPostCount(String enterpriseId) {
+        return baseMapper.selectNoSetPostCount(enterpriseId);
+    }
+
+    @Override
+    public List<StaffingEmp> selectNoSetPostEmps(String enterpriseId) {
+        return baseMapper.selectNoSetPostEmps(enterpriseId);
+    }
 }

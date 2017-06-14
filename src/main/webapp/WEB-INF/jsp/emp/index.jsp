@@ -22,6 +22,7 @@
             <div id="tree" class="panel panel-default">
                 <div class="panel-heading">组织架构</div>
             </div>
+            <div id="noSetPostEmpCount" class="alert alert-danger"></div>
             <div id="treeDiv"></div>
         </div>
         <div class="col-md-10">
@@ -46,8 +47,11 @@
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 奖扣分范围</a>
                 <%--</shiro:hasPermission>--%>
-                <a class="waves-effect waves-button" href="javascript:;" onclick="empOrgAction()"><i
-                        class="zmdi zmdi-edit"></i> 更换部门</a>
+                <%--<a class="waves-effect waves-button" href="javascript:;" onclick="empOrgAction()"><i--%>
+                <%--class="zmdi zmdi-edit"></i> 更换部门</a>--%>
+
+                <a class="waves-effect waves-button" href="javascript:;" onclick="empPostAction()"><i
+                        class="zmdi zmdi-edit"></i> 更换岗位</a>
                 员工状态:
                 <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
                         onchange="tableRefresh()">
@@ -67,6 +71,26 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+    setNoSetPostEmpsCount();
+    var $noSetPostEmpCount = $("#noSetPostEmpCount");
+    function setNoSetPostEmpsCount() {
+        $.ajax({
+            type: 'post',
+            url: '${basePath}/emp/noSetPostEmpCount',
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+
+                $noSetPostEmpCount.empty();
+                $noSetPostEmpCount.append("<a class='waves-effect waves-button' href='javascript:;' onclick='showNoSetPostEmpAction()'></a>还有" + data + "个人未设置岗位");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }
+
 
     console.log(${treeData});
     $('#treeDiv').treeview({
@@ -223,6 +247,21 @@
         });
     }
 
+    // 查看未分配岗位的员工
+    var showNoSetPostEmpDialog;
+    function showNoSetPostEmpAction() {
+
+        showNoSetPostEmpDialog = $.dialog({
+            animationSpeed: 300,
+            title: '查看未分配岗位的员工',
+            columnClass: 'col-md-12',
+            content: 'url:${basePath}/emp/noSetPostEmp',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
+
     // 员工角色
     var roleDialog;
     var roleEmpId;
@@ -357,6 +396,43 @@
             });
         }
     }
+
+
+    var empPostDialog;
+    var postEmpId
+    function empPostAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            postEmpId = rows[0].empId;
+            empPostDialog = $.dialog({
+                animationSpeed: 300,
+                title: '更换岗位',
+                content: 'url:${basePath}/emp/post/' + rows[0].empId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    $('select').select2({
+                        placeholder: '请选择岗位',
+                        allowClear: true
+                    });
+                }
+            });
+        }
+    }
+
+
     // 删除
     var deleteDialog;
     function deleteAction() {

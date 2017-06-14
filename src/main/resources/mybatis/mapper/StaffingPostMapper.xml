@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.youchangxu.mapper.system.StaffingPostMapper">
+    <select id="selectPostOrgList" resultType="top.youchangxu.model.vo.PostRangeVO">
+        SELECT
+            sp.*,
+            so.orgName
+        FROM
+            staffing_post sp
+            LEFT JOIN staffing_org so ON so.orgId = sp.orgId
+        WHERE
+            sp.enterpriseId = #{enterpriseId}
+    </select>
+
+</mapper>
