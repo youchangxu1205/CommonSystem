@@ -39,6 +39,7 @@
             success: function (data) {
                 if (data.success) {
                     empPostDialog.close();
+                    setNoSetPostEmpsCount();
                     $table.bootstrapTable('refresh');
                     $noSetPostEmpTable.bootstrapTable('refresh');
                 } else {

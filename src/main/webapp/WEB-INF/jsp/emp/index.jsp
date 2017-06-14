@@ -75,16 +75,20 @@
     var $noSetPostEmpCount = $("#noSetPostEmpCount");
     function setNoSetPostEmpsCount() {
         $.ajax({
-            type: 'post',
+            type: 'get',
             url: '${basePath}/emp/noSetPostEmpCount',
             dataType: 'json',
             beforeSend: function () {
 
             },
             success: function (data) {
-
-                $noSetPostEmpCount.empty();
-                $noSetPostEmpCount.append("<a class='waves-effect waves-button' href='javascript:;' onclick='showNoSetPostEmpAction()'></a>还有" + data + "个人未设置岗位");
+                if(data==0){
+                    $noSetPostEmpCount.hide();
+                }else {
+                    $noSetPostEmpCount.show();
+                    $noSetPostEmpCount.empty();
+                    $noSetPostEmpCount.append("<a class='waves-effect waves-button' href='javascript:;' onclick='showNoSetPostEmpAction()'>还有" + data + "个人未设置岗位</a>");
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
