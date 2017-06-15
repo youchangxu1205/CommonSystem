@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-14 18:01:42
+Date: 2017-06-15 18:29:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -107,7 +107,7 @@ CREATE TABLE `multiplescore_scorebill` (
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`scoreBillId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for multiplescore_scorebill_detail
@@ -117,14 +117,16 @@ CREATE TABLE `multiplescore_scorebill_detail` (
   `scoreBillDetailId` bigint(20) NOT NULL AUTO_INCREMENT,
   `drawerId` bigint(20) DEFAULT NULL,
   `draweeId` bigint(20) DEFAULT NULL,
+  `eventId` bigint(20) DEFAULT NULL,
   `scoreBillDetailScore` float DEFAULT NULL,
   `scoreBillDetailDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `isEnable` tinyint(2) DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `scoreBillId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`scoreBillDetailId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_emp
@@ -192,7 +194,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3336 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
