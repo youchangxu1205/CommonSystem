@@ -249,9 +249,15 @@ public class EventController extends BaseController {
         List<Object> postIds = staffingPostEmpService.selectObjs(new EntityWrapper<StaffingPostEmp>().eq("empId", empId)
                 .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId").groupBy("postId"));
 
+        if(postIds.size()==0){
+            return result;
+        }
         List<Object> scoreEventIds = multiplescorePostEventRangeService.selectObjs(
                 new EntityWrapper<MultiplescorePostEventRange>()
                         .in("posthigherId", postIds).eq("enterpriseId", getEnterpriseId()).setSqlSelect("scoreEventId"));
+        if(scoreEventIds.size()==0){
+            return result;
+        }
         List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(new EntityWrapper<MultiplescoreEvent>().in("eventId", scoreEventIds)
                 .eq("enterpriseId", getEnterpriseId()));
 

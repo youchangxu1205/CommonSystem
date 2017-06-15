@@ -26,3 +26,4 @@
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-treeview-1.2.0/bootstrap-treeview.min.js" charset="UTF-8"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-multipleselected/multiselect.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/vue.min.js"></script>
+<script src="${basePath}/resources/zheng-admin/js/UUID.js"></script>

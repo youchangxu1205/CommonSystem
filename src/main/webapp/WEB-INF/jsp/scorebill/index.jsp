@@ -29,6 +29,36 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+    var showDetailDialog;
+    function showDetailAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            showDetailDialog = $.dialog({
+                animationSpeed: 300,
+                title: '单据详情',
+                columnClass:'col-md-12',
+                content: 'url:${basePath}/scorebill/detail/' + rows[0].scoreBillId,
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
+    
+    
 
     var $table = $('#table');
     $(function () {

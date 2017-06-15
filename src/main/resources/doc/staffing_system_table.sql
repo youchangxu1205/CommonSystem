@@ -117,7 +117,7 @@ CREATE TABLE `multiplescore_scorebill_detail` (
   `scoreBillDetailId` bigint(20) NOT NULL AUTO_INCREMENT,
   `drawerId` bigint(20) DEFAULT NULL,
   `draweeId` bigint(20) DEFAULT NULL,
-  `scoreBillScore` float DEFAULT NULL,
+  `scoreBillDetailScore` float DEFAULT NULL,
   `scoreBillDetailDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `isEnable` tinyint(2) DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,

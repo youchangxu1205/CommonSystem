@@ -464,17 +464,26 @@ public class EmpController extends BaseController {
         List<Object> postIds = staffingPostEmpService.selectObjs(
                 new EntityWrapper<StaffingPostEmp>()
                         .eq("empId", empId).eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId"));
+        if(postIds.size()==0){
+            return result;
+        }
         //查询岗位的下属岗位
         List<Object> postLowerIds = multiplescorePostRangeService.selectObjs(
                 new EntityWrapper<MultiplescorePostRange>()
                         .in("postHigherId", postIds)
                         .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postLowerId"));
+        if(postLowerIds.size()==0){
+            return result;
+        }
         //查询岗位的员工
         List<Object> empIds = staffingPostEmpService.selectObjs(
                 new EntityWrapper<StaffingPostEmp>()
                         .in("postId", postLowerIds)
                         .eq("enterpriseId", getEnterpriseId())
                         .setSqlSelect("empId"));
+        if(empIds.size()==0){
+            return result;
+        }
         List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
 
 

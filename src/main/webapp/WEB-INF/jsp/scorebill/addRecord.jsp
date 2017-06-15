@@ -91,16 +91,12 @@
             checkedEmpIds[i] = record.draweeId;
             checkedEventIds[i] = record.eventId;
         });
-        console.log(checkedEmpIds);
-        console.log(checkedEventIds);
-        $empRangesTable.bootstrapTable('checkBy', {
-            field: 'empId',
-            values: checkedEmpIds
-        });
-        $eventRangesTable.bootstrapTable('checkBy', {
-            field: 'eventId',
-            values: checkedEventIds
-        });
+//        console.log(checkedEmpIds);
+//        console.log(checkedEventIds);
+//        $empRangesTable.bootstrapTable('checkBy',{
+//            field:'empId',
+//            values:checkedEmpIds
+//        });
     });
 
 
@@ -139,15 +135,15 @@
         return temp;
     }
 
-
     function adddRecordSubmit() {
+        recordRows = new Array();
         var empRanges = $empRangesTable.bootstrapTable('getSelections');
         var eventRanges = $eventRangesTable.bootstrapTable('getSelections');
-        var index = 0;
         $.each(empRanges, function (i, empRange) {
             $.each(eventRanges, function (j, eventRange) {
 
                 var record = {
+                    id:createUUID(),
                     drawerId: drawerId,
                     draweeId: empRange.empId,
                     scoreBillDetailScore: eventRange.minScore,
@@ -158,12 +154,13 @@
                     eventId: eventRange.eventId,
                     draweeName: empRange.empName
                 };
-                recordRows[index] = record;
-                index++;
+                recordRows.push(record);
             });
         });
+
         $scoreBillDetailTable.bootstrapTable('append', recordRows);
         addRecordDialog.close();
     }
+
 
 </script>

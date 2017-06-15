@@ -14,6 +14,8 @@
                 <div class="form-group">
 
                     <select id="drawerId" name="drawerId" style="width: 100%">
+                        <option value="0">--选择开单人--
+                        </option>
                         <c:forEach var="emp" items="${staffingEmps}">
                             <option value="${emp.empId}">${emp.empName}
                             </option>
@@ -40,6 +42,10 @@
             <a class="waves-effect waves-button" href="javascript:;" onclick="addRecordAction()"><i
                     class="zmdi zmdi-plus"></i>
                 新增新纪录</a>
+
+            <a class="waves-effect waves-button" href="javascript:;" onclick="deleteRecordAction()"><i
+                    class="zmdi zmdi-plus"></i>
+                删除新纪录</a>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -78,10 +84,34 @@
             }
         });
     }
+
+
+    function deleteRecordAction() {
+        var ids = getIdSelections();
+        $scoreBillDetailTable.bootstrapTable('remove', {
+            field: 'id',
+            values: ids
+        });
+    }
+
+
+    function getIdSelections() {
+        return $.map($scoreBillDetailTable.bootstrapTable('getSelections'), function (row) {
+            return row.id;
+        });
+    }
+
+
     var drawerId = 0;
-    $("#drawerId").trigger("change");
+    //    $("#drawerId").trigger("change");
+    $("#drawerId").click(function () {
+        alert("点击了");
+    });
+    //    var isInited = false;
     $("#drawerId").change(function () {
         drawerId = $(this).children('option:selected').val();
+        $scoreBillDetailTable.bootstrapTable('removeAll');
+
     });
 
     var $scoreBillDetailTable = $('#scoreBillDetailTable');
@@ -92,25 +122,55 @@
             striped: true,
             minimumCountColumns: 2,
             clickToSelect: true,
-            queryParams: 'queryParams',
-            paginationLoop: false,
-            sidePagination: 'server',
-            silentSort: false,
-            smartDisplay: false,
             escape: true,
-            idField: 'empId',
+            idField: 'id',
             maintainSelected: true,
             toolbar: '#scoreBillDetailToolbar',
             columns: [
                 {field: 'ck', checkbox: true},
+                {field: 'id', visible: false},
+                {field: 'index', title: '行号', formatter: 'indexFormatter'},
                 {field: 'draweeName', title: '被开单人'},
+                {field: 'drawerId', visible: false},
                 {field: 'eventName', title: '事件名称'},
+                {field: 'eventId', visible: false},
                 {field: 'minScore', title: '最低值'},
                 {field: 'maxScore', title: '最高值'},
                 {
                     field: 'scoreBillDetailScore', title: '分值', editable: {
                     type: 'text',
-                    defaultValue: null,
+                    defaultValue: 0,
+                    validate: function (value) {
+                        value = $.trim(value);
+                        if (!value) {
+                            return '值是必须的';
+                        }
+                        if (!!isNaN(value)) {
+                            return '只能是数字';
+                        }
+
+                        if (value == 0 || value == '0') {
+                            return '不允许为0';
+                        }
+                        var data = $scoreBillDetailTable.bootstrapTable('getData'),
+                            index = $(this).parents('tr').data('index');
+                        var row = data[index];
+                        var maxScore = row.maxScore;
+                        var minScore = row.minScore;
+                        if (value > maxScore || value < minScore) {
+                            return "超出取值范围";
+                        }
+
+                        var dot = value.indexOf(".");
+                        if (dot != -1) {
+                            var dotCnt = value.substring(dot + 1, value.length);
+                            if (dotCnt.length > 2) {
+                                return "小数位最多2位!";
+                            }
+                        }
+
+                        $(this).text(value);
+                    },
                     title: '分值'
                 }
                 },
@@ -126,16 +186,42 @@
     });
 
 
+    function indexFormatter(value, row, index) {
+        return index + 1;
+    }
+
     initDateInput($('#billTime'));
     function createSubmit() {
-        $.ajax({
-            type: 'post',
-            url: '${basePath}/scorebill/create',
-            data: $('#createForm').serialize(),
-            dataType: 'json',
-            beforeSend: function () {
 
+        if (drawerId == 0) {
+            alert("选择开单人");
+            return;
+        }
+
+
+        var rows = $scoreBillDetailTable.bootstrapTable('getData');
+        if (rows.length == 0) {
+            alert("请添加单据记录");
+            return;
+        }
+        $.each(rows, function (i, item) {
+            //检查各个
+            if (item.scoreBillDetailScore == 0) {
+                alert("第" + (i + 1) + "行的分值不能为0！");
+                return;
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "${basePath}/scorebill/create",
+            data: {
+                'bills': JSON.stringify(rows),
+                'drawerID': drawerId,
+                'billTime': $('#billTime').val(),
+                'scoreBillDesc': $('#scoreBillDesc').val()
             },
+            dataType: "json",
             success: function (data) {
                 if (data.success) {
                     createDialog.close();
@@ -173,5 +259,7 @@
                 });
             }
         });
+
+
     }
 </script>

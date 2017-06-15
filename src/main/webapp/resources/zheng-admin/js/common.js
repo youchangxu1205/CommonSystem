@@ -96,4 +96,3 @@ function initDateInput(obj, time) {
         autoclose: true
     });
 }
-

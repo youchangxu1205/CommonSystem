@@ -14,12 +14,14 @@ public class MultiplescoreScoreBillDetail {
     private Long scoreBillDetailId;
     private Long drawerId;
     private Long draweeId;
-    private Float scoreBillScore;
+    private Long eventId;
+    private Float scoreBillDetailScore;
     private String scoreBillDetailDesc;
     private boolean isEnable;
     private Long enterpriseId;
     private Date createTime;
     private Date updateTime;
+    private Long scoreBillId;
 
     public Long getScoreBillDetailId() {
         return scoreBillDetailId;
@@ -45,12 +47,20 @@ public class MultiplescoreScoreBillDetail {
         this.draweeId = draweeId;
     }
 
-    public Float getScoreBillScore() {
-        return scoreBillScore;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setScoreBillScore(Float scoreBillScore) {
-        this.scoreBillScore = scoreBillScore;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public Float getScoreBillDetailScore() {
+        return scoreBillDetailScore;
+    }
+
+    public void setScoreBillDetailScore(Float scoreBillDetailScore) {
+        this.scoreBillDetailScore = scoreBillDetailScore;
     }
 
     public String getScoreBillDetailDesc() {
@@ -91,5 +101,13 @@ public class MultiplescoreScoreBillDetail {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getScoreBillId() {
+        return scoreBillId;
+    }
+
+    public void setScoreBillId(Long scoreBillId) {
+        this.scoreBillId = scoreBillId;
     }
 }
