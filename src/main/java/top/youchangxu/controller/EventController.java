@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.MultiplescoreEvent;
 import top.youchangxu.model.system.MultiplescoreEventCategory;
+import top.youchangxu.model.system.MultiplescorePostEventRange;
+import top.youchangxu.model.system.StaffingPostEmp;
 import top.youchangxu.service.system.IMultiplescoreEventCategoryService;
 import top.youchangxu.service.system.IMultiplescoreEventService;
+import top.youchangxu.service.system.IMultiplescorePostEventRangeService;
+import top.youchangxu.service.system.IStaffingPostEmpService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,12 +34,18 @@ public class EventController extends BaseController {
 
     private IMultiplescoreEventService multiplescoreEventService;
     private IMultiplescoreEventCategoryService multiplescoreEventCategoryService;
+    private IMultiplescorePostEventRangeService multiplescorePostEventRangeService;
+    private IStaffingPostEmpService staffingPostEmpService;
 
     @Autowired
     public EventController(IMultiplescoreEventService multiplescoreEventService,
-                           IMultiplescoreEventCategoryService multiplescoreEventCategoryService) {
+                           IMultiplescoreEventCategoryService multiplescoreEventCategoryService,
+                           IMultiplescorePostEventRangeService multiplescorePostEventRangeService,
+                           IStaffingPostEmpService staffingPostEmpService) {
         this.multiplescoreEventService = multiplescoreEventService;
         this.multiplescoreEventCategoryService = multiplescoreEventCategoryService;
+        this.multiplescorePostEventRangeService = multiplescorePostEventRangeService;
+        this.staffingPostEmpService = staffingPostEmpService;
     }
 
     /**
@@ -221,4 +231,33 @@ public class EventController extends BaseController {
     public Object delete(@PathVariable("ids") String ids) {
         return multiplescoreEventService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
     }
+
+    /**
+     * 根据员工Id获取奖扣分事件
+     * @param empId
+     * @return
+     */
+    @RequestMapping(value = "/empEvent", method = RequestMethod.GET)
+    @ResponseBody
+    public Object empEvent(Long empId) {
+
+        Map<String, Object> result = new HashMap<>();
+        if(empId==null){
+            return result;
+        }
+
+        List<Object> postIds = staffingPostEmpService.selectObjs(new EntityWrapper<StaffingPostEmp>().eq("empId", empId)
+                .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId").groupBy("postId"));
+
+        List<Object> scoreEventIds = multiplescorePostEventRangeService.selectObjs(
+                new EntityWrapper<MultiplescorePostEventRange>()
+                        .in("posthigherId", postIds).eq("enterpriseId", getEnterpriseId()).setSqlSelect("scoreEventId"));
+        List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(new EntityWrapper<MultiplescoreEvent>().in("eventId", scoreEventIds)
+                .eq("enterpriseId", getEnterpriseId()));
+
+        result.put("rows", multiplescoreEvents);
+        result.put("total", multiplescoreEvents.size());
+        return result;
+    }
+
 }

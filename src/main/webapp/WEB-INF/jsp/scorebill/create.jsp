@@ -13,7 +13,7 @@
                 <label>开单人:</label>
                 <div class="form-group">
 
-                    <select id="drawerId" name="drawerId"  style="width: 100%">
+                    <select id="drawerId" name="drawerId" style="width: 100%">
                         <c:forEach var="emp" items="${staffingEmps}">
                             <option value="${emp.empId}">${emp.empName}
                             </option>
@@ -54,14 +54,21 @@
     </form>
 </div>
 <script>
-    var adddRecordDialog;
+    var addRecordDialog;
+    var recordRows = new Array();
     function addRecordAction(ids) {
+
+        if (drawerId == 0) {
+            alert("选择开单人");
+            return;
+        }
+
         var rows = $scoreBillDetailTable.bootstrapTable('getData');
 
-        adddRecordDialog = $.dialog({
+        addRecordDialog = $.dialog({
             animationSpeed: 300,
             title: '添加新纪录',
-            columnClass:'col-md-12',
+            columnClass: 'col-md-12',
             content: 'url:${basePath}/scorebill/addRecord',
             onContentReady: function () {
                 initMaterialInput();
@@ -70,11 +77,13 @@
                 });
             }
         });
-
-        console.log(rows);
     }
-    
-    
+    var drawerId = 0;
+    $("#drawerId").trigger("change");
+    $("#drawerId").change(function () {
+        drawerId = $(this).children('option:selected').val();
+    });
+
     var $scoreBillDetailTable = $('#scoreBillDetailTable');
     $(function () {
         // bootstrap table初始化
@@ -94,16 +103,23 @@
             toolbar: '#scoreBillDetailToolbar',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'scoreBillNo', title: '被开单人'},
-                {field: 'drawerId', title: '分值'},
-                {field: 'scoreBillDesc', title: '记录描述'},
+                {field: 'draweeName', title: '被开单人'},
+                {field: 'eventName', title: '事件名称'},
+                {field: 'minScore', title: '最低值'},
+                {field: 'maxScore', title: '最高值'},
                 {
-                    field: 'action',
-                    title: '操作',
-                    align: 'center',
-                    formatter: 'actionFormatter',
-                    events: 'actionEvents',
-                    clickToSelect: false
+                    field: 'scoreBillDetailScore', title: '分值', editable: {
+                    type: 'text',
+                    defaultValue: null,
+                    title: '分值'
+                }
+                },
+                {
+                    field: 'scoreBillDetailDesc', title: '记录描述', editable: {
+                    type: 'text',
+                    defaultValue: null,
+                    title: '备注'
+                }
                 }
             ]
         });

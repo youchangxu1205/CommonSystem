@@ -42,6 +42,7 @@ public class EmpController extends BaseController {
     private IMultiplescoreEventService multiplescoreEventService;
     private IStaffingPostService staffingPostService;
     private IStaffingPostEmpService staffingPostEmpService;
+    private IMultiplescorePostRangeService multiplescorePostRangeService;
 
     @Autowired
     public EmpController(IStaffingEmpService staffingEmpService,
@@ -55,7 +56,8 @@ public class EmpController extends BaseController {
                          IMultiplescoreEventRangeService multiplescoreEventRangeService,
                          IMultiplescoreEventService multiplescoreEventService,
                          IStaffingPostService staffingPostService,
-                         IStaffingPostEmpService staffingPostEmpService) {
+                         IStaffingPostEmpService staffingPostEmpService,
+                         IMultiplescorePostRangeService multiplescorePostRangeService) {
         this.staffingEmpService = staffingEmpService;
         this.passwordHelper = passwordHelper;
         this.staffingRoleService = staffingRoleService;
@@ -68,6 +70,7 @@ public class EmpController extends BaseController {
         this.multiplescoreEventService = multiplescoreEventService;
         this.staffingPostService = staffingPostService;
         this.staffingPostEmpService = staffingPostEmpService;
+        this.multiplescorePostRangeService = multiplescorePostRangeService;
     }
 
     /**
@@ -359,9 +362,11 @@ public class EmpController extends BaseController {
     @RequestMapping(value = "/org/{empId}", method = RequestMethod.GET)
     public String org(@PathVariable("empId") Long empId, Model model) {
 
-        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
+        List<StaffingOrg> orgs = staffingOrgService.selectList(
+                new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
         model.addAttribute("staffingOrgs", orgs);
-        List<StaffingOrgEmp> staffingOrgEmps = staffingOrgEmpService.selectList(new EntityWrapper<StaffingOrgEmp>().eq("empId", empId).eq("enterpriseId", getEnterpriseId()));
+        List<StaffingOrgEmp> staffingOrgEmps = staffingOrgEmpService.selectList(
+                new EntityWrapper<StaffingOrgEmp>().eq("empId", empId).eq("enterpriseId", getEnterpriseId()));
         model.addAttribute("staffingOrgEmps", staffingOrgEmps);
         return "emp/org";
     }
@@ -435,10 +440,49 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object noSetPostEmpTable() {
         List<StaffingEmp> staffingEmps = staffingEmpService.selectNoSetPostEmps(getEnterpriseId());
-        Map<String,Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("rows", staffingEmps);
         result.put("total", staffingEmps.size());
         return result;
     }
+
+
+    /**
+     * 根据员工Id获取下属员工
+     *
+     * @param empId
+     * @return
+     */
+    @RequestMapping(value = "/lowerEmp", method = RequestMethod.GET)
+    @ResponseBody
+    public Object lowerEmp(Long empId) {
+        Map<String, Object> result = new HashMap<>();
+        if(empId ==null){
+            return result;
+        }
+        //查询员工的岗位
+        List<Object> postIds = staffingPostEmpService.selectObjs(
+                new EntityWrapper<StaffingPostEmp>()
+                        .eq("empId", empId).eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId"));
+        //查询岗位的下属岗位
+        List<Object> postLowerIds = multiplescorePostRangeService.selectObjs(
+                new EntityWrapper<MultiplescorePostRange>()
+                        .in("postHigherId", postIds)
+                        .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postLowerId"));
+        //查询岗位的员工
+        List<Object> empIds = staffingPostEmpService.selectObjs(
+                new EntityWrapper<StaffingPostEmp>()
+                        .in("postId", postLowerIds)
+                        .eq("enterpriseId", getEnterpriseId())
+                        .setSqlSelect("empId"));
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+
+
+
+        result.put("rows", staffingEmps);
+        result.put("total", staffingEmps.size());
+        return result;
+    }
+
 
 }

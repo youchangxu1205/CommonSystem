@@ -3,10 +3,10 @@ package top.youchangxu.service.system.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.youchangxu.mapper.system.MultiplescoreRangeMapper;
+import top.youchangxu.mapper.system.MultiplescorePostRangeMapper;
 import top.youchangxu.model.system.MultiplescorePostRange;
 import top.youchangxu.model.vo.PostRangeVO;
-import top.youchangxu.service.system.IMultiplesoreRangeService;
+import top.youchangxu.service.system.IMultiplescorePostRangeService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by dtkj_android on 2017/6/12.
  */
 @Service
-public class MultiplescoreRangeServiceImpl extends ServiceImpl<MultiplescoreRangeMapper, MultiplescorePostRange> implements IMultiplesoreRangeService {
+public class MultiplescorePostRangeServiceImpl extends ServiceImpl<MultiplescorePostRangeMapper, MultiplescorePostRange> implements IMultiplescorePostRangeService {
     @Override
     public List<PostRangeVO> selectPostRangeVOS(Long postId) {
 

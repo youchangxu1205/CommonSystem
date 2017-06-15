@@ -28,14 +28,14 @@ public class PostController extends BaseController {
 
     private IStaffingPostService staffingPostService;
     private IStaffingOrgService staffingOrgService;
-    private IMultiplesoreRangeService multiplesoreRangeService;
+    private IMultiplescorePostRangeService multiplesoreRangeService;
     private IMultiplescorePostEventRangeService multiplescorePostEventRangeService;
     private IMultiplescoreEventService multiplescoreEventService;
 
     @Autowired
     public PostController(IStaffingPostService staffingPostService,
                           IStaffingOrgService staffingOrgService,
-                          IMultiplesoreRangeService multiplesoreRangeService,
+                          IMultiplescorePostRangeService multiplesoreRangeService,
                           IMultiplescorePostEventRangeService multiplescorePostEventRangeService,
                           IMultiplescoreEventService multiplescoreEventService) {
         this.staffingPostService = staffingPostService;

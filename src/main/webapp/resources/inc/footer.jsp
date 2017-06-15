@@ -10,6 +10,8 @@
 <script src="${basePath}/resources/zheng-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/bootstrap-table.min.js"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/bootstrap-table-editable.js"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/bootstrap-editable.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/bootstrap-table-export.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/tableExport.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
