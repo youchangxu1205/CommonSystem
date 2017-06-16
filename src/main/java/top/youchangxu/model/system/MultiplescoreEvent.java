@@ -14,9 +14,9 @@ public class MultiplescoreEvent {
     @TableId
     private Long eventId;
     private String eventName;
-    private int minScore;
-    private int maxScore;
-    private int isFixed;
+    private float minScore;
+    private float maxScore;
+    private boolean isFixed;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -24,7 +24,7 @@ public class MultiplescoreEvent {
     private Long eventCategoryId;
     private String eventDesc;
     private Long enterpriseId;
-    private int eventScore;
+    private float eventScore;
 
     public Long getEventId() {
         return eventId;
@@ -42,28 +42,28 @@ public class MultiplescoreEvent {
         this.eventName = eventName;
     }
 
-    public int getMinScore() {
+    public float getMinScore() {
         return minScore;
     }
 
-    public void setMinScore(int minScore) {
+    public void setMinScore(float minScore) {
         this.minScore = minScore;
     }
 
-    public int getMaxScore() {
+    public float getMaxScore() {
         return maxScore;
     }
 
-    public void setMaxScore(int maxScore) {
+    public void setMaxScore(float maxScore) {
         this.maxScore = maxScore;
     }
 
-    public int getIsFixed() {
+    public boolean isFixed() {
         return isFixed;
     }
 
-    public void setIsFixed(int isFixed) {
-        this.isFixed = isFixed;
+    public void setFixed(boolean fixed) {
+        isFixed = fixed;
     }
 
     public Date getCreateTime() {
@@ -106,11 +106,11 @@ public class MultiplescoreEvent {
         this.enterpriseId = enterpriseId;
     }
 
-    public int getEventScore() {
+    public float getEventScore() {
         return eventScore;
     }
 
-    public void setEventScore(int eventScore) {
+    public void setEventScore(float eventScore) {
         this.eventScore = eventScore;
     }
 }

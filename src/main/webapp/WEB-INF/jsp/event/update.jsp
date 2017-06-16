@@ -18,7 +18,7 @@
         <div class="form-group">
             <select class="form-control" id="isFixed" name="isFixed">
                 <option value="1" <c:if test="${multiplescoreEvent.isFixed==1}">selected</c:if>>固定事件</option>
-                <option value="2" <c:if test="${multiplescoreEvent.isFixed==2}">selected</c:if>>随机事件</option>
+                <option value="2" <c:if test="${multiplescoreEvent.isFixed==0}">selected</c:if>>随机事件</option>
             </select>
 
         </div>

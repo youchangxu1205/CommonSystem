@@ -234,6 +234,7 @@ public class EventController extends BaseController {
 
     /**
      * 根据员工Id获取奖扣分事件
+     *
      * @param empId
      * @return
      */
@@ -242,24 +243,30 @@ public class EventController extends BaseController {
     public Object empEvent(Long empId) {
 
         Map<String, Object> result = new HashMap<>();
-        if(empId==null){
+        if (empId == null) {
             return result;
         }
 
-        List<Object> postIds = staffingPostEmpService.selectObjs(new EntityWrapper<StaffingPostEmp>().eq("empId", empId)
-                .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId").groupBy("postId"));
+        List<Object> postIds = staffingPostEmpService.selectObjs(
+                new EntityWrapper<StaffingPostEmp>()
+                        .eq("empId", empId)
+                        .eq("enterpriseId", getEnterpriseId())
+                        .setSqlSelect("postId").groupBy("postId"));
 
-        if(postIds.size()==0){
+        if (postIds.size() == 0) {
             return result;
         }
         List<Object> scoreEventIds = multiplescorePostEventRangeService.selectObjs(
                 new EntityWrapper<MultiplescorePostEventRange>()
-                        .in("posthigherId", postIds).eq("enterpriseId", getEnterpriseId()).setSqlSelect("scoreEventId"));
-        if(scoreEventIds.size()==0){
+                        .in("posthigherId", postIds)
+                        .eq("enterpriseId", getEnterpriseId())
+                        .setSqlSelect("scoreEventId"));
+        if (scoreEventIds.size() == 0) {
             return result;
         }
-        List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(new EntityWrapper<MultiplescoreEvent>().in("eventId", scoreEventIds)
-                .eq("enterpriseId", getEnterpriseId()));
+        List<MultiplescoreEvent> multiplescoreEvents = multiplescoreEventService.selectList(
+                new EntityWrapper<MultiplescoreEvent>().in("eventId", scoreEventIds)
+                        .eq("enterpriseId", getEnterpriseId()));
 
         result.put("rows", multiplescoreEvents);
         result.put("total", multiplescoreEvents.size());

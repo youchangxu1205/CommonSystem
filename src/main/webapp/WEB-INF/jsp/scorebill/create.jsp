@@ -103,6 +103,7 @@
 
 
     var drawerId = 0;
+    var drawerName;
     //    $("#drawerId").trigger("change");
     $("#drawerId").click(function () {
         alert("点击了");
@@ -129,6 +130,7 @@
             columns: [
                 {field: 'ck', checkbox: true},
                 {field: 'id', visible: false},
+                {field: 'isFixed', visible: true,title:'属性'},
                 {field: 'index', title: '行号', formatter: 'indexFormatter'},
                 {field: 'draweeName', title: '被开单人',sortable:true},
                 {field: 'drawerId', visible: false},

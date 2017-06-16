@@ -457,14 +457,14 @@ public class EmpController extends BaseController {
     @ResponseBody
     public Object lowerEmp(Long empId) {
         Map<String, Object> result = new HashMap<>();
-        if(empId ==null){
+        if (empId == null) {
             return result;
         }
         //查询员工的岗位
         List<Object> postIds = staffingPostEmpService.selectObjs(
                 new EntityWrapper<StaffingPostEmp>()
                         .eq("empId", empId).eq("enterpriseId", getEnterpriseId()).setSqlSelect("postId"));
-        if(postIds.size()==0){
+        if (postIds.size() == 0) {
             return result;
         }
         //查询岗位的下属岗位
@@ -472,7 +472,7 @@ public class EmpController extends BaseController {
                 new EntityWrapper<MultiplescorePostRange>()
                         .in("postHigherId", postIds)
                         .eq("enterpriseId", getEnterpriseId()).setSqlSelect("postLowerId"));
-        if(postLowerIds.size()==0){
+        if (postLowerIds.size() == 0) {
             return result;
         }
         //查询岗位的员工
@@ -481,10 +481,12 @@ public class EmpController extends BaseController {
                         .in("postId", postLowerIds)
                         .eq("enterpriseId", getEnterpriseId())
                         .setSqlSelect("empId"));
-        if(empIds.size()==0){
+        if (empIds.size() == 0) {
             return result;
         }
-        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>()
+                .in("empId", empIds)
+                .eq("empStatus", 1));//只查询在职的员工
 
         result.put("rows", staffingEmps);
         result.put("total", staffingEmps.size());

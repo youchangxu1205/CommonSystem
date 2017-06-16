@@ -2,6 +2,7 @@ package top.youchangxu.model.system;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,12 +15,15 @@ public class MultiplescoreScoreBill {
     private Long scoreBillId;
     private String scoreBillNo;
     private Long drawerId;
+    private String drawerName;
     private String scoreBillDesc;
     private int scoreBillStatus;
     private Long enterpriseId;
     private boolean isEnable;
     private Date createTime;
     private Date updateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date billTime;
 
     public Long getScoreBillId() {
         return scoreBillId;
@@ -43,6 +47,14 @@ public class MultiplescoreScoreBill {
 
     public void setDrawerId(Long drawerId) {
         this.drawerId = drawerId;
+    }
+
+    public String getDrawerName() {
+        return drawerName;
+    }
+
+    public void setDrawerName(String drawerName) {
+        this.drawerName = drawerName;
     }
 
     public String getScoreBillDesc() {
@@ -91,5 +103,13 @@ public class MultiplescoreScoreBill {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Date getBillTime() {
+        return billTime;
+    }
+
+    public void setBillTime(Date billTime) {
+        this.billTime = billTime;
     }
 }

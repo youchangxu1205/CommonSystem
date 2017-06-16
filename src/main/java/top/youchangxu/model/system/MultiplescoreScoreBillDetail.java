@@ -14,7 +14,10 @@ public class MultiplescoreScoreBillDetail {
     private Long scoreBillDetailId;
     private Long drawerId;
     private Long draweeId;
+    private String draweeName;
     private Long eventId;
+    private String eventName;
+    private int isFixed;
     private Float scoreBillDetailScore;
     private String scoreBillDetailDesc;
     private boolean isEnable;
@@ -108,6 +111,31 @@ public class MultiplescoreScoreBillDetail {
     }
 
     public void setScoreBillId(Long scoreBillId) {
+
         this.scoreBillId = scoreBillId;
+    }
+
+    public String getDraweeName() {
+        return draweeName;
+    }
+
+    public void setDraweeName(String draweeName) {
+        this.draweeName = draweeName;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public int getIsFixed() {
+        return isFixed;
+    }
+
+    public void setIsFixed(int isFixed) {
+        this.isFixed = isFixed;
     }
 }

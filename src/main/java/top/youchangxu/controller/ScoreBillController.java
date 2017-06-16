@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.youchangxu.common.exception.InsertException;
+import top.youchangxu.common.exception.OutOfRangeScoreException;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.*;
 import top.youchangxu.service.system.*;
@@ -109,7 +111,9 @@ public class ScoreBillController extends BaseController {
                             .setSqlSelect("empId"));
 
             staffingEmps = staffingEmpService
-                    .selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+                    .selectList(new EntityWrapper<StaffingEmp>()
+                            .in("empId", empIds)
+                            .eq("empStatus", 1));//只查询在职的员工
         }
         model.addAttribute("staffingEmps", staffingEmps);
         //查询担任管理岗的员工
@@ -143,9 +147,15 @@ public class ScoreBillController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Object create(String bills, Long drawerID, String billTime, String scoreBillDesc) {
-        boolean insert = multiplescoreScoreBillService.saveScoreBill(bills, drawerID, billTime, scoreBillDesc, NumberUtils.toLong(getEnterpriseId()));
+        try {
+            boolean insert = multiplescoreScoreBillService.saveScoreBill(bills, drawerID, billTime, scoreBillDesc, NumberUtils.toLong(getEnterpriseId()));
+            return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
+        } catch (OutOfRangeScoreException e) {
+            return renderError(e.getMessage());
+        } catch (InsertException e) {
+            return renderError(e.getMessage());
+        }
 
-        return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
 
     @RequestMapping(value = "/detail/{scoreBillId}", method = RequestMethod.GET)

@@ -57,9 +57,11 @@
                 {field: 'eventName', title: '事件名称'},
                 {field: 'eventDesc', title: '事件描述'},
                 {field: 'maxScore', title: '最高分'},
-                {field: 'minScore', title: '最低分'}
+                {field: 'minScore', title: '最低分'},
+                {field: 'fixed', title: '事件属性',formatter:'fixedFormatter'}
             ]
         });
+
 
         // bootstrap table初始化
         $empRangesTable.bootstrapTable({
@@ -99,7 +101,13 @@
 //        });
     });
 
-
+    function fixedFormatter(value, row, index) {
+        if (value) {
+            return '<span class="label label-success">固定事件</span>';
+        } else{
+            return '<span class="label label-danger">随机事件</span>';
+        }
+    }
     function dateFormatter(value, row, index) {
         if (value == null || value == "")
             return '<span class="label label-danger">未设置</span>';
@@ -152,6 +160,7 @@
                     minScore: eventRange.minScore,
                     maxScore: eventRange.maxScore,
                     eventId: eventRange.eventId,
+                    isFixed:eventRange.fixed?1:0,
                     draweeName: empRange.empName
                 };
                 recordRows.push(record);

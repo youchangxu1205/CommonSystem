@@ -119,7 +119,7 @@
                 {field: 'eventName', title: '事件名称'},
                 {field: 'minScore', title: '最低分'},
                 {field: 'maxScore', title: '最高分'},
-                {field: 'isFixed', title: '事件属性', formatter: 'fixedFormatter'},
+                {field: 'fixed', title: '事件属性', formatter: 'fixedFormatter'},
                 {field: 'eventDesc', title: '事件描述'},
                 {
                     field: 'action',
@@ -135,8 +135,8 @@
 
     function fixedFormatter(value, row, index) {
         if (value == 1) {
-            return '<span class="label label-default">固定事件</span>';
-        } else if (value == 2) {
+            return '<span class="label label-success">固定事件</span>';
+        } else if (value == 0) {
             return '<span class="label label-danger">随机事件</span>';
         }
     }

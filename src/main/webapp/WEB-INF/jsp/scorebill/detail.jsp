@@ -30,9 +30,8 @@
             maintainSelected: true,
             columns: [
                 {field: 'scoreBillDetailId', title: '编号', sortable: true, align: 'center'},
-                {field: 'drawerId', title: '开单人'},
-                {field: 'draweeId', title: '被开单人'},
-                {field: 'eventId', title: '积分事件'},
+                {field: 'draweeName', title: '被开单人'},
+                {field: 'eventName', title: '积分事件'},
                 {field: 'scoreBillDetailScore', title: '单据分值'},
                 {field: 'scoreBillDetailDesc', title: '单据描述'}
             ]

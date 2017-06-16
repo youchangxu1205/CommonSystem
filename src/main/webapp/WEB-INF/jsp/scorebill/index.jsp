@@ -84,7 +84,7 @@
                 {field: 'ck', checkbox: true},
                 {field: 'scoreBillId', title: '编号', sortable: true, align: 'center'},
                 {field: 'scoreBillNo', title: '单据号'},
-                {field: 'drawerId', title: '开单人编号'},
+                {field: 'drawerName', title: '开单人'},
                 {field: 'scoreBillDesc', title: '单据描述'},
                 {field: 'scoreBillStatus', title: '单据状态',formatter:'scoreBillstatusFormatter'},
                 {field: 'enable', title: '是否可用',formatter:'enableFormatter'},

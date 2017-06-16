@@ -18,7 +18,7 @@
             <%--<input id="isFixed" type="text" class="form-control" name="isFixed" maxlength="20">--%>
             <select class="form-control" id="isFixed" name="isFixed">
                 <option value="1">固定事件</option>
-                <option value="2">随机事件</option>
+                <option value="0">随机事件</option>
             </select>
 
         </div>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.youchangxu.mapper.system.MultiplescoreScoreBillDetailMapper">
+    <select id="selectEmpEventScoreInMonth" resultType="java.lang.Float">
+        SELECT ifnull(SUM(ifnull(scoreBillDetailScore,0)),0)
+        FROM
+            multiplescore_scorebill_detail msd
+            LEFT JOIN multiplescore_scorebill ms ON ms.scoreBillId = msd.scoreBillId
+        WHERE
+            msd.draweeId = #{draweeId}
+            AND msd.eventId = #{eventId}
+            AND ms.billTime <![CDATA[>=]]> concat(
+                    date_format(
+                            LAST_DAY(date(#{billTime})),
+                            '%Y-%m-'
+                    ),
+                    '01 00:00:00'
+            )
+            AND ms.billTime <![CDATA[<= ]]> CONCAT(
+                    LAST_DAY(date(#{billTime})),
+                    ' 23:59:59'
+            )
+            AND msd.enterpriseId = #{enterpriseId};
+    </select>
+
+</mapper>

@@ -318,8 +318,9 @@ public class PostController extends BaseController {
         boolean b = multiplescorePostEventRangeService.updateEventRanges(multiplescorePostEventRanges, postId, NumberUtils.toLong(getEnterpriseId()));
         return b ? renderSuccess(ResultEnum.UPDATE_SUCCESS) : renderError(ResultEnum.UPDATE_ERROR);
     }
-    @RequestMapping(value = "/emp",method = RequestMethod.GET)
-    public String emp(){
+
+    @RequestMapping(value = "/emp", method = RequestMethod.GET)
+    public String emp() {
         return "post/emp";
     }
 
@@ -342,7 +343,9 @@ public class PostController extends BaseController {
             return result;
         }
         List<StaffingEmp> staffingEmps = staffingEmpService.selectList(
-                new EntityWrapper<StaffingEmp>().in("empId", empIds));
+                new EntityWrapper<StaffingEmp>()
+                        .in("empId", empIds)
+                        .eq("empStatus", 1));//只查询在职的员工
         result.put("rows", staffingEmps);
         result.put("total", staffingEmps.size());
         return result;
