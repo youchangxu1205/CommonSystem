@@ -47,8 +47,8 @@
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 奖扣分范围</a>
                 <%--</shiro:hasPermission>--%>
-                <%--<a class="waves-effect waves-button" href="javascript:;" onclick="empOrgAction()"><i--%>
-                <%--class="zmdi zmdi-edit"></i> 更换部门</a>--%>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="initEaseMobAccountAction()"><i
+                        class="zmdi zmdi-edit"></i> 激活聊天</a>
 
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empPostAction()"><i
                         class="zmdi zmdi-edit"></i> 更换岗位</a>
@@ -71,6 +71,91 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+    /**
+     * 激活聊天
+     */
+    function initEaseMobAccountAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+
+            if (rows[0].initEasemobAccount) {
+                $.confirm({
+                    title: false,
+                    content: '该用户已激活聊天，无需再次激活',
+                    autoClose: 'cancel|3000',
+                    backgroundDismiss: true,
+                    buttons: {
+                        cancel: {
+                            text: '取消',
+                            btnClass: 'waves-effect waves-button'
+                        }
+                    }
+                });
+                return;
+            }
+            $.ajax({
+                type: 'post',
+                url: '${basePath}/emp/initEasemobAcount',
+                data: {
+                    empId: rows[0].empId
+                },
+                dataType: 'json',
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    if (data.success) {
+                        $table.bootstrapTable('refresh');
+                    } else {
+
+                        $.confirm({
+                            theme: 'dark',
+                            animation: 'rotateX',
+                            closeAnimation: 'rotateX',
+                            title: false,
+                            content: data.msg,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'waves-effect waves-button waves-light'
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: textStatus,
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+
     setNoSetPostEmpsCount();
     var $noSetPostEmpCount = $("#noSetPostEmpCount");
     function setNoSetPostEmpsCount() {
@@ -82,15 +167,28 @@
 
             },
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     $noSetPostEmpCount.hide();
-                }else {
+                } else {
                     $noSetPostEmpCount.show();
                     $noSetPostEmpCount.empty();
                     $noSetPostEmpCount.append("<a class='waves-effect waves-button' href='javascript:;' onclick='showNoSetPostEmpAction()'>还有" + data + "个人未设置岗位</a>");
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.confirm({
+                    theme: 'dark',
+                    animation: 'rotateX',
+                    closeAnimation: 'rotateX',
+                    title: false,
+                    content: textStatus,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'waves-effect waves-button waves-light'
+                        }
+                    }
+                });
             }
         });
     }
@@ -107,19 +205,6 @@
             $table.bootstrapTable('refresh');
         }
     });
-
-
-    //    function findDimensions() {
-    //        var tree = document.getElementById('tree')
-    //        var height = getHeight() - 50;
-    //        tree.style.height = height + "px";
-    //    }
-    //    findDimensions();
-    //    $(function () {
-    //        $(window).resize(function () {
-    //            findDimensions();
-    //        });
-    //    });
 
     var orgId = 0;
     var $table = $('#table');
@@ -151,7 +236,13 @@
                 {field: 'empName', title: '员工姓名'},
                 {field: 'entryTime', title: '入职时间', sortable: true, formatter: 'dateFormatter'},
                 {field: 'beFormalTime', title: '转正时间', sortable: true, formatter: 'dateFormatter'},
-                {field: 'empStatus', title: '状态', sortable: true, formatter: 'statusFormatter'}
+                {field: 'empStatus', title: '状态', sortable: true, formatter: 'statusFormatter'},
+                {
+                    field: 'initEasemobAccount',
+                    title: '是否激活聊天',
+                    sortable: true,
+                    formatter: 'isInitEasemobAccountFormatter'
+                }
             ]
         });
     });
@@ -181,6 +272,15 @@
 
         return getFormatDate(date, "yyyy年MM月dd日");
     }
+
+    function isInitEasemobAccountFormatter(value, row, index) {
+        if (value) {
+            return '<span class="label label-success">是</span>';
+        } else {
+            return '<span class="label label-default">否</span>';
+        }
+    }
+
 
     function statusFormatter(value, row, index) {
         if (value == -2) {

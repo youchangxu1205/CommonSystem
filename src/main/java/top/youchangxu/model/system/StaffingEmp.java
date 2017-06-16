@@ -30,6 +30,7 @@ public class StaffingEmp implements Serializable {
     private Date beFormalTime;//转正时间
     private String password;//密码
     private String salt;
+    private boolean isInitEasemobAccount;
 
     public long getEmpId() {
         return empId;
@@ -134,6 +135,15 @@ public class StaffingEmp implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+
+    public boolean isInitEasemobAccount() {
+        return isInitEasemobAccount;
+    }
+
+    public void setInitEasemobAccount(boolean initEasemobAccount) {
+        isInitEasemobAccount = initEasemobAccount;
     }
 
     @Override
