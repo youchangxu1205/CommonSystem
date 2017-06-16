@@ -31,18 +31,24 @@ public class PostController extends BaseController {
     private IMultiplescorePostRangeService multiplesoreRangeService;
     private IMultiplescorePostEventRangeService multiplescorePostEventRangeService;
     private IMultiplescoreEventService multiplescoreEventService;
+    private IStaffingPostEmpService staffingPostEmpService;
+    private IStaffingEmpService staffingEmpService;
 
     @Autowired
     public PostController(IStaffingPostService staffingPostService,
                           IStaffingOrgService staffingOrgService,
                           IMultiplescorePostRangeService multiplesoreRangeService,
                           IMultiplescorePostEventRangeService multiplescorePostEventRangeService,
-                          IMultiplescoreEventService multiplescoreEventService) {
+                          IMultiplescoreEventService multiplescoreEventService,
+                          IStaffingPostEmpService staffingPostEmpService,
+                          IStaffingEmpService staffingEmpService) {
         this.staffingPostService = staffingPostService;
         this.staffingOrgService = staffingOrgService;
         this.multiplesoreRangeService = multiplesoreRangeService;
         this.multiplescorePostEventRangeService = multiplescorePostEventRangeService;
         this.multiplescoreEventService = multiplescoreEventService;
+        this.staffingPostEmpService = staffingPostEmpService;
+        this.staffingEmpService = staffingEmpService;
     }
 
     /**
@@ -178,6 +184,12 @@ public class PostController extends BaseController {
         return result;
     }
 
+    /**
+     * 获取不在岗位范围内的岗位
+     *
+     * @param postId
+     * @return
+     */
     @RequestMapping(value = "/noRange", method = RequestMethod.GET)
     @ResponseBody
     public Object noRange(Long postId) {
@@ -188,6 +200,13 @@ public class PostController extends BaseController {
         return result;
     }
 
+    /**
+     * 更新岗位范围
+     *
+     * @param ids
+     * @param postId
+     * @return
+     */
     @RequestMapping(value = "/postRange", method = RequestMethod.POST)
     @ResponseBody
     public Object postRange(String ids, Long postId) {
@@ -220,6 +239,12 @@ public class PostController extends BaseController {
         return "post/eventRange";
     }
 
+    /**
+     * 获取事件范围内的事件
+     *
+     * @param postId
+     * @return
+     */
     @RequestMapping(value = "/eventRange", method = RequestMethod.GET)
     @ResponseBody
     public Object eventRange(Long postId) {
@@ -241,6 +266,12 @@ public class PostController extends BaseController {
         return result;
     }
 
+    /**
+     * 获取不在事件范围内的事件
+     *
+     * @param postId
+     * @return
+     */
     @RequestMapping(value = "/noEventRange", method = RequestMethod.GET)
     @ResponseBody
     public Object noEventRange(Long postId) {
@@ -261,6 +292,13 @@ public class PostController extends BaseController {
         return result;
     }
 
+    /**
+     * 更新事件范围
+     *
+     * @param ids
+     * @param postId
+     * @return
+     */
     @RequestMapping(value = "/eventRange", method = RequestMethod.POST)
     @ResponseBody
     public Object postEventRange(String ids, Long postId) {
@@ -280,6 +318,34 @@ public class PostController extends BaseController {
         boolean b = multiplescorePostEventRangeService.updateEventRanges(multiplescorePostEventRanges, postId, NumberUtils.toLong(getEnterpriseId()));
         return b ? renderSuccess(ResultEnum.UPDATE_SUCCESS) : renderError(ResultEnum.UPDATE_ERROR);
     }
+    @RequestMapping(value = "/emp",method = RequestMethod.GET)
+    public String emp(){
+        return "post/emp";
+    }
 
+    /**
+     * 查看岗位担任人
+     *
+     * @param postId
+     * @return
+     */
+    @RequestMapping(value = "/emp/{postId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object emp(@PathVariable("postId") Long postId) {
+        Map<String, Object> result = new HashMap<>();
+        List<Object> empIds = staffingPostEmpService.selectObjs(
+                new EntityWrapper<StaffingPostEmp>()
+                        .eq("enterpriseId", getEnterpriseId())
+                        .eq("postId", postId)
+                        .setSqlSelect("empId"));
+        if (empIds.size() == 0) {
+            return result;
+        }
+        List<StaffingEmp> staffingEmps = staffingEmpService.selectList(
+                new EntityWrapper<StaffingEmp>().in("empId", empIds));
+        result.put("rows", staffingEmps);
+        result.put("total", staffingEmps.size());
+        return result;
+    }
 
 }

@@ -486,8 +486,6 @@ public class EmpController extends BaseController {
         }
         List<StaffingEmp> staffingEmps = staffingEmpService.selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
 
-
-
         result.put("rows", staffingEmps);
         result.put("total", staffingEmps.size());
         return result;

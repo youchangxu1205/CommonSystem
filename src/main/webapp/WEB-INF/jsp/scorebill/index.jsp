@@ -86,7 +86,7 @@
                 {field: 'scoreBillNo', title: '单据号'},
                 {field: 'drawerId', title: '开单人编号'},
                 {field: 'scoreBillDesc', title: '单据描述'},
-                {field: 'scoreBillStatus', title: '单据状态',formatter:'statusFormatter'},
+                {field: 'scoreBillStatus', title: '单据状态',formatter:'scoreBillstatusFormatter'},
                 {field: 'enable', title: '是否可用',formatter:'enableFormatter'},
                 {
                     field: 'action',
@@ -99,7 +99,7 @@
             ]
         });
     });
-    function statusFormatter(value, row, index) {
+    function scoreBillstatusFormatter(value, row, index) {
         if(value==1){
             return '<span class="label label-danger">待审核</span>';
         }else if(value == 2){

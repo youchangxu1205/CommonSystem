@@ -27,15 +27,12 @@
         </div>
         <div class="col-md-10">
             <div id="toolbar">
-                <shiro:hasPermission name="staffing:enterprise:create">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
-                            class="zmdi zmdi-plus"></i> 新增岗位</a>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="staffing:enterprise:update">
-                    <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
-                            class="zmdi zmdi-edit"></i> 编辑岗位</a>
-                </shiro:hasPermission>
-
+                <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
+                        class="zmdi zmdi-plus"></i> 新增岗位</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
+                        class="zmdi zmdi-edit"></i> 编辑岗位</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="showEmpAction()"><i
+                        class="zmdi zmdi-edit"></i> 查看岗位担任人</a>
                 <a class="waves-effect waves-button" href="javascript:;" onclick="postRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 岗位范围</a>
                 <a class="waves-effect waves-button" href="javascript:;" onclick="eventRangeAction()"><i
@@ -47,6 +44,8 @@
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+
+    //初始化组织架构树
     $('#treeDiv').treeview({
         data: ${treeData},
         onNodeSelected: function (event, data) {
@@ -57,70 +56,7 @@
             $table.bootstrapTable('refresh');
         }
     });
-    var eventRangeDialog;
-    var eventRangePostId;
-    function eventRangeAction() {
-        var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
-        } else {
-            eventRangePostId = rows[0].postId;
-            eventRangeDialog = $.dialog({
-                animationSpeed: 300,
-                title: '奖扣分范围',
-                content: 'url:${basePath}/post/eventRange/' + rows[0].postId,
-                columnClass:'col-md-12',
-                onContentReady: function () {
-                    initMaterialInput();
-                }
-            });
-        }
-    }
-
-    var postRangeDialog;
-    var postRangePostId;
-    function postRangeAction() {
-        var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
-        } else {
-            postRangePostId = rows[0].postId;
-            postRangeDialog = $.dialog({
-                animationSpeed: 300,
-                title: '奖扣分范围',
-                content: 'url:${basePath}/post/range/' + rows[0].postId,
-                columnClass:'col-md-12',
-                onContentReady: function () {
-                    initMaterialInput();
-                }
-            });
-        }
-    }
-
-
-
+    //初始化表格
     var $table = $('#table');
     $(function () {
         // bootstrap table初始化
@@ -145,7 +81,7 @@
                 {field: 'ck', checkbox: true},
                 {field: 'postId', title: '编号', sortable: true, align: 'center'},
                 {field: 'postName', title: '岗位名称'},
-                {field: 'manager', title: '岗位属性',formatter:'managerFormatter'},
+                {field: 'manager', title: '岗位属性', formatter: 'managerFormatter'},
                 {
                     field: 'action',
                     title: '操作',
@@ -157,6 +93,138 @@
             ]
         });
     });
+
+    //查看岗位担任人
+    var showEmpDialog;
+    var showEmpPostId;
+    function showEmpAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+
+            showEmpPostId = rows[0].postId;
+            showEmpDialog = $.dialog({
+                animationSpeed: 300,
+                title: '岗位担任人',
+                content: 'url:${basePath}/post/emp',
+                columnClass: 'col-md-12',
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
+
+    //设置岗位的事件范围
+    var eventRangeDialog;
+    var eventRangePostId;
+    function eventRangeAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            var post = rows[0];
+            if (!post.manager) {
+                $.confirm({
+                    title: false,
+                    content: '请选择岗位属性为管理岗的岗位！',
+                    autoClose: 'cancel|3000',
+                    backgroundDismiss: true,
+                    buttons: {
+                        cancel: {
+                            text: '取消',
+                            btnClass: 'waves-effect waves-button'
+                        }
+                    }
+                });
+                return;
+            }
+
+            eventRangePostId = rows[0].postId;
+            eventRangeDialog = $.dialog({
+                animationSpeed: 300,
+                title: '奖扣分范围',
+                content: 'url:${basePath}/post/eventRange/' + rows[0].postId,
+                columnClass: 'col-md-12',
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
+    //设置岗位的岗位范围
+    var postRangeDialog;
+    var postRangePostId;
+    function postRangeAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            var post = rows[0];
+            if (!post.manager) {
+                $.confirm({
+                    title: false,
+                    content: '请选择岗位属性为管理岗的岗位！',
+                    autoClose: 'cancel|3000',
+                    backgroundDismiss: true,
+                    buttons: {
+                        cancel: {
+                            text: '取消',
+                            btnClass: 'waves-effect waves-button'
+                        }
+                    }
+                });
+                return;
+            }
+            postRangePostId = rows[0].postId;
+            postRangeDialog = $.dialog({
+                animationSpeed: 300,
+                title: '奖扣分范围',
+                content: 'url:${basePath}/post/range/' + rows[0].postId,
+                columnClass: 'col-md-12',
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
+
+
+
 
     function tableRefresh() {
         $table.bootstrapTable('refresh');
@@ -181,11 +249,11 @@
         ].join('');
     }// 格式化操作按钮
     function managerFormatter(value, row, index) {
-       if(value){
-           return '<span class="label label-success">管理岗</span>';
-       }else{
-           return '<span class="label label-danger">非管理岗</span>';
-       }
+        if (value) {
+            return '<span class="label label-success">管理岗</span>';
+        } else {
+            return '<span class="label label-danger">非管理岗</span>';
+        }
     }
     // 新增
     var createDialog;
@@ -199,7 +267,7 @@
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加岗位',
-            content: 'url:${basePath}/post/create?orgId='+orgId,
+            content: 'url:${basePath}/post/create?orgId=' + orgId,
             onContentReady: function () {
                 initMaterialInput();
                 $('select').select2({

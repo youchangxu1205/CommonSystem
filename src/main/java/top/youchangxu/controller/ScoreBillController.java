@@ -12,15 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
-import top.youchangxu.model.system.MultiplescoreScoreBill;
-import top.youchangxu.model.system.MultiplescoreScoreBillDetail;
-import top.youchangxu.model.system.StaffingEmp;
-import top.youchangxu.model.system.StaffingEnterpriseEmp;
-import top.youchangxu.service.system.IMultiplescoreScoreBillDetailService;
-import top.youchangxu.service.system.IMultiplescoreScoreBillService;
-import top.youchangxu.service.system.IStaffingEmpService;
-import top.youchangxu.service.system.IStaffingEnterpriseEmpService;
+import top.youchangxu.model.system.*;
+import top.youchangxu.service.system.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,16 +30,22 @@ public class ScoreBillController extends BaseController {
     private IStaffingEmpService staffingEmpService;
     private IStaffingEnterpriseEmpService staffingEnterpriseEmpService;
     private IMultiplescoreScoreBillDetailService multiplescoreScoreBillDetailService;
+    private IStaffingPostService staffingPostService;
+    private IStaffingPostEmpService staffingPostEmpService;
 
     @Autowired
     public ScoreBillController(IMultiplescoreScoreBillService multiplescoreScoreBillService,
                                IStaffingEmpService staffingEmpService,
                                IStaffingEnterpriseEmpService staffingEnterpriseEmpService,
-                                IMultiplescoreScoreBillDetailService multiplescoreScoreBillDetailService) {
+                               IMultiplescoreScoreBillDetailService multiplescoreScoreBillDetailService,
+                               IStaffingPostService staffingPostService,
+                               IStaffingPostEmpService staffingPostEmpService) {
         this.multiplescoreScoreBillService = multiplescoreScoreBillService;
         this.staffingEmpService = staffingEmpService;
         this.staffingEnterpriseEmpService = staffingEnterpriseEmpService;
         this.multiplescoreScoreBillDetailService = multiplescoreScoreBillDetailService;
+        this.staffingPostService = staffingPostService;
+        this.staffingPostEmpService = staffingPostEmpService;
     }
 
     /**
@@ -93,13 +94,30 @@ public class ScoreBillController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model) {
 
-        List<Object> empIds = staffingEnterpriseEmpService
-                .selectObjs(new EntityWrapper<StaffingEnterpriseEmp>()
+        //查询管理岗
+        List<Object> postIds = staffingPostService.selectObjs(
+                new EntityWrapper<StaffingPost>()
                         .eq("enterpriseId", getEnterpriseId())
-                        .setSqlSelect("empId"));
-        List<StaffingEmp> staffingEmps = staffingEmpService
-                .selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+                        .eq("isManager", 1)
+                        .setSqlSelect("postId"));
+        List<StaffingEmp> staffingEmps = new ArrayList<>();
+        if (postIds.size() != 0) {
+            List<Object> empIds = staffingPostEmpService.selectObjs(
+                    new EntityWrapper<StaffingPostEmp>()
+                            .in("postId", postIds)
+                            .eq("enterpriseId", getEnterpriseId())
+                            .setSqlSelect("empId"));
+
+            staffingEmps = staffingEmpService
+                    .selectList(new EntityWrapper<StaffingEmp>().in("empId", empIds));
+        }
         model.addAttribute("staffingEmps", staffingEmps);
+        //查询担任管理岗的员工
+
+//        List<Object> empIds = staffingEnterpriseEmpService
+//                .selectObjs(new EntityWrapper<StaffingEnterpriseEmp>()
+//                        .eq("enterpriseId", getEnterpriseId())
+//                        .setSqlSelect("empId"));
         return "/scorebill/create";
     }
 
@@ -129,8 +147,9 @@ public class ScoreBillController extends BaseController {
 
         return insert ? renderSuccess("添加成功") : renderError(ResultEnum.INSERT_ERROR);
     }
-    @RequestMapping(value = "/detail/{scoreBillId}",method = RequestMethod.GET)
-    public String detail(@PathVariable("scoreBillId")Long scoreBillId,Model model){
+
+    @RequestMapping(value = "/detail/{scoreBillId}", method = RequestMethod.GET)
+    public String detail(@PathVariable("scoreBillId") Long scoreBillId, Model model) {
         List<MultiplescoreScoreBillDetail> scoreBillDetails = multiplescoreScoreBillDetailService
                 .selectList(new EntityWrapper<MultiplescoreScoreBillDetail>().eq("scoreBillId", scoreBillId));
         model.addAttribute("scoreBillDetails", JSON.toJSONString(scoreBillDetails));
