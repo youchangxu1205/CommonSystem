@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-06-15 18:29:02
+Date: 2017-06-17 12:26:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,14 +100,16 @@ CREATE TABLE `multiplescore_scorebill` (
   `scoreBillId` bigint(20) NOT NULL AUTO_INCREMENT,
   `scoreBillNo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `drawerId` bigint(20) DEFAULT NULL,
+  `drawerName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `scoreBillDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `scoreBillStatus` tinyint(4) DEFAULT NULL,
   `enterpriseId` bigint(20) DEFAULT NULL,
   `isEnable` tinyint(1) DEFAULT NULL,
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `billTime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`scoreBillId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for multiplescore_scorebill_detail
@@ -117,7 +119,9 @@ CREATE TABLE `multiplescore_scorebill_detail` (
   `scoreBillDetailId` bigint(20) NOT NULL AUTO_INCREMENT,
   `drawerId` bigint(20) DEFAULT NULL,
   `draweeId` bigint(20) DEFAULT NULL,
+  `draweeName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `eventId` bigint(20) DEFAULT NULL,
+  `eventName` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `scoreBillDetailScore` float DEFAULT NULL,
   `scoreBillDetailDesc` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `isEnable` tinyint(2) DEFAULT NULL,
@@ -125,8 +129,9 @@ CREATE TABLE `multiplescore_scorebill_detail` (
   `createTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `scoreBillId` bigint(20) DEFAULT NULL,
+  `isFixed` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`scoreBillDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Table structure for staffing_emp
@@ -146,6 +151,7 @@ CREATE TABLE `staffing_emp` (
   `username` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '员工登录名',
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   `salt` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `isInitEasemobAccount` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`empId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -194,7 +200,7 @@ CREATE TABLE `staffing_log` (
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
   PRIMARY KEY (`logId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=692 DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
 -- ----------------------------
 -- Table structure for staffing_org
