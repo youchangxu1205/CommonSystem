@@ -23,11 +23,11 @@
         </div>
         <div class="radio">
             <div class="radio radio-inline radio-info">
-                <input id="type_1" type="radio" name="permissionType" value="1" checked>
+                <input id="type_1" type="radio" name="manager" value="1" checked>
                 <label for="type_1">管理岗 </label>
             </div>
             <div class="radio radio-inline radio-warning">
-                <input id="type_0" type="radio" name="permissionType" value="0">
+                <input id="type_0" type="radio" name="manager" value="0">
                 <label for="type_0">非管理岗 </label>
             </div>
 

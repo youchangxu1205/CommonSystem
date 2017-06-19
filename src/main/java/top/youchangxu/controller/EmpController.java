@@ -83,11 +83,6 @@ public class EmpController extends BaseController {
     public String index(Model model) {
         JSONArray orgBootstrapTree = staffingOrgService.getOrgBootstrapTree(Long.parseLong(getEnterpriseId()));
         model.addAttribute("treeData", orgBootstrapTree);
-
-
-        //获取未分配岗位的员工的个数
-//        int noSetPostEmpCount = staffingEmpService.selectNoSetPostCount(getEnterpriseId());
-//        model.addAttribute("noSetPostEmpCount", noSetPostEmpCount);
         return "/emp/index";
     }
 
@@ -492,6 +487,5 @@ public class EmpController extends BaseController {
         result.put("total", staffingEmps.size());
         return result;
     }
-
 
 }
