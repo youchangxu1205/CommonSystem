@@ -88,6 +88,7 @@ public class EventController extends BaseController {
         if (multiplescoreEvent.getEventCategoryId() != null) {
             eventEntityWrapper.eq("eventCategoryId", multiplescoreEvent.getEventCategoryId());
         }
+        eventEntityWrapper.eq("enterpriseId",getEnterpriseId());
         Page<MultiplescoreEvent> multiplescoreEventPage = new Page<>(offset / limit + 1, limit, sort);
         multiplescoreEventPage.setAsc(order.equals("asc"));
         multiplescoreEventPage = multiplescoreEventService.selectPage(

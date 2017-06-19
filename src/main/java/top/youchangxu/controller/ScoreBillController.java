@@ -75,6 +75,7 @@ public class ScoreBillController extends BaseController {
     public Object list(int limit, int offset, String sort, String order, MultiplescoreScoreBill multiplescoreScoreBill) {
 
         EntityWrapper<MultiplescoreScoreBill> multiplescoreScoreBillEntityWrapper = new EntityWrapper<>();
+        multiplescoreScoreBillEntityWrapper.eq("enterpriseId",getEnterpriseId());
         Page<MultiplescoreScoreBill> multiplescoreScoreBillPage = new Page<>(offset / limit + 1, limit, sort);
         multiplescoreScoreBillPage.setOrderByField("createTime");
         multiplescoreScoreBillPage.setAsc(order.equals("desc"));

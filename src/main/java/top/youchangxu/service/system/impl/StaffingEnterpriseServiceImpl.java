@@ -48,7 +48,7 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
                     staffingEnterprise.getEnterpriseId());
 
             staffingOrgService.insert(staffingOrg);
-            staffingOrg.setOrgPath(staffingOrg.getOrgId()+"");
+            staffingOrg.setOrgPath(staffingOrg.getOrgId() + "");
             staffingOrgService.updateById(staffingOrg);
             //新增员工
             StaffingEmp staffingEmp = new StaffingEmp();
@@ -93,9 +93,10 @@ public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpris
             StaffingRoleEmp staffingRoleEmp = new StaffingRoleEmp();
             staffingRoleEmp.setRoleId(staffingRole.getRoleId());
             staffingRoleEmp.setEmpId(staffingEmp.getEmpId());
+            staffingRoleEmp.setEnterpriseId(staffingEnterprise.getEnterpriseId());
             staffingRoleEmpService.insert(staffingRoleEmp);
             //新增员工至顶级部门
-            staffingOrgEmpService.insert(new StaffingOrgEmp(staffingOrg.getOrgId(), staffingEmp.getEmpId(),staffingEnterprise.getEnterpriseId()));
+            staffingOrgEmpService.insert(new StaffingOrgEmp(staffingOrg.getOrgId(), staffingEmp.getEmpId(), staffingEnterprise.getEnterpriseId()));
 
         }
         return insert;
