@@ -14,11 +14,11 @@
             <input id="eventName" type="text" class="form-control" name="eventName" maxlength="50"
                    value="${multiplescoreEvent.eventName}">
         </div>
-        <label for="isFixed">事件属性</label>
+        <label for="fixed">事件属性</label>
         <div class="form-group">
-            <select class="form-control" id="isFixed" name="isFixed">
-                <option value="1" <c:if test="${multiplescoreEvent.isFixed==1}">selected</c:if>>固定事件</option>
-                <option value="2" <c:if test="${multiplescoreEvent.isFixed==0}">selected</c:if>>随机事件</option>
+            <select class="form-control" id="fixed" name="fixed">
+                <option value="1" <c:if test="${multiplescoreEvent.fixed==true}">selected</c:if>>固定事件</option>
+                <option value="2" <c:if test="${multiplescoreEvent.fixed==false}">selected</c:if>>随机事件</option>
             </select>
 
         </div>
@@ -50,13 +50,13 @@
 </div>
 <script>
 
-    $("#isFixed").trigger("change");
-    if (${multiplescoreEvent.isFixed == 1}) {
+    $("#fixed").trigger("change");
+    if (${multiplescoreEvent.fixed}) {
         $("#eventScoreDiv").show();
     } else {
         $("#eventScoreDiv").hide();
     }
-    $("#isFixed").change(function () {
+    $("#fixed").change(function () {
         var value = $(this).children('option:selected').val();
         if (value == 1) {
             $("#eventScoreDiv").show();

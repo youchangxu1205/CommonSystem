@@ -166,7 +166,7 @@
     // 新增
     var createDialog;
     function createAction() {
-        if (eventCategoryId == 0) {
+        if (eventCategoryId==undefined) {
             $.confirm({
                 title: false,
                 content: '请选择分类！',
@@ -254,7 +254,7 @@
         } else {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑企业',
+                title: '编辑事件',
                 content: 'url:${basePath}/event/update/' + rows[0].eventId,
                 onContentReady: function () {
                     initMaterialInput();

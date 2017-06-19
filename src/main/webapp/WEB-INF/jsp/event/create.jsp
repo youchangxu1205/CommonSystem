@@ -13,10 +13,10 @@
             <label for="eventName">事件名称</label>
             <input id="eventName" type="text" class="form-control" name="eventName" maxlength="50">
         </div>
-        <label for="isFixed">事件属性</label>
+        <label for="fixed">事件属性</label>
         <div class="form-group">
             <%--<input id="isFixed" type="text" class="form-control" name="isFixed" maxlength="20">--%>
-            <select class="form-control" id="isFixed" name="isFixed">
+            <select class="form-control" id="fixed" name="fixed">
                 <option value="1">固定事件</option>
                 <option value="0">随机事件</option>
             </select>
@@ -24,7 +24,7 @@
         </div>
         <div id="eventScoreDiv" class="form-group">
             <label for="eventScore">单人单月最高奖分</label>
-            <input id="eventScore" type="text" class="form-control" name="eventScore" maxlength="200">
+            <input id="eventScore" type="text" class="form-control" name="eventScore" maxlength="200" value="0">
         </div>
         <div class="form-group">
             <label for="eventDesc">事件描述</label>
@@ -45,9 +45,9 @@
     </form>
 </div>
 <script>
-    $("#isFixed").trigger("change");
+    $("#fixed").trigger("change");
     $("#eventScoreDiv").show();
-    $("#isFixed").change(function () {
+    $("#fixed").change(function () {
         var value = $(this).children('option:selected').val();
         if (value == 1) {
             $("#eventScoreDiv").show();
