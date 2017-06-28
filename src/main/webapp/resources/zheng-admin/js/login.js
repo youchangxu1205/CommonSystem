@@ -69,10 +69,22 @@ function login() {
 }
 
 function enterpriseLoginAction(enterprises, rememberMe, staffingEmp) {
-
+	console.log(enterprises);
+	$.each(enterprises,function(index,item){
+		$("#chooseEnterpriseDialog").append("<li id='"+item.enterpriseId+"' value='"+item.enterpriseCode+"'>"+item.enterpriseName+"</li>");
+	});
 	// console.log(enterprises);
 	// console.log(rememberMe);
 	// console.log(staffingEmp);
-	alert("多个账套 还没实现");
+	$.dialog({
+		backgroundDismiss: false,
+		title:'请选择企业',
+		content:$("#chooseEnterpriseDialog").html(),
+		onClose:function(){
+			$("#chooseEnterpriseDialog").empty();
+		}
+	});
+	
+//	alert("多个账套 还没实现");
 
 }

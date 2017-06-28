@@ -21,6 +21,7 @@
     <link href="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
     <link href="${basePath}/resources/zheng-admin/plugins/checkbix/css/checkbix.min.css" rel="stylesheet"/>
     <link href="${basePath}/resources/zheng-admin/css/login.css" rel="stylesheet"/>
+    <link href="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
 </head>
 <body>
 <div id="login-window">
@@ -49,10 +50,16 @@
 </div>
 
 
+<div id="chooseEnterpriseDialog">
+	
+	
+</div>
+
 <script src="${basePath}/resources/zheng-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/checkbix/js/checkbix.min.js"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.js"></script>
 <script>var BASE_PATH = '${basePath}';</script>
 <script>var BACK_URL = '${param.backurl}';</script>
 <script src="${basePath}/resources/zheng-admin/js/login.js"></script>
