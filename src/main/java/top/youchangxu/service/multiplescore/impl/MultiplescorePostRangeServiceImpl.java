@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/12.
  */
-@Service
+@Service("multiplescorePostRangeService")
 public class MultiplescorePostRangeServiceImpl extends ServiceImpl<MultiplescorePostRangeMapper, MultiplescorePostRange> implements IMultiplescorePostRangeService {
     @Override
     public List<PostRangeVO> selectPostRangeVOS(Long postId) {

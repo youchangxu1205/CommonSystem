@@ -12,7 +12,7 @@ import top.youchangxu.service.system.IStaffingRoleEmpService;
 /**
  * Created by dtkj_android on 2017/6/1.
  */
-@Service
+@Service("staffingRoleEmpService")
 public class StaffingRoleEmpServiceImpl extends ServiceImpl<StaffingRoleEmpMapper, StaffingRoleEmp> implements IStaffingRoleEmpService {
     @Override
     public int updateRole(String[] roleIds, Long empId, String enterpriseId) {

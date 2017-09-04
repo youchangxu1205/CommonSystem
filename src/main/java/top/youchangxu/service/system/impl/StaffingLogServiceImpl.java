@@ -9,6 +9,6 @@ import top.youchangxu.service.system.IStaffingLogServicce;
 /**
  * Created by dtkj_android on 2017/6/5.
  */
-@Service
+@Service("staffingLogService")
 public class StaffingLogServiceImpl extends ServiceImpl<StaffingLogMapper,StaffingLog> implements IStaffingLogServicce {
 }

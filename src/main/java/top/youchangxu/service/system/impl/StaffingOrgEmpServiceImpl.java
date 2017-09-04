@@ -13,7 +13,7 @@ import top.youchangxu.service.system.IStaffingOrgEmpService;
 /**
  * Created by dtkj_android on 2017/6/1.
  */
-@Service
+@Service("staffingOrgEmpService")
 public class StaffingOrgEmpServiceImpl extends ServiceImpl<StaffingOrgEmpMapper, StaffingOrgEmp> implements IStaffingOrgEmpService {
 
 

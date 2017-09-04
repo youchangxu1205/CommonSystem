@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/14.
  */
-@Service
+@Service("staffingPostEmpService")
 public class StaffingPostEmpServiceImpl extends ServiceImpl<StaffingPostEmpMapper, StaffingPostEmp> implements IStaffingPostEmpService {
     @Autowired
     private IStaffingPostService staffingPostService;

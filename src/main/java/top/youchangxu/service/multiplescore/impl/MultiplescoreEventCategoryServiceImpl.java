@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/9.
  */
-@Service
+@Service("multiplescoreEventCategoryService")
 public class MultiplescoreEventCategoryServiceImpl extends ServiceImpl<MultiplescoreEventCategoryMapper, MultiplescoreEventCategory> implements IMultiplescoreEventCategoryService {
     @Override
     public JSONArray getBootstrapTreeData(String enterpriseId) {

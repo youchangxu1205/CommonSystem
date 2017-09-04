@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/13.
  */
-@Service
+@Service("multiplescorePostEventRangeService")
 public class MultiplescorePostEventRangeServiceImpl extends ServiceImpl<MultiplesccorePostEventRangeMapper, MultiplescorePostEventRange> implements IMultiplescorePostEventRangeService {
     @Override
     public boolean updateEventRanges(List<MultiplescorePostEventRange> multiplescorePostEventRanges, Long postId, Long enterpriseId) {

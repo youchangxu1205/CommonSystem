@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/5/25.
  */
-@Service
+@Service("staffingEmpService")
 public class StaffingEmpServiceImpl extends ServiceImpl<StaffingEmpMapper, StaffingEmp> implements IStaffingEmpService {
     @Autowired
     private PasswordHelper passwordHelper;

@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/1.
  */
-@Service
-public class StaffingRolePermissionService extends ServiceImpl<StaffingRolePermissionMapper, StaffingRolePermission> implements IStaffingRolePermissionService {
+@Service("staffingRolePermissionService")
+public class StaffingRolePermissionServiceImpl extends ServiceImpl<StaffingRolePermissionMapper, StaffingRolePermission> implements IStaffingRolePermissionService {
     @Override
     public int updateRolePermission(JSONArray datas, Long roleId) {
         List<Integer> deleteIds = new ArrayList<>();

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/5/26.
  */
-@Service
+@Service("staffingEnterpriseService")
 public class StaffingEnterpriseServiceImpl extends ServiceImpl<StaffingEnterpriseMapper, StaffingEnterprise> implements IStaffingEnterpriseService {
 
     @Autowired

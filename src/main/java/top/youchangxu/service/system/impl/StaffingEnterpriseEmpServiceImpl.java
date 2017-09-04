@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/5/31.
  */
-@Service
-public class StaffingEnterpriseEmpService extends ServiceImpl<StaffingEnterpriseEmpMapper, StaffingEnterpriseEmp> implements IStaffingEnterpriseEmpService {
+@Service("staffingEnterpriseEmpService")
+public class StaffingEnterpriseEmpServiceImpl extends ServiceImpl<StaffingEnterpriseEmpMapper, StaffingEnterpriseEmp> implements IStaffingEnterpriseEmpService {
 
     @Override
     public List<StaffingEnterprise> findEnterpriseByEmpId(Long empId) {

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/12.
  */
-@Service
+@Service("staffingPostService")
 public class StaffingPostServiceImpl extends ServiceImpl<StaffingPostMapper,StaffingPost> implements IStaffingPostService {
 
 

@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/6/14.
  */
-@Service
+@Service("multiplescoreScoreBillService")
 public class MultiplescoreScoreBillServiceImpl extends ServiceImpl<MultiplescoreScoreBillMapper, MultiplescoreScoreBill> implements IMultiplescoreScoreBillService {
     @Autowired
     private IMultiplescoreScoreBillDetailService multiplescoreScoreBillDetailService;

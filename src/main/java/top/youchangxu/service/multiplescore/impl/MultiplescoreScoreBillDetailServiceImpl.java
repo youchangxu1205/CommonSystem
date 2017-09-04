@@ -12,7 +12,7 @@ import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService
 /**
  * Created by dtkj_android on 2017/6/14.
  */
-@Service
+@Service("multiplescoreScoreBillDetailService")
 public class MultiplescoreScoreBillDetailServiceImpl extends ServiceImpl<MultiplescoreScoreBillDetailMapper, MultiplescoreScoreBillDetail> implements IMultiplescoreScoreBillDetailService {
     @Autowired
     private IMultiplescoreEventService multiplescoreEventService;

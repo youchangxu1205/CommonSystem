@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/5/27.
  */
-@Service
+@Service("safffingRoleService")
 public class SafffingRoleServiceImpl extends ServiceImpl<StaffingRoleMapper, StaffingRole> implements IStaffingRoleService {
     @Override
     public List<StaffingRole> selectUserRoles(Long enterpriseId, Long empId) {

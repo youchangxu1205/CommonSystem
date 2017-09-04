@@ -12,7 +12,7 @@ import top.youchangxu.service.multiplescore.IMultiplescoreEventRangeService;
 /**
  * Created by dtkj_android on 2017/6/9.
  */
-@Service
+@Service("multiplescoreEventRangeService")
 public class MultiplescoreEventRangeServiceImpl extends ServiceImpl<MultiplescoreEventRangeMapper, MultiplescoreEventRange> implements IMultiplescoreEventRangeService {
     @Override
     public int updateEventRanges(String[] eventIds, Long empId, String enterpriseId) {

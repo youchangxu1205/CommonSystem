@@ -12,7 +12,7 @@ import top.youchangxu.service.multiplescore.IMultiplescoreEmpRangeService;
 /**
  * Created by dtkj_android on 2017/6/6.
  */
-@Service
+@Service("multiplescoreEmpRangeService")
 public class MultiplescoreEmpRangeServiceImpl extends ServiceImpl<MultiplescoreEmpRangeMapper, MultiplescoreEmpRange> implements IMultiplescoreEmpRangeService {
     @Override
     public int updateEmpRanges(String[] empIds, Long empId, String enterpriseId) {

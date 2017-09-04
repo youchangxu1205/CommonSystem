@@ -9,6 +9,6 @@ import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
 /**
  * Created by dtkj_android on 2017/6/9.
  */
-@Service
+@Service("multiplescoreEventService")
 public class MultiplescoreEventServiceImpl extends ServiceImpl<MultiplescoreEventMapper, MultiplescoreEvent> implements IMultiplescoreEventService {
 }

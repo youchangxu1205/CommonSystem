@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by dtkj_android on 2017/5/25.
  */
-@Service
+@Service("staffingOrgService")
 public class StaffingOrgServiceImpl extends ServiceImpl<StaffingOrgMapper, StaffingOrg> implements IStaffingOrgService {
 
     @Override
