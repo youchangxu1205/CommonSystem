@@ -1,13 +1,13 @@
-package top.youchangxu.service.system.impl;
+package top.youchangxu.service.multiplescore.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.youchangxu.mapper.system.MultiplescoreEventCategoryMapper;
+import top.youchangxu.mapper.multiplescore.MultiplescoreEventCategoryMapper;
 import top.youchangxu.model.system.MultiplescoreEventCategory;
-import top.youchangxu.service.system.IMultiplescoreEventCategoryService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventCategoryService;
 
 import java.util.List;
 

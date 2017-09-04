@@ -1,4 +1,4 @@
-package top.youchangxu.mapper.system;
+package top.youchangxu.mapper.multiplescore;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import top.youchangxu.model.system.MultiplescoreEventCategory;

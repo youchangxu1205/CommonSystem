@@ -1,12 +1,12 @@
-package top.youchangxu.service.system.impl;
+package top.youchangxu.service.multiplescore.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.youchangxu.mapper.system.MultiplescorePostRangeMapper;
+import top.youchangxu.mapper.multiplescore.MultiplescorePostRangeMapper;
 import top.youchangxu.model.system.MultiplescorePostRange;
 import top.youchangxu.model.vo.PostRangeVO;
-import top.youchangxu.service.system.IMultiplescorePostRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescorePostRangeService;
 
 import java.util.List;
 

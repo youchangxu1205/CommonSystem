@@ -1,4 +1,4 @@
-package top.youchangxu.service.system;
+package top.youchangxu.service.multiplescore;
 
 import com.baomidou.mybatisplus.service.IService;
 import top.youchangxu.model.system.MultiplescorePostEventRange;

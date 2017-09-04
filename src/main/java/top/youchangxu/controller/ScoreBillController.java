@@ -15,6 +15,8 @@ import top.youchangxu.common.exception.InsertException;
 import top.youchangxu.common.exception.OutOfRangeScoreException;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.*;
+import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService;
+import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillService;
 import top.youchangxu.service.system.*;
 
 import java.util.ArrayList;

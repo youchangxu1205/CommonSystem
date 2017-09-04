@@ -1,4 +1,4 @@
-package top.youchangxu.service.system.impl;
+package top.youchangxu.service.multiplescore.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.youchangxu.common.exception.InsertException;
 import top.youchangxu.common.exception.OutOfRangeScoreException;
-import top.youchangxu.mapper.system.MultiplescoreScoreBillMapper;
+import top.youchangxu.mapper.multiplescore.MultiplescoreScoreBillMapper;
 import top.youchangxu.model.system.MultiplescoreScoreBill;
 import top.youchangxu.model.system.MultiplescoreScoreBillDetail;
 import top.youchangxu.model.system.StaffingEmp;
-import top.youchangxu.service.system.IMultiplescoreScoreBillDetailService;
-import top.youchangxu.service.system.IMultiplescoreScoreBillService;
+import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService;
+import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillService;
 import top.youchangxu.service.system.IStaffingEmpService;
 
 import java.text.ParseException;

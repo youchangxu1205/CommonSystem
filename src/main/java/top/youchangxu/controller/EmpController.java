@@ -17,6 +17,10 @@ import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.*;
 import top.youchangxu.model.vo.PostOrgVO;
 import top.youchangxu.service.PasswordHelper;
+import top.youchangxu.service.multiplescore.IMultiplescoreEmpRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
+import top.youchangxu.service.multiplescore.IMultiplescorePostRangeService;
 import top.youchangxu.service.system.*;
 
 import javax.servlet.http.HttpServletRequest;

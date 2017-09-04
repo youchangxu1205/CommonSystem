@@ -15,9 +15,9 @@ import top.youchangxu.model.system.MultiplescoreEvent;
 import top.youchangxu.model.system.MultiplescoreEventCategory;
 import top.youchangxu.model.system.MultiplescorePostEventRange;
 import top.youchangxu.model.system.StaffingPostEmp;
-import top.youchangxu.service.system.IMultiplescoreEventCategoryService;
-import top.youchangxu.service.system.IMultiplescoreEventService;
-import top.youchangxu.service.system.IMultiplescorePostEventRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventCategoryService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
+import top.youchangxu.service.multiplescore.IMultiplescorePostEventRangeService;
 import top.youchangxu.service.system.IStaffingPostEmpService;
 
 import java.util.Arrays;

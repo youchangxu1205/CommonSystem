@@ -1,13 +1,13 @@
-package top.youchangxu.service.system.impl;
+package top.youchangxu.service.multiplescore.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.youchangxu.mapper.system.MultiplescoreScoreBillDetailMapper;
+import top.youchangxu.mapper.multiplescore.MultiplescoreScoreBillDetailMapper;
 import top.youchangxu.model.system.MultiplescoreEvent;
 import top.youchangxu.model.system.MultiplescoreScoreBillDetail;
-import top.youchangxu.service.system.IMultiplescoreEventService;
-import top.youchangxu.service.system.IMultiplescoreScoreBillDetailService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
+import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService;
 
 /**
  * Created by dtkj_android on 2017/6/14.

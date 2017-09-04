@@ -15,6 +15,9 @@ import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.common.utils.StringUtil;
 import top.youchangxu.model.system.*;
 import top.youchangxu.model.vo.PostRangeVO;
+import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
+import top.youchangxu.service.multiplescore.IMultiplescorePostEventRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescorePostRangeService;
 import top.youchangxu.service.system.*;
 
 import java.util.*;

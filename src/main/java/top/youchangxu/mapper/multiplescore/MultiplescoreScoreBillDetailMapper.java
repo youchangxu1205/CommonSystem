@@ -1,4 +1,4 @@
-package top.youchangxu.mapper.system;
+package top.youchangxu.mapper.multiplescore;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

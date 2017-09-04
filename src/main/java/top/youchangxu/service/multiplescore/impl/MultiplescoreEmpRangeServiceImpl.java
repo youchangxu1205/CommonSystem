@@ -1,13 +1,13 @@
-package top.youchangxu.service.system.impl;
+package top.youchangxu.service.multiplescore.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Service;
-import top.youchangxu.mapper.system.MultiplescoreEmpRangeMapper;
+import top.youchangxu.mapper.multiplescore.MultiplescoreEmpRangeMapper;
 import top.youchangxu.model.system.MultiplescoreEmpRange;
-import top.youchangxu.service.system.IMultiplescoreEmpRangeService;
+import top.youchangxu.service.multiplescore.IMultiplescoreEmpRangeService;
 
 /**
  * Created by dtkj_android on 2017/6/6.
