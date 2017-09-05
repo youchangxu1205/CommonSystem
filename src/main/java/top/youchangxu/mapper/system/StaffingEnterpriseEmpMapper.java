@@ -12,5 +12,10 @@ import java.util.List;
  */
 @Repository
 public interface StaffingEnterpriseEmpMapper extends BaseMapper<StaffingEnterpriseEmp> {
+    /**
+     * 查找员工所加入的企业
+     * @param empId
+     * @return
+     */
     List<StaffingEnterprise> findEnterpriseByEmpId(Long empId);
 }

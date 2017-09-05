@@ -10,6 +10,12 @@ import java.util.List;
  * Created by dtkj_android on 2017/5/25.
  */
 @Repository
-public interface StaffingPermissionMapper extends BaseMapper<StaffingPermission>{
+public interface StaffingPermissionMapper extends BaseMapper<StaffingPermission> {
+    /**
+     * 根据角色id查找权限
+     *
+     * @param roleId
+     * @return
+     */
     List<StaffingPermission> selectPermissionByRoleId(Long roleId);
 }

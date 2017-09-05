@@ -12,7 +12,17 @@ import java.util.List;
  */
 @Repository
 public interface MultiplescorePostRangeMapper extends BaseMapper<MultiplescorePostRange> {
+    /**
+     * 获取岗位的将扣分范围，岗位
+     * @param postId
+     * @return
+     */
     List<PostRangeVO> selectPostRangeVOS(Long postId);
 
+    /**
+     * 获取不在某个岗位的将扣分范围内的岗位信息
+     * @param postId
+     * @return
+     */
     List<PostRangeVO> selectPostNoRangeVOS(Long postId);
 }

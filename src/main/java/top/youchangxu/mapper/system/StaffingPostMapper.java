@@ -13,5 +13,10 @@ import java.util.List;
  */
 @Repository
 public interface StaffingPostMapper extends BaseMapper<StaffingPost> {
+    /**
+     * 根据企业id查找岗位
+     * @param enterpriseId
+     * @return
+     */
     List<PostOrgVO> selectPostOrgList(Long enterpriseId);
 }
