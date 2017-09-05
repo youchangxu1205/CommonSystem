@@ -79,9 +79,6 @@ public class UserRealm extends AuthorizingRealm {
             throw new UnknownAccountException();//没找到帐号
         }
 
-
-
-
         return new SimpleAuthenticationInfo(
                 enterpriseId+"#"+staffingEmp.getEmpId(), //用户名
                 staffingEmp.getPassword(), //密码
