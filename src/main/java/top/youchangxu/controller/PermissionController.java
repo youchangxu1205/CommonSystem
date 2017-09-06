@@ -106,4 +106,11 @@ public class PermissionController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/permissionTree", method = RequestMethod.POST)
+    @ResponseBody
+    public Object permission() {
+        return staffingPermissionService.getSimpleTree();
+    }
+
+
 }

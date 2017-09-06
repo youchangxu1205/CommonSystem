@@ -27,3 +27,4 @@
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-multipleselected/multiselect.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/vue.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/js/UUID.js"></script>
+<script src="${basePath}/resources/zheng-admin/js/select_tree.js"></script>

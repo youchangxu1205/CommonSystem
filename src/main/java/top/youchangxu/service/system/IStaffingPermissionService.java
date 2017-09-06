@@ -42,4 +42,11 @@ public interface IStaffingPermissionService extends IService<StaffingPermission>
      * @return
      */
     List<SimpleTreeData> getSimpleTreeByEnterpriseId(Long enterpriseId);
+
+    /**
+     * 获取所有的权限
+     *
+     * @return
+     */
+    List<SimpleTreeData> getSimpleTree();
 }

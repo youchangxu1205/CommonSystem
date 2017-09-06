@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.youchangxu.common.result.SimpleTreeData;
 import top.youchangxu.mapper.system.StaffingPermissionMapper;
-import top.youchangxu.mapper.system.StaffingRoleMapper;
 import top.youchangxu.model.system.StaffingPermission;
 import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.system.IStaffingPermissionService;
@@ -120,5 +119,10 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
             }
         }
         return simpleTreeDataList;
+    }
+
+    @Override
+    public List<SimpleTreeData> getSimpleTree() {
+        return baseMapper.selectAllSimplePermission();
     }
 }

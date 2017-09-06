@@ -23,7 +23,8 @@
 
         <div class="form-group">
             <label for="pPermissionId">上级权限</label>
-            <input type="text" id="pPermissionId" name="pPermissionId" class="form-control">
+            <input type="text" id="pPermissionId" name="pPermissionId" selectname=""
+                   class="form-control" disabled>
         </div>
         <div class="form-group">
             <label for="permissionUri">权限地址</label>
@@ -50,12 +51,16 @@
     </form>
 </div>
 <script>
+    //弹出框
+    SelectTree.loadPermissionTree("pPermissionId", null, null);
+
+
     function createSubmit() {
         $.ajax({
             type: 'post',
             url: '${basePath}/permission/create',
             data: $('#createForm').serialize(),
-            dataType:'json',
+            dataType: 'json',
             beforeSend: function () {
 
             },
