@@ -4,11 +4,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.youchangxu.common.result.SimpleTreeData;
 import top.youchangxu.mapper.system.StaffingPermissionMapper;
+import top.youchangxu.mapper.system.StaffingRoleMapper;
 import top.youchangxu.model.system.StaffingPermission;
+import top.youchangxu.model.system.StaffingRole;
 import top.youchangxu.service.system.IStaffingPermissionService;
+import top.youchangxu.service.system.IStaffingRoleService;
 
 import java.util.List;
 
@@ -17,6 +21,9 @@ import java.util.List;
  */
 @Service("staffingPermissionService")
 public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissionMapper, StaffingPermission> implements IStaffingPermissionService {
+
+    @Autowired
+    private IStaffingRoleService staffingRoleService;
 
 
     @Override
@@ -87,10 +94,17 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
     @Override
     public List<SimpleTreeData> getSimpleTreeByRoleId(Long roleId) {
 
-        //查询所有的权限
-
-
-        return baseMapper.selectSimplePermissionByRoleId(roleId);
+        //查询角色所属企业的权限
+        StaffingRole staffingRole = staffingRoleService.selectById(roleId);
+        List<SimpleTreeData> simpleTreeDataEnterpriseList = baseMapper.selectSimplePermissionByEnterpriseId(staffingRole.getEnterpriseId());
+        List<SimpleTreeData> simpleTreeDataRoleList = baseMapper.selectSimplePermissionByRoleId(roleId);
+        for (SimpleTreeData simpleTreeData :
+                simpleTreeDataEnterpriseList) {
+            if (simpleTreeDataRoleList.contains(simpleTreeData)) {
+                simpleTreeData.setChecked(true);
+            }
+        }
+        return simpleTreeDataEnterpriseList;
     }
 
     @Override
