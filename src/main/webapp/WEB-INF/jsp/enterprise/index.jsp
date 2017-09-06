@@ -24,6 +24,9 @@
         <shiro:hasPermission name="staffing:enterprise:update">
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑企业</a>
         </shiro:hasPermission>
+        <shiro:hasPermission name="staffing:enterprise:permission">
+            <a class="waves-effect waves-button" href="javascript:;" onclick="permissionAction()"><i class="zmdi zmdi-edit"></i> 企业权限</a>
+        </shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>
@@ -209,6 +212,39 @@
                         text: '取消',
                         btnClass: 'waves-effect waves-button'
                     }
+                }
+            });
+        }
+    }
+
+    //分配企业权限
+    // 角色权限
+    var permissionDialog;
+    var enterpriseId;
+    function permissionAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            enterpriseId = rows[0].enterpriseId;
+            permissionDialog = $.dialog({
+                animationSpeed: 300,
+                title: '企业权限',
+                content: 'url:${basePath}/enterprise/permission/' + enterpriseId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    initTree();
                 }
             });
         }

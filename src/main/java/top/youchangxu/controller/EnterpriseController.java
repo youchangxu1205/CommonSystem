@@ -1,19 +1,23 @@
 package top.youchangxu.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEnterprise;
+import top.youchangxu.service.system.IStaffingEnterprisePermissionService;
 import top.youchangxu.service.system.IStaffingEnterpriseService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +31,13 @@ import java.util.Map;
 public class EnterpriseController extends BaseController {
 
     private IStaffingEnterpriseService staffingEnterpriseService;
+    private IStaffingEnterprisePermissionService staffingEnterprisePermissionService;
 
     @Autowired
-    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService) {
+    public EnterpriseController(IStaffingEnterpriseService staffingEnterpriseService,
+                                IStaffingEnterprisePermissionService staffingEnterprisePermissionService) {
         this.staffingEnterpriseService = staffingEnterpriseService;
+        this.staffingEnterprisePermissionService = staffingEnterprisePermissionService;
     }
 
     /**
@@ -136,5 +143,21 @@ public class EnterpriseController extends BaseController {
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
         return staffingEnterpriseService.deleteBatchIds(Arrays.asList(ids.split("-"))) ? renderSuccess("删除成功") : renderError(ResultEnum.DELETE_ERROR);
+    }
+
+    @RequestMapping(value = "/permission/{enterpriseId}", method = RequestMethod.GET)
+    public String permission(@PathVariable String enterpriseId, ModelMap modelMap){
+        //查询企业已有的权限信息
+
+        return "/enterprise/permission";
+    }
+
+
+    @RequestMapping(value = "/permission/{enterpriseId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updatePermission(@PathVariable("enterpriseId") Long enterpriseId, HttpServletRequest request) {
+        JSONArray datas = JSONArray.parseArray(request.getParameter("datas"));
+        int result = staffingEnterprisePermissionService.updateEnterprisePermission(datas, enterpriseId);
+        return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 }

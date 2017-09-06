@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.multiplescore.MultiplescoreEventCategoryMapper;
-import top.youchangxu.model.system.MultiplescoreEventCategory;
+import top.youchangxu.model.multiplescore.MultiplescoreEventCategory;
 import top.youchangxu.service.multiplescore.IMultiplescoreEventCategoryService;
 
 import java.util.List;

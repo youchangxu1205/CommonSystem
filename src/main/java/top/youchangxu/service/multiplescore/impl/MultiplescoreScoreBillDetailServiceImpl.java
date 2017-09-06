@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.multiplescore.MultiplescoreScoreBillDetailMapper;
-import top.youchangxu.model.system.MultiplescoreEvent;
-import top.youchangxu.model.system.MultiplescoreScoreBillDetail;
+import top.youchangxu.model.multiplescore.MultiplescoreEvent;
+import top.youchangxu.model.multiplescore.MultiplescoreScoreBillDetail;
 import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
 import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService;
 

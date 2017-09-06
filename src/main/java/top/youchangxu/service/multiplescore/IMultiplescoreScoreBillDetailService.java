@@ -1,8 +1,7 @@
 package top.youchangxu.service.multiplescore;
 
 import com.baomidou.mybatisplus.service.IService;
-import top.youchangxu.model.system.MultiplescoreScoreBill;
-import top.youchangxu.model.system.MultiplescoreScoreBillDetail;
+import top.youchangxu.model.multiplescore.MultiplescoreScoreBillDetail;
 
 /**
  * Created by dtkj_android on 2017/6/14.

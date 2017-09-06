@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.multiplescore.MultiplescorePostRangeMapper;
-import top.youchangxu.model.system.MultiplescorePostRange;
+import top.youchangxu.model.multiplescore.MultiplescorePostRange;
 import top.youchangxu.model.vo.PostRangeVO;
 import top.youchangxu.service.multiplescore.IMultiplescorePostRangeService;
 

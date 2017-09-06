@@ -2,8 +2,6 @@ package top.youchangxu.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.result.ResultEnum;
 import top.youchangxu.model.system.StaffingEmp;
 import top.youchangxu.model.system.StaffingPermission;
-import top.youchangxu.service.PasswordHelper;
-import top.youchangxu.service.system.IStaffingEmpService;
 import top.youchangxu.service.system.IStaffingPermissionService;
 
 import java.util.Arrays;
@@ -98,7 +94,16 @@ public class PermissionController extends BaseController {
     @RequestMapping(value = "/role/{roleId}", method = RequestMethod.POST)
     @ResponseBody
     public Object role(@PathVariable("roleId") Long roleId) {
-        return staffingPermissionService.getTreeByRoleId(roleId);
+        return staffingPermissionService.getSimpleTreeByRoleId(roleId);
     }
+
+
+
+    @RequestMapping(value = "/enterprise/{enterpriseId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object enterprise(@PathVariable("enterpriseId") Long enterpriseId) {
+        return staffingPermissionService.getSimpleTreeByEnterpriseId(enterpriseId);
+    }
+
 
 }

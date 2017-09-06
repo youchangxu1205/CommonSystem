@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.multiplescore.MultiplescoreEventRangeMapper;
-import top.youchangxu.model.system.MultiplescoreEventRange;
+import top.youchangxu.model.multiplescore.MultiplescoreEventRange;
 import top.youchangxu.service.multiplescore.IMultiplescoreEventRangeService;
 
 /**

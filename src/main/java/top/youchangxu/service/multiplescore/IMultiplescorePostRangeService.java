@@ -1,7 +1,7 @@
 package top.youchangxu.service.multiplescore;
 
 import com.baomidou.mybatisplus.service.IService;
-import top.youchangxu.model.system.MultiplescorePostRange;
+import top.youchangxu.model.multiplescore.MultiplescorePostRange;
 import top.youchangxu.model.vo.PostRangeVO;
 
 import java.util.List;

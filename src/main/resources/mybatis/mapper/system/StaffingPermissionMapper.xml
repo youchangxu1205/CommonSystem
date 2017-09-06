@@ -8,4 +8,38 @@
         FROM staffing_permission sp LEFT JOIN staffing_role_permission srp ON srp.permissionId = sp.permissionId
         WHERE srp.roleId = #{roleId};
     </select>
+
+
+    <select id="selectSimplePermissionByEnterpriseId" resultType="top.youchangxu.common.result.SimpleTreeData">
+        SELECT
+            per.permissionId   AS id,
+            per.pPermissionId  AS pId,
+            per.permissionName AS name
+        FROM
+            staffing_enterprise_permission entper
+            LEFT JOIN staffing_permission per ON per.permissionId = entper.permissionId
+        WHERE
+            enterpriseId = #{enterpriseId};
+    </select>
+
+    <select id="selectSimplePermissionByRoleId" resultType="top.youchangxu.common.result.SimpleTreeData">
+        SELECT
+            per.permissionId   AS id,
+            per.pPermissionId  AS pId,
+            per.permissionName AS name
+        FROM
+            staffing_role_permission roleper
+            LEFT JOIN staffing_permission per ON per.permissionId = roleper.permissionId
+        WHERE
+            roleId = #{roleId};
+    </select>
+
+    <select id="selectAllSimplePermission" resultType="top.youchangxu.common.result.SimpleTreeData">
+
+        SELECT
+            permissionId   AS id,
+            pPermissionId  AS pId,
+            permissionName AS name
+        FROM staffing_permission
+    </select>
 </mapper>

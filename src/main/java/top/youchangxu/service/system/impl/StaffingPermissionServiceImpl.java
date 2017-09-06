@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import top.youchangxu.common.result.SimpleTreeData;
 import top.youchangxu.mapper.system.StaffingPermissionMapper;
 import top.youchangxu.model.system.StaffingPermission;
 import top.youchangxu.service.system.IStaffingPermissionService;
@@ -44,8 +45,8 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
             List<StaffingPermission> staffingPermissionMenus
                     = baseMapper.selectList(new EntityWrapper<StaffingPermission>()
                     .eq("pPermissionId", staffingPermissionFolder.getPermissionId()));
-            if(staffingRolePermissions.contains(staffingPermissionFolder)){
-                folder.put("checked",true);
+            if (staffingRolePermissions.contains(staffingPermissionFolder)) {
+                folder.put("checked", true);
             }
             //菜单
             JSONArray menus = new JSONArray();
@@ -60,8 +61,8 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
                 List<StaffingPermission> staffingPermissionBtns
                         = baseMapper.selectList(new EntityWrapper<StaffingPermission>()
                         .eq("pPermissionId", staffingPermissionMenu.getPermissionId()));
-                if(staffingRolePermissions.contains(staffingPermissionMenu)){
-                    menu.put("checked",true);
+                if (staffingRolePermissions.contains(staffingPermissionMenu)) {
+                    menu.put("checked", true);
                 }
                 for (StaffingPermission staffingPermissionBtn :
                         staffingPermissionBtns) {
@@ -69,17 +70,41 @@ public class StaffingPermissionServiceImpl extends ServiceImpl<StaffingPermissio
                     btn.put("id", staffingPermissionBtn.getPermissionId());
                     btn.put("name", staffingPermissionBtn.getPermissionName());
                     btn.put("open", true);
-                    if(staffingRolePermissions.contains(staffingPermissionBtn)){
-                        btn.put("checked",true);
+                    if (staffingRolePermissions.contains(staffingPermissionBtn)) {
+                        btn.put("checked", true);
                     }
                     btns.add(btn);
                 }
-                menu.put("children",btns);
+                menu.put("children", btns);
                 menus.add(menu);
             }
-            folder.put("children",menus);
+            folder.put("children", menus);
             folders.add(folder);
         }
         return folders;
+    }
+
+    @Override
+    public List<SimpleTreeData> getSimpleTreeByRoleId(Long roleId) {
+
+        //查询所有的权限
+
+
+        return baseMapper.selectSimplePermissionByRoleId(roleId);
+    }
+
+    @Override
+    public List<SimpleTreeData> getSimpleTreeByEnterpriseId(Long enterpriseId) {
+
+        //查询所有的权限
+        List<SimpleTreeData> simpleTreeDataList = baseMapper.selectAllSimplePermission();
+        List<SimpleTreeData> simpleTreeDataEnterpriseList = baseMapper.selectSimplePermissionByEnterpriseId(enterpriseId);
+        for (SimpleTreeData simpleTreeData :
+                simpleTreeDataList) {
+            if (simpleTreeDataEnterpriseList.contains(simpleTreeData)) {
+                simpleTreeData.setChecked(true);
+            }
+        }
+        return simpleTreeDataList;
     }
 }

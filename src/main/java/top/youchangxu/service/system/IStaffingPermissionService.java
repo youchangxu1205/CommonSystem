@@ -2,6 +2,7 @@ package top.youchangxu.service.system;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.service.IService;
+import top.youchangxu.common.result.SimpleTreeData;
 import top.youchangxu.model.system.StaffingPermission;
 
 import java.util.List;
@@ -25,4 +26,20 @@ public interface IStaffingPermissionService extends IService<StaffingPermission>
      * @return
      */
     JSONArray getTreeByRoleId(Long roleId);
+
+    /**
+     * 根据角色id获取权限列表
+     *
+     * @param roleId
+     * @return
+     */
+    List<SimpleTreeData> getSimpleTreeByRoleId(Long roleId);
+
+    /**
+     * 根据企业id获取权限列表
+     *
+     * @param enterpriseId
+     * @return
+     */
+    List<SimpleTreeData> getSimpleTreeByEnterpriseId(Long enterpriseId);
 }

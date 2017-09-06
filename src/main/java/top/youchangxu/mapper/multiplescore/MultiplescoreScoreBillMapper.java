@@ -2,7 +2,7 @@ package top.youchangxu.mapper.multiplescore;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
-import top.youchangxu.model.system.MultiplescoreScoreBill;
+import top.youchangxu.model.multiplescore.MultiplescoreScoreBill;
 
 /**
  * Created by dtkj_android on 2017/6/14.

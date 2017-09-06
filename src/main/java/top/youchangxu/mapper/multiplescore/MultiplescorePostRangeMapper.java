@@ -2,7 +2,7 @@ package top.youchangxu.mapper.multiplescore;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
-import top.youchangxu.model.system.MultiplescorePostRange;
+import top.youchangxu.model.multiplescore.MultiplescorePostRange;
 import top.youchangxu.model.vo.PostRangeVO;
 
 import java.util.List;

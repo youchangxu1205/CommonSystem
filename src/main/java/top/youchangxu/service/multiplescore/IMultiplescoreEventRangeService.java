@@ -1,7 +1,7 @@
 package top.youchangxu.service.multiplescore;
 
 import com.baomidou.mybatisplus.service.IService;
-import top.youchangxu.model.system.MultiplescoreEventRange;
+import top.youchangxu.model.multiplescore.MultiplescoreEventRange;
 
 /**
  * Created by dtkj_android on 2017/6/9.

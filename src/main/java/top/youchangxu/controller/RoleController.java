@@ -103,11 +103,11 @@ public class RoleController extends BaseController {
         return "/role/permission";
     }
 
-    @RequestMapping(value = "/permission/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/permission/{roleId}", method = RequestMethod.POST)
     @ResponseBody
-    public Object updatePermission(@PathVariable("id") Long id, HttpServletRequest request) {
+    public Object updatePermission(@PathVariable("roleId") Long roleId, HttpServletRequest request) {
         JSONArray datas = JSONArray.parseArray(request.getParameter("datas"));
-        int result = staffingRolePermissionService.updateRolePermission(datas, id);
+        int result = staffingRolePermissionService.updateRolePermission(datas, roleId);
         return renderSuccess(ResultEnum.UPDATE_SUCCESS);
     }
 

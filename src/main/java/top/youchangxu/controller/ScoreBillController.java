@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.youchangxu.common.exception.InsertException;
 import top.youchangxu.common.exception.OutOfRangeScoreException;
 import top.youchangxu.common.result.ResultEnum;
+import top.youchangxu.model.multiplescore.MultiplescoreScoreBill;
+import top.youchangxu.model.multiplescore.MultiplescoreScoreBillDetail;
 import top.youchangxu.model.system.*;
 import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillDetailService;
 import top.youchangxu.service.multiplescore.IMultiplescoreScoreBillService;

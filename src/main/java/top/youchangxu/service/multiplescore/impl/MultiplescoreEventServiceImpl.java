@@ -3,7 +3,7 @@ package top.youchangxu.service.multiplescore.impl;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.youchangxu.mapper.multiplescore.MultiplescoreEventMapper;
-import top.youchangxu.model.system.MultiplescoreEvent;
+import top.youchangxu.model.multiplescore.MultiplescoreEvent;
 import top.youchangxu.service.multiplescore.IMultiplescoreEventService;
 
 /**
