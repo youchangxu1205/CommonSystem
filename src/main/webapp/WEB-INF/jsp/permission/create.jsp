@@ -22,9 +22,9 @@
         </div>
 
         <div class="form-group">
-            <label for="pPermissionId">上级权限</label>
-            <input type="text" id="pPermissionId" name="pPermissionId" selectname=""
-                   class="form-control" disabled>
+            <label>上级权限</label>
+            <input type="text" id="pPermissionId" rootclick="true"  selectname="pPermissionId"
+                   class="form-control">
         </div>
         <div class="form-group">
             <label for="permissionUri">权限地址</label>

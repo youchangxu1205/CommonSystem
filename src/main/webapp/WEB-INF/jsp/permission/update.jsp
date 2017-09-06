@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="pPermissionId">上级权限</label>
-            <input type="text" id="pPermissionId" name="pPermissionId" class="form-control" value="${staffingPermission.pPermissionId}">
+            <input type="text" id="pPermissionId" class="form-control" rootclick="true" selectname="pPermissionId" selectvalue="${staffingPermission.pPermissionId}">
         </div>
         <div class="form-group">
             <label for="permissionUri">权限地址</label>
@@ -51,6 +51,8 @@
     </form>
 </div>
 <script>
+
+    SelectTree.loadPermissionTree("pPermissionId", null, null);
     function updateSubmit() {
         $.ajax({
             type: 'post',
