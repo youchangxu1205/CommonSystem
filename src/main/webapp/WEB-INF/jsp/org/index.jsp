@@ -30,8 +30,16 @@
         </div>
         <div class="col-md-10">
             <div id="toolbar">
-                <button type="button" class="btn btn-default" onclick="createAction()">添加部门</button>
-                <button type="button" class="btn btn-default" onclick="orgTreeAction()">组织架构</button>
+
+                <shiro:hasPermission name="staffing:org:create">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
+                            class="zmdi zmdi-plus"></i> 添加部门</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:orgtree:read">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="orgTreeAction()"><i
+                            class="zmdi zmdi-accounts"></i> 组织架构</a>
+                </shiro:hasPermission>
+
             </div>
             <table id="table" class="table"></table>
         </div>
@@ -175,10 +183,7 @@
     // 新增
     var createDialog;
     function createAction() {
-        if (orgId == 0) {
-            alert("请选择上级部门");
-            return;
-        }
+
         createDialog = $.dialog({
             animationSpeed: 300,
             title: '添加部门',
@@ -216,6 +221,10 @@
                 content: 'url:${basePath}/org/update/' + rows[0].orgId,
                 onContentReady: function () {
                     initMaterialInput();
+                    $('select').select2({
+                        placeholder: '请选择上级部门',
+                        allowClear: true
+                    });
                 }
             });
         }

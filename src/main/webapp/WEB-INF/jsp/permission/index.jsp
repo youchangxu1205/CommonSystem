@@ -179,8 +179,9 @@
                                 ids.push(rows[i].permissionId);
                             }
                             $.ajax({
-                                type: 'get',
-                                url: '${basePath}/manage/permission/delete/' + ids.join("-"),
+                                type: 'post',
+                                url: '${basePath}/permission/delete/' + ids.join("-"),
+                                dataType: 'json',
                                 success: function (data) {
                                     if (data.success) {
                                         deleteDialog.close();

@@ -43,15 +43,23 @@
                     <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
                             class="zmdi zmdi-edit"></i> 编辑员工</a>
                 </shiro:hasPermission>
-                <%--<shiro:hasPermission name="staffing:emp:update">--%>
+
+                <shiro:hasPermission name="staffing:emp:delete">
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i
+                            class="zmdi zmdi-edit"></i> 删除员工</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="multiplescore:score:range">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 奖扣分范围</a>
-                <%--</shiro:hasPermission>--%>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:chat:enable">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="initEaseMobAccountAction()"><i
                         class="zmdi zmdi-edit"></i> 激活聊天</a>
-
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:emppost:change">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="empPostAction()"><i
                         class="zmdi zmdi-edit"></i> 更换岗位</a>
+                </shiro:hasPermission>
                 员工状态:
                 <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
                         onchange="tableRefresh()">

@@ -44,6 +44,17 @@
                 <label for="type_3">按钮 </label>
             </div>
         </div>
+        <div class="radio">
+            <div class="radio radio-inline radio-info">
+                <input id="status_1" type="radio" name="permissionStatus" value="1" <c:if test="${staffingPermission.permissionStatus==1}">checked</c:if>>
+                <label for="status_1">可用 </label>
+            </div>
+            <div class="radio radio-inline radio-warning">
+                <input id="status_0" type="radio" name="permissionStatus" value="0" <c:if test="${staffingPermission.permissionStatus==0}">checked</c:if>>
+                <label for="status_0">不可用 </label>
+            </div>
+
+        </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
             <a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
@@ -58,12 +69,13 @@
             type: 'post',
             url: '${basePath}/permission/update',
             data: $('#updateForm').serialize(),
+            dataType: 'json',
             beforeSend: function () {
 
             },
-            success: function (data) {
-                if (data.success) {
-                    createDialog.close();
+            success: function (result) {
+                if (result.success) {
+                    updateDialog.close();
                     $table.bootstrapTable('refresh');
                 } else {
 

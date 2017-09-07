@@ -99,6 +99,9 @@ public class OrgController extends BaseController {
     public String update(@PathVariable("orgId") Long orgId, Model model) {
         StaffingOrg staffingOrg = staffingOrgService.selectById(orgId);
         model.addAttribute("staffingOrg", staffingOrg);
+
+        List<StaffingOrg> orgs = staffingOrgService.selectList(new EntityWrapper<StaffingOrg>().eq("enterpriseId", getEnterpriseId()));
+        model.addAttribute("orgs", orgs);
         return "/org/update";
     }
 
