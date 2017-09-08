@@ -26,6 +26,22 @@
             <div id="treeDiv"></div>
         </div>
         <div class="col-md-10">
+            <div class="form-group">
+                <lable for="empStatus">员工状态:</lable>
+                <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
+                        onchange="tableRefresh()">
+                    <option value="1">在职</option>
+                    <option value="0">全部</option>
+                    <option value="2">试岗中</option>
+                    <option value="3">休长假</option>
+                    <option value="-1">离职</option>
+                    <option value="-2">试岗离开</option>
+                </select>
+                <lable for="empName">员工姓名:</lable>
+                <input type="text" id="empName" name="empName" class="form-control" style="width: 100px"
+                       onchange="tableRefresh()"/>
+            </div>
+
             <div id="toolbar">
                 <shiro:hasPermission name="staffing:emp:create">
                     <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
@@ -49,27 +65,18 @@
                             class="zmdi zmdi-edit"></i> 删除员工</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="multiplescore:score:range">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
-                        class="zmdi zmdi-edit"></i> 奖扣分范围</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="empRangeAction()"><i
+                            class="zmdi zmdi-edit"></i> 奖扣分范围</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:chat:enable">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="initEaseMobAccountAction()"><i
-                        class="zmdi zmdi-edit"></i> 激活聊天</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="initEaseMobAccountAction()"><i
+                            class="zmdi zmdi-edit"></i> 激活聊天</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="staffing:emppost:change">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="empPostAction()"><i
-                        class="zmdi zmdi-edit"></i> 更换岗位</a>
+                    <a class="waves-effect waves-button" href="javascript:;" onclick="empPostAction()"><i
+                            class="zmdi zmdi-edit"></i> 更换岗位</a>
                 </shiro:hasPermission>
-                员工状态:
-                <select id="empStatus" name="empStatus" class="form-control" style="width: 100px"
-                        onchange="tableRefresh()">
-                    <option value="1">在职</option>
-                    <option value="0">全部</option>
-                    <option value="2">试岗中</option>
-                    <option value="3">休长假</option>
-                    <option value="-1">离职</option>
-                    <option value="-2">试岗离开</option>
-                </select>
+
 
             </div>
             <table id="table"></table>
@@ -267,6 +274,7 @@
             sort: params.sort,
             order: params.order,
             empStatus: $("#empStatus").val(),
+            empName: $("#empName").val(),
             orgId: orgId
         }
         return temp;

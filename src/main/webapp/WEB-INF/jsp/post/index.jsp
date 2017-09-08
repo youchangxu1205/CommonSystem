@@ -27,16 +27,26 @@
         </div>
         <div class="col-md-10">
             <div id="toolbar">
+                <shiro:hasPermission name="staffing:post:create">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i
                         class="zmdi zmdi-plus"></i> 新增岗位</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:post:update">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i
                         class="zmdi zmdi-edit"></i> 编辑岗位</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="staffing:post:emp">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="showEmpAction()"><i
                         class="zmdi zmdi-edit"></i> 查看岗位担任人</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="multiplescore:post:postrange">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="postRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 岗位范围</a>
+                </shiro:hasPermission>
+                <shiro:hasPermission name="multiplescore:post:eventrange">
                 <a class="waves-effect waves-button" href="javascript:;" onclick="eventRangeAction()"><i
                         class="zmdi zmdi-edit"></i> 事件范围</a>
+                </shiro:hasPermission>
             </div>
             <table id="table"></table>
         </div>
@@ -81,15 +91,7 @@
                 {field: 'ck', checkbox: true},
                 {field: 'postId', title: '编号', sortable: true, align: 'center'},
                 {field: 'postName', title: '岗位名称'},
-                {field: 'manager', title: '岗位属性', formatter: 'managerFormatter'},
-                {
-                    field: 'action',
-                    title: '操作',
-                    align: 'center',
-                    formatter: 'actionFormatter',
-                    events: 'actionEvents',
-                    clickToSelect: false
-                }
+                {field: 'manager', title: '岗位属性', formatter: 'managerFormatter'}
             ]
         });
     });
